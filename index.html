@@ -280,6 +280,14 @@
   .day-head .t { color: var(--teal-l); }
   .day-head .eyebrow { color: var(--mist); }
   .day-head .sub { color: rgba(244,244,244,.78); font-size: 16px; max-width: 520px; }
+  .day-tools { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; flex: none; }
+  .day-nav { display: flex; align-items: center; gap: 10px; }
+  .day-nav .hint { font-size: 13px; color: rgba(244,244,244,.7); margin-inline-end: 4px; }
+  .day-nav button { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.4); color: #fff; cursor: pointer; transition: background .15s var(--ease), opacity .15s var(--ease); }
+  .day-nav button:hover:not(:disabled) { background: rgba(255,255,255,.18); }
+  .day-nav button:disabled { opacity: .35; cursor: default; }
+  .day-nav svg { width: 18px; height: 18px; }
+  html[dir="rtl"] .day-nav svg { transform: scaleX(-1); }
   .legend { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 12px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.2); font-size: 13.5px; color: #e7fbfa; white-space: nowrap; flex: none; }
   .legend i { width: 12px; height: 12px; border-radius: 4px; background: var(--teal); box-shadow: 0 0 0 3px rgba(0,158,158,.3); }
   .day-view { position: relative; }
@@ -360,6 +368,27 @@
   .split-r .cap { position: absolute; z-index: 3; bottom: 22px; inset-inline-start: 24px; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #e7fbfa; }
   .split-r .cap img { width: 30px; height: 30px; }
 
+  /* Nannies are rewarded (Care Moments) */
+  .care { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; background: var(--card); border: 1px solid #edf0f2; border-radius: 28px; padding: 56px 52px; overflow: hidden; position: relative; }
+  .care::before { content: ""; position: absolute; width: 520px; height: 520px; inset-inline-end: -140px; top: -160px; border-radius: 50%; background: radial-gradient(circle, rgba(208,244,243,.9), rgba(208,244,243,0) 65%); pointer-events: none; }
+  .care > * { position: relative; }
+  .care-visual { position: relative; padding: 8px 0 34px; }
+  .moment { position: relative; z-index: 2; width: min(100%, 420px); background: #fff; border: 1px solid #edf0f2; border-radius: var(--leaf); padding: 22px 22px 20px; box-shadow: 0 30px 60px -34px rgba(5,35,40,.45); }
+  .moment .example { top: 14px; inset-inline-end: 14px; }
+  .moment .m-top { display: flex; gap: 12px; align-items: center; }
+  .moment .m-ic { width: 48px; height: 48px; flex: none; border-radius: 14px; background: var(--peach); color: var(--peach-ink); display: grid; place-items: center; }
+  .moment .m-ic svg { width: 24px; height: 24px; }
+  .moment small { display: block; font-size: 12.5px; font-weight: 500; color: var(--eyebrow); }
+  .moment b { display: block; font-size: 18px; font-weight: 600; color: var(--head); }
+  .moment p { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .spend { position: relative; margin-top: -26px; margin-inline-start: auto; width: min(100%, 460px); background: var(--deep); color: #f4f4f4; border-radius: var(--leaf-r); padding: 50px 24px 26px; }
+  .spend small { font-size: 13px; color: var(--mist); }
+  .spend .chips2 { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .spend .chips2 > span { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 13px; border-radius: 18px 6px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25); font-size: 13.5px; font-weight: 500; }
+  .spend .chips2 svg { width: 16px; height: 16px; color: var(--teal-l); }
+  .care-badge { position: absolute; z-index: 3; bottom: 10px; inset-inline-start: 8%; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; background: var(--aqua); color: var(--deep); font-size: 13.5px; font-weight: 600; box-shadow: 0 16px 32px -18px rgba(5,35,40,.5); }
+  .care-badge svg { width: 16px; height: 16px; }
+
   /* Join */
   .join-grid { margin-top: 44px; display: grid; grid-template-columns: .82fr 1.18fr; gap: 20px; align-items: start; }
   .route { border-radius: var(--leaf); padding: 40px 36px; }
@@ -374,6 +403,17 @@
   .route.deep .actions { margin-top: 28px; display: grid; gap: 12px; }
   .route.deep .login { font-size: 14.5px; color: var(--mist); }
   .route.deep .login a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+  .route.talk { background: var(--card); border: 1px solid #edf0f2; }
+  .route.talk h3 { font-size: 26px; margin: 10px 0 8px; }
+  .route.talk .eyebrow { margin: 0; }
+  .route.talk p.lead2 { font-size: 15.5px; margin-bottom: 22px; }
+  .btn.book { width: 100%; height: 56px; font-size: 16px; }
+  .or { display: flex; align-items: center; gap: 12px; margin: 24px 0 18px; color: var(--muted); font-size: 13px; }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: #e5e9ec; }
+  .wa-t { display: flex; gap: 10px; align-items: flex-start; font-size: 15.5px; font-weight: 500; color: var(--head); margin-bottom: 14px; }
+  .wa-t svg { width: 22px; height: 22px; flex: none; color: #1f9d55; }
+  .btn-line { background: #fff; color: var(--deep); border-color: var(--deep); }
+  .btn-line:hover { background: var(--aqua); }
   form.route { background: var(--card); border: 1px solid #edf0f2; }
   form.route h3 { font-size: 26px; margin: 10px 0 8px; }
   form.route .eyebrow { margin: 0; }
@@ -456,7 +496,9 @@
     .hero-main { padding-top: 270px; }
     .tagwrap { top: 92px; inset-inline-end: 24px; width: 250px; }
     .sound { bottom: auto; top: 84px; inset-inline-start: 24px; inset-inline-end: auto; }
-    .story, .split, .join-grid, .faq-grid { grid-template-columns: 1fr; }
+    .story, .split, .join-grid, .faq-grid, .care { grid-template-columns: 1fr; }
+    .care { gap: 32px; padding: 40px 26px; }
+    .day-tools { align-items: flex-start; }
     .story-stick { position: relative; top: 0; height: auto; padding: 8px 0 12px; }
     .step { min-height: 0; opacity: 1; padding: 22px 0; }
     .split-r { min-height: 380px; }
@@ -573,7 +615,7 @@
       <a class="logo" href="https://alurei.app" aria-label="Alurei"><img class="icon" src="assets/icon-96.webp" width="40" height="40" alt=""><img class="wm" src="assets/wm-white-84.webp" width="90" height="28" alt="Alurei"></a>
     </div>
     <div class="hero-main">
-      <span class="chip-glass rise" style="cursor:default"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="hero.chip">Alurei Partners · Dubai</span></span>
+      <span class="chip-glass rise" style="cursor:default"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="hero.chip">Alurei Partners · UAE</span></span>
       <h1 class="rise" style="--d:.06s" data-i18n-html="hero.title">Be part of every <span class="t">family's day.</span></h1>
       <p class="lead rise" style="--d:.12s" data-i18n="hero.lead">Alurei gives every family's nanny a fresh plan for the child's day. Your classes, play area or café appear right inside that plan, for the ages and times you choose, and nannies bring the children to you.</p>
       <div class="pills rise" style="--d:.18s">
@@ -592,7 +634,7 @@
 <main>
 <!-- Venues we welcome: a slow ribbon of photos -->
 <section class="ribbon" aria-labelledby="vcap">
-  <p class="ribbon-cap" id="vcap" data-reveal data-i18n-html="v.cap">For <b>classes, play areas and cafés</b> across Dubai</p>
+  <p class="ribbon-cap" id="vcap" data-reveal data-i18n-html="v.cap">For <b>classes, play areas and cafés</b> across the UAE</p>
   <div class="marquee" data-preload>
     <div class="track">
       <ul id="venues">
@@ -635,7 +677,7 @@
                 <span class="example" data-i18n="s3.example">Example</span>
                 <div class="scr-title" data-i18n="s1.title">Your partner listing</div>
                 <div class="scr-sub" data-i18n="s1.sub">Your Studio · Al Barsha</div>
-                <div class="field"><span data-i18n="s1.ages">Ages you welcome</span><div class="chips"><i data-i18n="a.1">Under 1</i><i class="on" data-i18n="a.2">1 to 2</i><i class="on" data-i18n="a.3">3 to 4</i><i data-i18n="a.4">5 to 8</i></div></div>
+                <div class="field"><span data-i18n="s1.ages">Ages you welcome</span><div class="chips"><i data-i18n="a.1">Under 1</i><i class="on" data-i18n="a.2">1 to 2</i><i class="on" data-i18n="a.3">3 to 4</i><i data-i18n="a.4">5 to 8+</i></div></div>
                 <div class="field"><span data-i18n="s1.times">Best times</span><div class="chips"><i class="on" data-i18n="t.1">Mornings</i><i data-i18n="t.2">Afternoons</i><i class="on" data-i18n="t.3">Weekends</i></div></div>
                 <div class="offerbox">
                   <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/></svg><span data-i18n="s1.o1">1 complimentary class every 90 days</span></div>
@@ -659,17 +701,16 @@
               </div>
               <div class="screen s3"><div class="scr-pad">
                 <span class="example" data-i18n="s3.example">Example</span>
-                <div class="scr-title" data-i18n="s3.title">Today at your venue</div>
-                <div class="scr-sub" data-i18n="s3.sub">Tuesday · 10:30 class</div>
+                <div class="scr-title" data-i18n="s3.title">Complimentary class</div>
+                <div class="scr-sub" data-i18n="s3.sub">Your Studio · Al Barsha</div>
                 <div class="visit">
-                  <small data-i18n="s3.new">New family from Alurei</small>
-                  <b data-i18n="s3.kid">Eve, age 3, with her nanny</b>
-                  <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m5 12 4.5 4.5L19 7"/></svg><span data-i18n="s3.r1">Arrived 10:24</span></div>
-                  <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m5 12 4.5 4.5L19 7"/></svg><span data-i18n="s3.r2">Complimentary class used</span></div>
-                  <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m5 12 4.5 4.5L19 7"/></svg><span data-i18n="s3.r3">Coffee for the nanny</span></div>
+                  <small data-i18n="s3.new">Confirmed</small>
+                  <b data-i18n="s3.kid">Eve · Tue 18 Nov · 10:24</b>
+                  <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m5 12 4.5 4.5L19 7"/></svg><span data-i18n="s3.r1">Show this at the front desk</span></div>
+                  <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m5 12 4.5 4.5L19 7"/></svg><span data-i18n="s3.r3">Includes a drink for the nanny</span></div>
                 </div>
-                <div class="kid"><span class="ph-av"></span><div><b data-i18n="s3.k1">Omar, 2</b><small data-i18n="s3.k1s">Complimentary class used</small></div><em data-i18n="s3.k1e">New</em></div>
-                <div class="kid"><span class="ph-av"></span><div><b data-i18n="s3.k2">Lina, 4</b><small data-i18n="s3.k2s">Alurei price on a term package</small></div><em data-i18n="s3.k1e">New</em></div>
+                <div class="kid"><span class="ph-av"></span><div><b data-i18n="s3.k1">Next complimentary class</b><small data-i18n="s3.k1s">From 16 February</small></div></div>
+                <div class="kid"><span class="ph-av"></span><div><b data-i18n="s3.k2">Alurei price</b><small data-i18n="s3.k2s">10% off packages</small></div><em data-i18n="s3.k2e">Use</em></div>
               </div></div>
             </div>
           </div>
@@ -680,7 +721,7 @@
             <h3 data-i18n="s.1t">Tell us who you're for</h3>
             <p data-i18n="s.1d">Choose the ages and the times of day your class, play area or café suits best, and the offer you'd like to give Alurei families.</p>
             <ul class="ticks">
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="s.1a">Ages from under 1 to 8</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="s.1a">Ages from birth to 8+</span></li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="s.1b">Mornings, afternoons or weekends</span></li>
             </ul>
           </article>
@@ -696,9 +737,10 @@
           <article class="step" data-step="3">
             <span class="numchip"><b>03</b><span data-i18n="s.3chip">New families</span></span>
             <h3 data-i18n="s.3t">Nannies bring the children to you</h3>
-            <p data-i18n="s.3d">The nanny shows the offer in the app when they arrive. You welcome a new family that was already looking for what you do.</p>
+            <p data-i18n="s.3d">At your front desk, the nanny taps “Use complimentary class” and shows you the confirmation on their phone. You welcome a new family that was already looking for what you do.</p>
             <ul class="ticks">
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="s.3a">No fees and no commission</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="s.3a">No codes, vouchers or paperwork</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="s.3c">A monthly report of visits and returning families</span></li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="s.3b">Change or pause your offer any time</span></li>
             </ul>
           </article>
@@ -716,7 +758,10 @@
           <h2 data-i18n-html="day.title">Where you fit <span class="t">in their day.</span></h2>
           <p class="sub" data-i18n="day.sub">Each morning the nanny gets a plan for the whole day. These are the moments a partner can fill.</p>
         </div>
-        <span class="legend" data-reveal style="--d:.1s"><i></i><span data-i18n="day.legend">Partner moment</span></span>
+        <div class="day-tools" data-reveal style="--d:.1s">
+          <span class="legend"><i></i><span data-i18n="day.legend">Partner moment</span></span>
+          <div class="day-nav"><span class="hint" data-i18n="day.hint">Scroll or swipe to see the whole day</span><button type="button" id="dayPrev" aria-label="Earlier in the day" data-i18n-aria="day.prev" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><button type="button" id="dayNext" aria-label="Later in the day" data-i18n-aria="day.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button></div>
+        </div>
       </div>
       <div class="day-view" id="dayView">
         <div class="day-track" id="dayTrack">
@@ -749,7 +794,7 @@
         <div class="stat"><b data-i18n="st.1n">AED 0</b><strong data-i18n="st.1t">To join</strong><span data-i18n="st.1d">No listing or sign-up fee</span></div>
         <div class="stat"><b data-i18n="st.2n">0%</b><strong data-i18n="st.2t">Commission</strong><span data-i18n="st.2d">On bookings or sales you make with Alurei families</span></div>
         <div class="stat"><b data-i18n="st.3n">60 / 90</b><strong data-i18n="st.3t">Days, you choose</strong><span data-i18n="st.3d">One complimentary class per child in that time, if you offer one</span></div>
-        <div class="stat"><b data-i18n="st.4n">2 min</b><strong data-i18n="st.4t">To sign up</strong><span data-i18n="st.4d">One short form, then we call you to set up your listing</span></div>
+        <div class="stat"><b data-i18n="st.4n">2 days</b><strong data-i18n="st.4t">To hear from us</strong><span data-i18n="st.4d">We're in touch within two working days</span></div>
       </div>
     </div>
   </section>
@@ -769,13 +814,13 @@
         <article class="offer feat o1" data-reveal>
           <span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-1.5-3-5-3.5-5-1.2C7 8 9.5 8 12 8zm0 0c1.5-3 5-3.5 5-1.2C17 8 14.5 8 12 8z"/></svg></span>
           <h3 data-i18n="off.1t">A complimentary class</h3>
-          <p data-i18n="off.1d">One class per child every 60 or 90 days, you choose. For a play area, one complimentary hour.</p>
+          <p data-i18n="off.1d">One class per child every 60 or 90 days, you choose. For a play area, one complimentary hour on the same cycle.</p>
           <span class="fine" data-i18n="off.1f">You can limit it to off-peak times, as agreed in your partner schedule.</span>
         </article>
         <article class="offer o2" data-reveal style="--d:.08s">
           <span class="oi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span>
           <h3 data-i18n="off.2t">An Alurei price</h3>
-          <p data-i18n="off.2d">Usually 10–15% off class or attendance packages, or off food and drink if you're a café or restaurant.</p>
+          <p data-i18n="off.2d">Usually 10–15% off class or attendance packages, or off food and drink if you're a café or restaurant. Families can use it every time they pay.</p>
           <span class="fine" data-i18n="off.2f">Helps turn a first visit into a regular one.</span>
         </article>
         <article class="offer o3" data-reveal style="--d:.12s">
@@ -802,23 +847,57 @@
           <h2 data-i18n-html="who.title">Families who are <span class="t">planning their child's day.</span></h2>
           <ul class="ticks" style="margin-top:28px">
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="who.1">Families with a full-time nanny, who want great days for their child</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="who.2">Children from birth to 8</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="who.3">Nannies choosing where the day goes</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="who.4">Dubai first, then across the UAE</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="who.2">Children from birth to 8+</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="who.3">Nannies choosing where the day goes, with parents following along</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="who.4">UAE first, then the world</span></li>
           </ul>
         </div>
         <div class="split-r ph" id="reachPhoto">
           <img aria-hidden="true" loading="lazy" decoding="async" alt="" src="assets/media/reach.webp" srcset="assets/media/reach@2x.webp 2x">
           <div class="areas">
-            <span style="top:12%;inset-inline-start:8%;--t:7s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.1">Jumeirah</span></span>
-            <span style="top:24%;inset-inline-end:7%;--t:8s;--dl:.6s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.2">Dubai Marina</span></span>
-            <span style="top:42%;inset-inline-start:14%;--t:6.5s;--dl:1.2s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.3">Al Barsha</span></span>
-            <span style="top:52%;inset-inline-end:12%;--t:7.5s;--dl:.3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.4">Downtown</span></span>
-            <span style="top:68%;inset-inline-start:6%;--t:8.5s;--dl:.9s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.5">Arabian Ranches</span></span>
-            <span style="top:72%;inset-inline-end:8%;--t:7s;--dl:1.5s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.6">JLT</span></span>
+            <span style="top:8%;inset-inline-start:6%;--t:7s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.1">Palm Jumeirah</span></span>
+            <span style="top:15%;inset-inline-end:6%;--t:8s;--dl:.6s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.2">Jumeirah</span></span>
+            <span style="top:29%;inset-inline-start:14%;--t:6.5s;--dl:1.2s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.3">Dubai Marina</span></span>
+            <span style="top:37%;inset-inline-end:10%;--t:7.5s;--dl:.3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.4">Dubai Hills</span></span>
+            <span style="top:51%;inset-inline-start:4%;--t:8.5s;--dl:.9s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.5">Arabian Ranches</span></span>
+            <span style="top:57%;inset-inline-end:6%;--t:7s;--dl:1.5s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.6">Downtown</span></span>
+            <span style="top:70%;inset-inline-start:12%;--t:7.8s;--dl:.4s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.7">Al Barsha</span></span>
+            <span style="top:75%;inset-inline-end:18%;--t:6.8s;--dl:1.1s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-i18n="ar.8">Mirdif</span></span>
           </div>
-          <p class="cap"><img src="assets/icon-96.webp" alt="" loading="lazy"><span data-i18n="who.cap">Launching across Dubai</span></p>
+          <p class="cap"><img src="assets/icon-96.webp" alt="" loading="lazy"><span data-i18n="who.cap">Families across Dubai · Abu Dhabi coming soon</span></p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nannies are rewarded for great care -->
+  <section id="care" style="padding-top:24px">
+    <div class="wrap care">
+      <div class="care-copy" data-reveal>
+        <span class="eyebrow" data-i18n="care.eyebrow">Care Moments</span>
+        <h2 data-i18n-html="care.title">Nannies are rewarded <span class="t">for great care</span></h2>
+        <p class="sub" data-i18n="care.text">Alurei rewards nannies for the care they give every day, with Care Moments they can spend at local businesses. We fund the rewards, so there’s no cost to you.</p>
+        <ul class="ticks" style="margin-top:24px">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="care.1">Earned for the care nannies give every day</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="care.2">Spent at local businesses like yours</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6" stroke-linecap="round"/></svg><span data-i18n="care.3">Funded by Alurei, at no cost to you</span></li>
+        </ul>
+      </div>
+      <div class="care-visual" data-reveal style="--d:.08s" aria-hidden="true">
+        <div class="moment">
+          <span class="example" data-i18n="s3.example">Example</span>
+          <div class="m-top"><span class="m-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg></span><div><small data-i18n="care.m1s">Care Moment earned</small><b data-i18n="care.m1b">A great day with Eve</b></div></div>
+          <p data-i18n="care.m1d">Morning plan, sensory play and a calm nap</p>
+        </div>
+        <div class="spend">
+          <small data-i18n="care.m2s">Spend it locally</small>
+          <div class="chips2">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/></svg><span data-i18n="care.c1">Family cafés</span></span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span data-i18n="care.c2">Classes</span></span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20h16M6 20V9l6-5 6 5v11M10 20v-5h4v5"/></svg><span data-i18n="care.c3">Play areas</span></span>
+          </div>
+        </div>
+        <span class="care-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m5 12 4.5 4.5L19 7"/></svg><span data-i18n="care.badge">Funded by Alurei · No cost to you</span></span>
       </div>
     </div>
   </section>
@@ -846,60 +925,32 @@
             <p class="login"><span data-i18n="r1.login">Already a partner?</span> <a href="https://alurei.app/partner/login" data-i18n="r1.loginL">Log in</a></p>
           </div>
         </div>
-        <form class="route" id="form" novalidate data-reveal style="--d:.08s">
-          <div id="fields">
-            <p class="eyebrow" data-i18n="r2.eyebrow">Rather we call you?</p>
-            <h3 data-i18n="r2.t">Tell us about your venue</h3>
-            <p class="lead2" data-i18n="r2.d">It takes two minutes. We'll be in touch to set up your listing with you.</p>
-            <div class="g2">
-              <div class="f"><label for="business" data-i18n="f.business">Business name</label><input id="business" name="business" type="text" required autocomplete="organization"></div>
-              <div class="f"><label for="type" data-i18n="f.type">Type</label>
-                <select id="type" name="type" required>
-                  <option value="" data-i18n="f.type0">Choose one</option>
-                  <option value="class" data-i18n="f.type1">Classes or activity centre</option>
-                  <option value="play" data-i18n="f.type2">Play area</option>
-                  <option value="cafe" data-i18n="f.type3">Café or restaurant</option>
-                  <option value="other" data-i18n="f.type4">Something else</option>
-                </select></div>
-            </div>
-            <div class="g2">
-              <div class="f"><label for="area" data-i18n="f.area">Area in Dubai</label><input id="area" name="area" type="text" required placeholder="e.g. Al Barsha, JLT, Jumeirah" data-i18n-ph="f.areaPh"></div>
-              <div class="f"><label for="name" data-i18n="f.name">Your name</label><input id="name" name="name" type="text" required autocomplete="name"></div>
-            </div>
-            <div class="g2">
-              <div class="f"><label for="phone" data-i18n="f.phone">Mobile (WhatsApp)</label><input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="+971 50 123 4567" dir="ltr"></div>
-              <div class="f"><label for="email" data-i18n="f.email">Email</label><input id="email" name="email" type="email" required autocomplete="email" dir="ltr"></div>
-            </div>
-            <fieldset>
-              <legend data-i18n="f.ages">Ages you welcome</legend>
-              <div class="checks">
-                <label><input type="checkbox" name="ages" value="0-1"><span data-i18n="a.1">Under 1</span></label>
-                <label><input type="checkbox" name="ages" value="1-2"><span data-i18n="a.2">1 to 2</span></label>
-                <label><input type="checkbox" name="ages" value="3-4"><span data-i18n="a.3">3 to 4</span></label>
-                <label><input type="checkbox" name="ages" value="5-8"><span data-i18n="a.4">5 to 8</span></label>
+        <div class="route talk" data-reveal style="--d:.08s">
+          <p class="eyebrow" data-i18n="r2.eyebrow">Questions first?</p>
+          <h3 data-i18n="r2.t">Talk to the Alurei team</h3>
+          <p class="lead2" data-i18n="r2.d">A quick call to answer your questions and see if Alurei is right for your venue.</p>
+          <a class="btn btn-deep book" id="bookBtn" href="mailto:hello@alurei.app?subject=Book%20a%2010-minute%20call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg><span data-i18n="r2.book">Book a 10-minute call</span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <div class="or"><span data-i18n="r2.or">or</span></div>
+          <form id="form" novalidate>
+            <div id="fields">
+              <p class="wa-t"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg><span data-i18n="wa.t">Prefer WhatsApp? Leave your number and we’ll message you.</span></p>
+              <div class="g2">
+                <div class="f"><label for="business" data-i18n="wa.business">Business name</label><input id="business" name="business" type="text" required autocomplete="organization"></div>
+                <div class="f"><label for="phone" data-i18n="wa.phone">WhatsApp number</label><input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="+971 50 123 4567" dir="ltr"></div>
               </div>
-            </fieldset>
-            <fieldset>
-              <legend data-i18n="f.offer">What you'd like to offer</legend>
-              <div class="checks">
-                <label><input type="checkbox" name="offer" value="complimentary"><span data-i18n="f.o1">A complimentary class or hour</span></label>
-                <label><input type="checkbox" name="offer" value="price"><span data-i18n="f.o2">An Alurei price</span></label>
-                <label><input type="checkbox" name="offer" value="drink"><span data-i18n="f.o3">A drink for the nanny</span></label>
-              </div>
-            </fieldset>
-            <div class="f"><label for="link"><span data-i18n="f.link">Website or Instagram</span> <small data-i18n="f.optional">(optional)</small></label><input id="link" name="link" type="text" inputmode="url" dir="ltr"></div>
-            <div class="hp" aria-hidden="true"><input type="text" name="company_site" tabindex="-1" autocomplete="off"></div>
-            <label class="consent"><input type="checkbox" id="consent" required><span data-i18n-html="f.consent">I agree to the <a href="terms.html" target="_blank" rel="noopener">Partner Terms</a> and that Alurei can contact me about the partnership, as described in the <a href="privacy.html" target="_blank" rel="noopener">Partner Privacy Policy</a>.</span></label>
-            <button class="btn btn-deep" type="submit" id="submit"><span data-i18n="f.submit">Send my details</span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-            <p class="form-msg" id="msg" role="alert"></p>
-          </div>
-          <div class="thanks" id="thanks" hidden>
-            <img src="assets/icon-256.webp" alt="" loading="lazy">
-            <h3 data-i18n="t.title">Thank you!</h3>
-            <p data-i18n="t.text">We've got your details and will be in touch soon to set up your listing.</p>
-            <p class="form-note" id="previewNote" hidden data-i18n="t.preview">Preview only: nothing was sent. To join now, email hello@alurei.app.</p>
-          </div>
-        </form>
+              <div class="hp" aria-hidden="true"><input type="text" name="company_site" tabindex="-1" autocomplete="off"></div>
+              <label class="consent"><input type="checkbox" id="consent" required><span data-i18n-html="wa.consent">Alurei can message me on WhatsApp about the partnership, as described in the <a href="privacy.html" target="_blank" rel="noopener">Partner Privacy Policy</a>.</span></label>
+              <button class="btn btn-line" type="submit" id="submit"><span data-i18n="wa.submit">Message me on WhatsApp</span></button>
+              <p class="form-msg" id="msg" role="alert"></p>
+            </div>
+            <div class="thanks" id="thanks" hidden>
+              <img src="assets/icon-256.webp" alt="" loading="lazy">
+              <h3 data-i18n="t.title">Thank you!</h3>
+              <p data-i18n="t.text">We’ll message you on WhatsApp within two working days.</p>
+              <p class="form-note" id="previewNote" hidden data-i18n="t.preview">Preview only: nothing was sent. To join now, email hello@alurei.app.</p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>
@@ -917,9 +968,9 @@
         <details><summary><span data-i18n="faq.1q">Is it really free?</span><span class="pm"></span></summary><p data-i18n="faq.1a">Yes. There's no fee to be an Alurei partner, and no commission on bookings or sales you make with Alurei families. In return, you offer a complimentary class, an Alurei price or a drink for the nanny, whichever you choose.</p></details>
         <details><summary><span data-i18n="faq.2q">Who can join?</span><span class="pm"></span></summary><p data-i18n="faq.2a">Classes, activity centres, play areas, cafés and other family venues with a valid trade licence and any permits needed for working with children. We review each application to make sure it's right for Alurei families.</p></details>
         <details><summary><span data-i18n="faq.3q">Who will see my listing?</span><span class="pm"></span></summary><p data-i18n="faq.3a">Families with a nanny, for the ages and times of day you choose. You appear inside the child's Daily Flow when your class or venue fits their day.</p></details>
-        <details><summary><span data-i18n="faq.4q">How do families use the complimentary class?</span><span class="pm"></span></summary><p data-i18n="faq.4a">The family or nanny books with you directly, usually by WhatsApp or at your venue, and the nanny shows the offer in the Alurei app when they arrive. Your own booking and cancellation rules apply, and Alurei isn't part of the booking or payment. We'll walk you through the simple steps when we set up your listing.</p></details>
+        <details><summary><span data-i18n="faq.4q">How do families use the complimentary class?</span><span class="pm"></span></summary><p data-i18n="faq.4a">The family or nanny books with you directly, usually by WhatsApp or at your venue. At your front desk, the nanny taps “Use complimentary class” in the Alurei app and shows you the confirmation: the child’s first name, your venue, the date and time, and the drink for the nanny if you offer one. There are no codes or vouchers and nothing for you to record: the app keeps track, and you get a monthly report. Your own booking and cancellation rules apply, and Alurei isn’t part of the booking or payment.</p></details>
         <details><summary><span data-i18n="faq.5q">Can I change my offer?</span><span class="pm"></span></summary><p data-i18n="faq.5a">Yes. You can update your offer in the partner portal at any time. Changes apply from when they're published and don't affect bookings already made. To end the partnership, just give us 14 days' notice by email.</p></details>
-        <details><summary><span data-i18n="faq.6q">What happens after I sign up?</span><span class="pm"></span></summary><p data-i18n="faq.6a">We'll review your details and contact you to confirm your offer. Once your listing is approved, it goes live in families' Daily Flow.</p></details>
+        <details><summary><span data-i18n="faq.6q">What happens after I sign up?</span><span class="pm"></span></summary><p data-i18n="faq.6a">We'll review your details and contact you within two working days to confirm your offer. Once your listing is approved, it goes live in families' Daily Flow.</p></details>
         <details><summary><span data-i18n="faq.7q">How will Alurei use my brand?</span><span class="pm"></span></summary><p data-i18n="faq.7a">We show your name, logo, photos and offer in the app, on alurei.app, in our emails and on social media. You're welcome to say you're an Alurei partner. Details families share with you are for their booking only, not for marketing lists.</p></details>
       </div>
     </div>
@@ -932,13 +983,13 @@
     <div class="foot">
       <div>
         <a class="logo" href="https://alurei.app"><img class="icon" src="assets/icon-96.webp" width="40" height="40" alt="" loading="lazy"><img class="wm" src="assets/wm-white-84.webp" width="84" height="26" alt="Alurei" loading="lazy"></a>
-        <p class="tag" data-i18n="foot.tag">Your child's day. Less admin. Just the joy.</p>
+        <p class="tag" data-i18n="foot.tag">Your nanny’s guide to a better day for your child.</p>
       </div>
       <div><h4 data-i18n="foot.partners">Partners</h4><ul><li><a href="#join" class="hl" data-i18n="foot.join">Join as a partner →</a></li><li><a href="https://alurei.app/partner/signup" data-i18n="foot.account">Create partner account</a></li><li><a href="https://alurei.app/partner/login" data-i18n="foot.login">Partner login</a></li></ul></div>
       <div><h4 data-i18n="foot.legal">Legal</h4><ul><li><a href="terms.html" data-i18n="foot.terms">Partner Terms</a></li><li><a href="privacy.html" data-i18n="foot.privacy">Partner Privacy Policy</a></li></ul></div>
       <div><h4>Alurei</h4><ul><li><a href="https://alurei.app">alurei.app</a></li><li><a href="mailto:hello@alurei.app">hello@alurei.app</a></li></ul></div>
     </div>
-    <div class="legal"><span data-i18n="foot.copy">© 2026 The Seasons (FZE), which operates Alurei.</span><span data-i18n="foot.made">Better for families · Better for nannies · Better for children</span></div>
+    <div class="legal"><span data-i18n="foot.copy">© 2026 The Seasons (FZE), which operates Alurei.</span><span data-i18n="foot.made">Better for families · Better for nannies · Better for children · Better for local businesses</span></div>
     <p class="credits" data-i18n="foot.credits">Photos and video: Unsplash and Pexels.</p>
   </div>
 </footer>
@@ -947,6 +998,8 @@
 <script>
 // Where partner sign-ups are sent. Empty = preview mode (nothing leaves the page).
 const FORM_ENDPOINT = '';
+// The "Book a 10-minute call" link (Calendly, Google Calendar...). Empty = it opens an email to hello@alurei.app.
+const BOOKING_URL = '';
 document.documentElement.classList.add('js');
 const qs = new URLSearchParams(location.search);
 const still = qs.has('still');
@@ -958,7 +1011,7 @@ const venues = document.getElementById('venues'); const copy = venues.cloneNode(
 
 const AR = {
   'nav.how': 'كيف يعمل', 'nav.offers': 'العروض', 'nav.join': 'انضم كشريك', 'nav.faq': 'الأسئلة الشائعة',
-  'hero.chip': 'شركاء Alurei · دبي',
+  'hero.chip': 'شركاء Alurei · الإمارات',
   'hero.title': 'كن جزءاً من <span class="t">يوم كل عائلة.</span>',
   'hero.lead': 'تقدّم Alurei لمربية كل عائلة خطة جديدة ليوم الطفل كل صباح. وتظهر حصصك أو منطقة اللعب لديك أو مقهاك داخل هذه الخطة مباشرة، للأعمار والأوقات التي تختارها، فتصطحب المربيات الأطفال إليك.',
   'hero.pause': 'إيقاف الحركة مؤقتاً', 'hero.play': 'تشغيل الحركة',
@@ -969,18 +1022,18 @@ const AR = {
   'ph.e1': 'الاستيقاظ', 'ph.e2': 'الفطور', 'ph.e2d': 'بان كيك بالموز والشوفان', 'ph.e3': 'لعب حسّي', 'ph.e3d': 'ماء وأكواب ومغارف',
   'ph.tag': 'شريك', 'ph.e4': 'موسيقى وحركة', 'ph.e4d': 'مكانك · من 2 إلى 4 سنوات', 'ph.gift': 'حصة مجانية واحدة',
   'ph.e5': 'الغداء', 'ph.e5d': 'دجاج وأرز وبازلاء', 'ph.e6': 'القيلولة', 'ph.e6d': 'من ساعة ونصف إلى ساعتين',
-  'v.cap': '<b>لمقدّمي الحصص ومناطق اللعب والمقاهي</b> في أنحاء دبي',
+  'v.cap': '<b>لمقدّمي الحصص ومناطق اللعب والمقاهي</b> في أنحاء الإمارات',
   'v.1': 'مدارس السباحة', 'v.2': 'الموسيقى والحركة', 'v.3': 'مناطق اللعب', 'v.4': 'أكاديميات كرة القدم', 'v.5': 'استوديوهات الفنون', 'v.6': 'الباليه والجمباز', 'v.7': 'مقاهي العائلات', 'v.8': 'جلسات القصص والمكتبات',
   'how.eyebrow': 'كيف يعمل', 'how.title': 'تظهر للعائلات المناسبة، <span class="t">في اللحظة المناسبة.</span>',
   'sp.1': 'صفحتك كما تريدها', 'sp.2': 'ضمن خطة الصباح', 'sp.3': 'وصول عائلة جديدة',
   's1.title': 'صفحة الشريك الخاصة بك', 's1.sub': 'الاستوديو الخاص بك · البرشاء', 's1.ages': 'الفئات العمرية التي تستقبلها', 's1.times': 'أفضل الأوقات',
-  'a.1': 'أقل من سنة', 'a.2': 'من 1 إلى 2', 'a.3': 'من 3 إلى 4', 'a.4': 'من 5 إلى 8', 't.1': 'الصباح', 't.2': 'بعد الظهر', 't.3': 'نهاية الأسبوع',
+  'a.1': 'أقل من سنة', 'a.2': 'من 1 إلى 2', 'a.3': 'من 3 إلى 4', 'a.4': 'من 5 إلى 8+', 't.1': 'الصباح', 't.2': 'بعد الظهر', 't.3': 'نهاية الأسبوع',
   's1.o1': 'حصة مجانية كل 90 يوماً', 's1.o2': 'قهوة للمربية', 's1.btn': 'أرسل للمراجعة',
-  's3.example': 'مثال', 's3.title': 'اليوم في منشأتك', 's3.sub': 'الثلاثاء · حصة الساعة 10:30', 's3.new': 'عائلة جديدة عبر Alurei', 's3.kid': 'إيف، 3 سنوات، مع مربيتها',
-  's3.r1': 'وصلت 10:24', 's3.r2': 'تم استخدام الحصة المجانية', 's3.r3': 'قهوة للمربية', 's3.k1': 'عمر، سنتان', 's3.k1s': 'تم استخدام الحصة المجانية', 's3.k1e': 'جديد', 's3.k2': 'لينا، 4 سنوات', 's3.k2s': 'سعر خاص لعائلات Alurei على باقة الفصل الدراسي',
-  's.1chip': 'صفحتك', 's.1t': 'أخبرنا لمن تقدّم خدماتك', 's.1d': 'اختر الأعمار وأوقات اليوم الأنسب لحصصك أو منطقة اللعب لديك أو مقهاك، والعرض الذي تودّ تقديمه لعائلات Alurei.', 's.1a': 'أعمار من أقل من سنة حتى 8 سنوات', 's.1b': 'الصباح أو بعد الظهر أو نهاية الأسبوع',
+  's3.example': 'مثال', 's3.title': 'حصة مجانية', 's3.sub': 'الاستوديو الخاص بك · البرشاء', 's3.new': 'تم التأكيد', 's3.kid': 'إيف · الثلاثاء 18 نوفمبر · 10:24',
+  's3.r1': 'اعرض هذه الشاشة في الاستقبال', 's3.r3': 'تشمل مشروباً للمربية', 's3.k1': 'الحصة المجانية التالية', 's3.k1s': 'ابتداءً من 16 فبراير', 's3.k2': 'سعر خاص لعائلات Alurei', 's3.k2s': 'خصم 10٪ على الباقات',
+  's.1chip': 'صفحتك', 's.1t': 'أخبرنا لمن تقدّم خدماتك', 's.1d': 'اختر الأعمار وأوقات اليوم الأنسب لحصصك أو منطقة اللعب لديك أو مقهاك، والعرض الذي تودّ تقديمه لعائلات Alurei.', 's.1a': 'الأعمار من الولادة حتى 8 سنوات وأكثر', 's.1b': 'الصباح أو بعد الظهر أو نهاية الأسبوع',
   's.2chip': 'الخطة اليومية', 's.2t': 'تظهر داخل خطتهم اليومية', 's.2d': 'كل صباح، تُعِدّ Alurei للمربية خطة ليوم الطفل. وعندما تناسب حصتك عمر الطفل وروتينه، تظهر مباشرة داخل الخطة.', 's.2a': 'تظهر حسب العمر ووقت اليوم', 's.2b': 'الظهور مجاني، حين يناسب مكانك يوم الطفل',
-  's.3chip': 'عائلات جديدة', 's.3t': 'تصطحب المربيات الأطفال إليك', 's.3d': 'عند وصولها، تُطلعك المربية على العرض في التطبيق، فترحّب أنت بعائلة جديدة كانت تبحث أصلاً عمّا تقدّمه.', 's.3a': 'بلا رسوم ولا عمولة', 's.3b': 'غيّر عرضك أو أوقفه مؤقتاً في أي وقت',
+  's.3chip': 'عائلات جديدة', 's.3t': 'تصطحب المربيات الأطفال إليك', 's.3d': 'في الاستقبال، تضغط المربية على «استخدم الحصة المجانية» وتُطلعك على التأكيد في هاتفها، فترحّب أنت بعائلة جديدة كانت تبحث أصلاً عمّا تقدّمه.', 's.3a': 'بلا رموز أو قسائم أو أوراق', 's.3b': 'غيّر عرضك أو أوقفه مؤقتاً في أي وقت',
   'day.eyebrow': 'يوم في دبي، بتخطيط من Alurei', 'day.title': 'هنا تجد مكانك <span class="t">في يومهم.</span>', 'day.sub': 'كل صباح تحصل المربية على خطة لليوم كله. وهذه هي اللحظات التي يمكن أن يكون لك فيها مكان كشريك.', 'day.legend': 'لحظة شريك',
   'd.1t': 'الفطور في البيت', 'd.1d': 'مُعدّ بما يناسب عمرها، مع وصفة تتبعها المربية.', 'd.2t': 'ملعب الأطفال', 'd.2d': 'هواء طلق قبل أن يشتد الحر.',
   'd.3t': 'موسيقى وحركة', 'd.3d': 'حصة للأعمار من 2 إلى 4 سنوات.', 'd.could': 'قد تكون هذه حصتك',
@@ -991,40 +1044,65 @@ const AR = {
   'd.ctaT': 'مكانك، في يومهم.', 'd.ctaD': 'تظهر كلما ناسبت حصتك أو مكانك يوم العائلة.',
   'day.b1': 'الصباح', 'day.b2': 'الظهيرة', 'day.b3': 'بعد الظهر', 'day.b4': 'المساء',
   'free.eyebrow': 'ما يكلّفك ذلك', 'free.title': 'الانضمام مجاني. <span class="t">وأنت تختار ما تقدّمه.</span>', 'free.sub': 'بلا رسوم ولا عمولة ولا التزام بمدة. أنت تختار ما تودّ تقديمه لعائلات Alurei في المقابل، ويمكن لأيٍّ منا إنهاء الشراكة بإشعار مسبق مدته 14 يوماً.',
-  'st.1n': '0 درهم', 'st.1t': 'للانضمام', 'st.1d': 'بلا رسوم تسجيل أو نشر', 'st.2n': '0٪', 'st.2t': 'عمولة', 'st.2d': 'على الحجوزات أو المبيعات التي تتم مع عائلات Alurei', 'st.3n': '60 / 90', 'st.3t': 'يوماً، حسب اختيارك', 'st.3d': 'حصة مجانية واحدة لكل طفل خلال هذه المدة، إن كنت تقدّمها', 'st.4n': 'دقيقتان', 'st.4t': 'للتسجيل', 'st.4d': 'نموذج قصير، ثم نتصل بك لإعداد صفحتك',
+  'st.1n': '0 درهم', 'st.1t': 'للانضمام', 'st.1d': 'بلا رسوم تسجيل أو نشر', 'st.2n': '0٪', 'st.2t': 'عمولة', 'st.2d': 'على الحجوزات أو المبيعات التي تتم مع عائلات Alurei', 'st.3n': '60 / 90', 'st.3t': 'يوماً، حسب اختيارك', 'st.3d': 'حصة مجانية واحدة لكل طفل خلال هذه المدة، إن كنت تقدّمها', 'st.4n': 'يومان', 'st.4t': 'حتى نردّ عليك', 'st.4d': 'نتواصل معك خلال يومي عمل',
   'off.eyebrow': 'ما تقدّمه في المقابل', 'off.title': 'اختر واحداً أو اثنين، أو <span class="t">الثلاثة معاً.</span>',
   'op.t': 'ترحيب بعائلة جديدة', 'op.s': 'حصة مجانية · 10:30',
-  'off.1t': 'حصة مجانية', 'off.1d': 'حصة واحدة لكل طفل كل 60 أو 90 يوماً، حسب اختيارك. ولمناطق اللعب، ساعة مجانية واحدة.', 'off.1f': 'يمكنك قصرها على أوقات غير الذروة، كما هو متفق عليه في ملحق الشراكة الخاص بك.',
-  'off.2t': 'سعر خاص لعائلات Alurei', 'off.2d': 'عادةً خصم من 10 إلى 15٪ على باقات الحصص أو الحضور، أو على الطعام والمشروبات إن كانت منشأتك مقهى أو مطعماً.', 'off.2f': 'يساعد على تحويل الزيارة الأولى إلى زيارات منتظمة.',
+  'off.1t': 'حصة مجانية', 'off.1d': 'حصة واحدة لكل طفل كل 60 أو 90 يوماً، حسب اختيارك. ولمناطق اللعب، ساعة مجانية واحدة بالوتيرة نفسها.', 'off.1f': 'يمكنك قصرها على أوقات غير الذروة، كما هو متفق عليه في ملحق الشراكة الخاص بك.',
+  'off.2t': 'سعر خاص لعائلات Alurei', 'off.2d': 'خصم يتراوح عادةً بين 10 و15٪ على باقات الحصص أو الحضور، أو على الطعام والمشروبات إن كانت منشأتك مقهى أو مطعماً. ويمكن للعائلات استخدامه في كل مرة تدفع فيها.', 'off.2f': 'يساعد على تحويل الزيارة الأولى إلى زيارات منتظمة.',
   'off.3t': 'مشروب للمربية', 'off.3d': 'قهوة أو شاي للمربية خلال الحصة المجانية. لفتة شكر صغيرة بأثر كبير.', 'off.3f': 'المربيات يخترن وجهة اليوم.',
   'off.4t': 'القرار بيدك', 'off.4d': 'أنت من يحدّد التفاصيل، ويمكنك تغييرها أو إيقافها مؤقتاً في أي وقت.',
   'who.eyebrow': 'من ستصل إليهم', 'who.title': 'عائلات <span class="t">تخطّط ليوم طفلها.</span>',
-  'who.1': 'عائلات لديها مربية بدوام كامل، تريد أياماً رائعة لطفلها', 'who.2': 'أطفال من الولادة حتى 8 سنوات', 'who.3': 'مربيات يخترن وجهة اليوم', 'who.4': 'دبي أولاً، ثم في أنحاء الإمارات',
-  'ar.1': 'جميرا', 'ar.2': 'دبي مارينا', 'ar.3': 'البرشاء', 'ar.4': 'وسط مدينة دبي', 'ar.5': 'المرابع العربية', 'ar.6': 'أبراج بحيرات جميرا', 'who.cap': 'ننطلق في أنحاء دبي',
+  'who.1': 'عائلات لديها مربية بدوام كامل، تريد أياماً رائعة لطفلها', 'who.2': 'أطفال من الولادة حتى 8 سنوات وأكثر', 'who.3': 'مربيات يخترن وجهة اليوم، وأهل يتابعونه أولاً بأول', 'who.4': 'الإمارات أولاً، ثم العالم',
+  'ar.1': 'نخلة جميرا', 'ar.2': 'جميرا', 'ar.3': 'دبي مارينا', 'ar.4': 'دبي هيلز', 'ar.5': 'المرابع العربية', 'ar.6': 'وسط مدينة دبي', 'who.cap': 'عائلات في أنحاء دبي · أبوظبي قريباً',
   'join.eyebrow': 'انضم كشريك', 'join.title': 'انضم بالطريقة التي <span class="t">تناسبك.</span>',
   'r1.eyebrow': 'جاهز الآن؟', 'r1.t': 'أنشئ حساب الشريك', 'r1.d': 'جهّز صفحتك بنفسك في دقائق: شعارك وعرضك، والفئات العمرية التي تستقبلها ومواعيد استقبالك. ونراجع كل صفحة قبل نشرها.', 'r1.a': 'مجاني: بلا رسوم وبلا عمولة', 'r1.b': 'أنت تختار الأعمار والأوقات والعرض', 'r1.c': 'غيّر عرضك أو أوقفه مؤقتاً في أي وقت', 'r1.btn': 'أنشئ حساب الشريك', 'r1.login': 'شريك بالفعل؟', 'r1.loginL': 'سجّل الدخول',
-  'r2.eyebrow': 'هل تفضّل أن نتصل بك؟', 'r2.t': 'أخبرنا عن منشأتك', 'r2.d': 'يستغرق الأمر دقيقتين. سنتواصل معك لنُعدّ صفحتك معاً.',
-  'f.business': 'اسم النشاط التجاري', 'f.type': 'النوع', 'f.type0': 'اختر واحداً', 'f.type1': 'مقدّم حصص أو مركز أنشطة', 'f.type2': 'منطقة لعب', 'f.type3': 'مقهى أو مطعم', 'f.type4': 'غير ذلك',
-  'f.area': 'المنطقة في دبي', 'f.areaPh': 'مثلاً: البرشاء، أبراج بحيرات جميرا، جميرا', 'f.name': 'اسمك', 'f.phone': 'رقم الجوال (واتساب)', 'f.email': 'البريد الإلكتروني',
-  'f.ages': 'الفئات العمرية التي تستقبلها', 'f.offer': 'ما تودّ تقديمه', 'f.o1': 'حصة أو ساعة مجانية', 'f.o2': 'سعر خاص لعائلات Alurei', 'f.o3': 'مشروب للمربية', 'f.link': 'الموقع الإلكتروني أو إنستغرام', 'f.optional': '(اختياري)',
-  'f.consent': 'أوافق على <a href="terms.html" target="_blank" rel="noopener">شروط الشركاء</a> وعلى أن تتواصل معي Alurei بخصوص الشراكة، كما هو موضّح في <a href="privacy.html" target="_blank" rel="noopener">سياسة خصوصية الشركاء</a>.', 'f.submit': 'أرسل بياناتي',
-  't.title': 'شكراً لك!', 't.text': 'وصلتنا بياناتك وسنتواصل معك قريباً لإعداد صفحتك.',
+  'r2.eyebrow': 'لديك أسئلة أولاً؟', 'r2.t': 'تحدّث مع فريق Alurei', 'r2.d': 'مكالمة قصيرة نجيب فيها عن أسئلتك ونرى إن كانت Alurei مناسبة لمنشأتك.',
+  't.title': 'شكراً لك!', 't.text': 'سنراسلك عبر واتساب خلال يومي عمل.',
   'faq.eyebrow': 'أسئلة', 'faq.title': 'معلومات <span class="t">مفيدة.</span>', 'faq.sub': 'هل لديك سؤال آخر؟ راسلنا على <a href="mailto:hello@alurei.app" style="color:var(--brand);font-weight:500">hello@alurei.app</a>.',
   'faq.1q': 'هل الانضمام مجاني فعلاً؟', 'faq.1a': 'نعم. لا توجد رسوم للانضمام إلى شركاء Alurei، ولا عمولة على الحجوزات أو المبيعات التي تتم مع عائلات Alurei. وفي المقابل، تقدّم حصة مجانية أو سعراً خاصاً أو مشروباً للمربية، حسب اختيارك.',
   'faq.2q': 'من يمكنه الانضمام؟', 'faq.2a': 'مقدّمو الحصص ومراكز الأنشطة ومناطق اللعب والمقاهي وغيرها من المنشآت التي تستقبل العائلات، على أن تحمل رخصة تجارية سارية وأي تصاريح يتطلبها العمل مع الأطفال. ونراجع كل طلب للتأكد من أنه مناسب لعائلات Alurei.',
   'faq.3q': 'من سيرى صفحتي؟', 'faq.3a': 'العائلات التي لديها مربية، ضمن الفئات العمرية وأوقات اليوم التي تختارها. وتظهر داخل الخطة اليومية للطفل حين تناسب حصتك أو مكانك يومه.',
-  'faq.4q': 'كيف تستخدم العائلات الحصة المجانية؟', 'faq.4a': 'تحجز العائلة أو المربية معك مباشرة، عادةً عبر واتساب أو في منشأتك، وعند وصولها تُطلعك المربية على العرض في تطبيق Alurei. وتسري قواعد الحجز والإلغاء الخاصة بك، ولا تكون Alurei طرفاً في الحجز أو الدفع. وسنشرح لك الخطوات البسيطة عند إعداد صفحتك.',
+  'faq.4q': 'كيف تستخدم العائلات الحصة المجانية؟', 'faq.4a': 'تحجز العائلة أو المربية معك مباشرة، عادةً عبر واتساب أو في منشأتك. وفي الاستقبال، تضغط المربية على «استخدم الحصة المجانية» في تطبيق Alurei وتُطلعك على التأكيد: الاسم الأول للطفل، واسم منشأتك، والتاريخ والوقت، والمشروب للمربية إن كنت تقدّمه. لا رموز ولا قسائم، ولا شيء عليك تسجيله: التطبيق يتولّى ذلك، ويصلك تقرير شهري. وتسري قواعد الحجز والإلغاء الخاصة بك، ولا تكون Alurei طرفاً في الحجز أو الدفع.',
   'faq.5q': 'هل يمكنني تغيير عرضي؟', 'faq.5a': 'نعم. يمكنك تحديث عرضك من بوابة الشركاء في أي وقت، وتسري التغييرات اعتباراً من نشرها دون أن تؤثر على الحجوزات التي تمت بالفعل. ولإنهاء الشراكة، يكفي أن ترسل إلينا إشعاراً مسبقاً مدته 14 يوماً عبر البريد الإلكتروني.',
-  'faq.6q': 'ماذا يحدث بعد التسجيل؟', 'faq.6a': 'سنراجع بياناتك ونتواصل معك لتأكيد عرضك. وبعد الموافقة على صفحتك، تظهر في الخطة اليومية للعائلات.',
-  'foot.tag': 'يوم طفلك. أعباء أقل. فرح أكثر.', 'foot.partners': 'الشركاء', 'foot.join': 'انضم كشريك ←', 'foot.account': 'أنشئ حساب الشريك', 'foot.login': 'دخول الشركاء', 'foot.legal': 'معلومات قانونية', 'foot.terms': 'شروط الشركاء', 'foot.privacy': 'سياسة خصوصية الشركاء',
-  'foot.copy': '© 2026 The Seasons (FZE)، الشركة التي تشغّل Alurei.', 'foot.made': 'أفضل للعائلات · أفضل للمربيات · أفضل للأطفال', 'foot.credits': 'الصور والفيديو: Unsplash وPexels.',
-  'err.required': 'يرجى تعبئة الحقول المطلوبة.', 'err.email': 'يرجى إدخال بريد إلكتروني صحيح.', 'err.consent': 'يرجى الموافقة على شروط الشركاء وسياسة خصوصية الشركاء.', 'err.send': 'تعذّر الإرسال. يرجى المحاولة مرة أخرى أو مراسلتنا على hello@alurei.app.',
+  'faq.6q': 'ماذا يحدث بعد التسجيل؟', 'faq.6a': 'سنراجع بياناتك ونتواصل معك خلال يومي عمل لتأكيد عرضك. وبعد الموافقة على صفحتك، تظهر في الخطة اليومية للعائلات.',
+  'foot.tag': 'دليل مربيتك إلى يوم أفضل لطفلك.', 'foot.partners': 'الشركاء', 'foot.join': 'انضم كشريك ←', 'foot.account': 'أنشئ حساب الشريك', 'foot.login': 'دخول الشركاء', 'foot.legal': 'معلومات قانونية', 'foot.terms': 'شروط الشركاء', 'foot.privacy': 'سياسة خصوصية الشركاء',
+  'foot.copy': '© 2026 The Seasons (FZE)، الشركة التي تشغّل Alurei.', 'foot.made': 'أفضل للعائلات · أفضل للمربيات · أفضل للأطفال · أفضل للأعمال المحلية', 'foot.credits': 'الصور والفيديو: Unsplash وPexels.',
+  'err.required': 'يرجى تعبئة الحقول المطلوبة.', 'err.consent': 'يرجى الموافقة على التواصل معك، كما هو موضّح في سياسة خصوصية الشركاء.', 'err.send': 'تعذّر الإرسال. يرجى المحاولة مرة أخرى أو مراسلتنا على hello@alurei.app.',
   'faq.7q': 'كيف ستستخدم Alurei علامتك التجارية؟',
   'faq.7a': 'نعرض اسمك وشعارك وصورك وعرضك في التطبيق وعلى alurei.app وفي رسائلنا عبر البريد الإلكتروني وعلى وسائل التواصل الاجتماعي. ويسعدنا أن تذكر أنك من شركاء Alurei. أما البيانات التي تشاركها العائلات معك فهي لأغراض الحجز فقط، وليست لقوائم التسويق.',
   't.preview': 'معاينة فقط: لم يتم إرسال أي بيانات. للانضمام الآن، راسلنا على hello@alurei.app.',
   'nav.sections': 'أقسام الصفحة',
+  'day.hint': 'مرّر أو اسحب لرؤية اليوم كله',
+  'day.prev': 'وقت سابق من اليوم',
+  'day.next': 'وقت لاحق من اليوم',
+  'care.eyebrow': 'لحظات الرعاية',
+  'care.title': 'تُكافأ المربيات <span class="t">على رعايتهن المميزة</span>',
+  'care.text': 'تكافئ Alurei المربيات على الرعاية التي يقدّمنها كل يوم، بلحظات الرعاية (Care Moments) التي يمكنهن إنفاقها لدى الأعمال المحلية. ونحن نموّل المكافآت، فلا تتحمّل أي تكلفة.',
+  'care.1': 'تُكتسب مقابل الرعاية التي تقدّمها المربيات كل يوم',
+  'care.2': 'تُنفق لدى الأعمال المحلية مثل منشأتك',
+  'care.3': 'تموّلها Alurei، دون أي تكلفة عليك',
+  'care.m1s': 'تم كسب لحظة رعاية',
+  'care.m1b': 'يوم رائع مع إيف',
+  'care.m1d': 'خطة الصباح، ولعب حسّي، وقيلولة هادئة',
+  'care.m2s': 'أنفقها محلياً',
+  'care.c1': 'مقاهي العائلات',
+  'care.c2': 'الحصص',
+  'care.c3': 'مناطق اللعب',
+  'care.badge': 'تموّلها Alurei · بلا تكلفة عليك',
+  'r2.book': 'احجز مكالمة مدتها 10 دقائق',
+  'r2.or': 'أو',
+  'wa.t': 'هل تفضّل واتساب؟ اترك رقمك وسنراسلك.',
+  'wa.business': 'اسم النشاط التجاري',
+  'wa.phone': 'رقم واتساب',
+  'wa.consent': 'أوافق على أن تراسلني Alurei عبر واتساب بخصوص الشراكة، كما هو موضّح في <a href="privacy.html" target="_blank" rel="noopener">سياسة خصوصية الشركاء</a>.',
+  'wa.submit': 'راسلوني عبر واتساب',
+  'err.phone': 'يرجى التحقق من رقم واتساب.',
+  's3.k2e': 'استخدم',
+  's.3c': 'تقرير شهري بالزيارات والعائلات العائدة',
+  'ar.7': 'البرشاء',
+  'ar.8': 'مردف',
 };
-const EXTRA_EN = { 'err.required': 'Please fill in the required fields.', 'err.email': 'Please enter a valid email address.', 'err.consent': 'Please agree to the Partner Terms and the Partner Privacy Policy.', 'err.send': "Sorry, that didn't send. Please try again, or email hello@alurei.app.", 'hero.play': 'Play motion', 't.preview': 'Preview only: nothing was sent. To join now, email hello@alurei.app.' };
+const EXTRA_EN = { 'err.required': 'Please fill in the required fields.', 'err.consent': 'Please agree to be contacted, as described in the Partner Privacy Policy.', 'err.phone': 'Please check your WhatsApp number.', 'err.send': "Sorry, that didn't send. Please try again, or email hello@alurei.app.", 'hero.play': 'Play motion', 't.preview': 'Preview only: nothing was sent. To join now, email hello@alurei.app.' };
 
 // Language switch (the English text is read from the page itself).
 const EN = {};
@@ -1134,7 +1212,7 @@ let dayMax = 0, pinned = false, heroH = 1, barW = 0, lastHp = -1, lastRp = -1, l
 function measureDay() {
   heroH = hero.offsetHeight || 1;
   pinned = !reduce && wide.matches;
-  if (!pinned) { day.style.height = ''; dayTrack.style.transform = ''; lastDp = -1; return; }
+  if (!pinned) { day.style.height = ''; dayTrack.style.transform = ''; lastDp = -1; dayButtons(dayProgress()); return; }
   dayMax = Math.max(0, dayTrack.offsetWidth - dayView.clientWidth);
   barW = dayBar.offsetWidth;
   day.style.height = `${dayMax + innerHeight}px`;
@@ -1150,7 +1228,7 @@ function onScroll() {
   if (pinned && dayMax) {
     const p = Math.min(1, Math.max(0, -dTop / dayMax));
     if (p !== lastDp) {
-      lastDp = p; const dir = lang === 'ar' ? 1 : -1;
+      lastDp = p; const dir = lang === 'ar' ? 1 : -1; dayButtons(p);
       dayTrack.style.transform = `translate3d(${(dir * p * dayMax).toFixed(1)}px,0,0)`;
       dayLine.style.transform = `scaleX(${p.toFixed(4)})`;
       daySun.style.transform = `translate3d(${(-dir * p * barW).toFixed(1)}px,0,0)`;
@@ -1160,6 +1238,32 @@ function onScroll() {
 // Scroll effects run on native scroll events, and (once Lenis is ready) in the same frame as each smooth-scroll step.
 addEventListener('scroll', onScroll, { passive: true });
 let rsz = 0; addEventListener('resize', () => { cancelAnimationFrame(rsz); rsz = requestAnimationFrame(measureDay); });
+// Moving through the day: the arrows step one card, and sideways trackpad swipes move the strip too
+// (on laptops the strip is pinned and normally follows the page's vertical scroll).
+const dayPrev = document.getElementById('dayPrev'), dayNext = document.getElementById('dayNext'), STEP = 320;
+function dayProgress() {
+  if (pinned && dayMax) return Math.min(1, Math.max(0, -day.getBoundingClientRect().top / dayMax));
+  const max = dayView.scrollWidth - dayView.clientWidth; return max > 0 ? Math.min(1, Math.abs(dayView.scrollLeft) / max) : 0;
+}
+function dayButtons(p) { dayPrev.disabled = p <= 0.002; dayNext.disabled = p >= 0.998; }
+function dayGo(dir) {
+  if (pinned && dayMax) {
+    const top = day.getBoundingClientRect().top + scrollY, cur = Math.min(top + dayMax, Math.max(top, scrollY));
+    const target = Math.min(top + dayMax, Math.max(top, cur + dir * STEP));
+    if (lenis) { lenis.scrollTo(target); wake(); } else window.scrollTo({ top: target, behavior: reduce ? 'auto' : 'smooth' });
+  } else dayView.scrollBy({ left: dir * STEP * (lang === 'ar' ? -1 : 1), behavior: reduce ? 'auto' : 'smooth' });
+}
+dayPrev.addEventListener('click', () => dayGo(-1)); dayNext.addEventListener('click', () => dayGo(1));
+dayView.addEventListener('scroll', () => { if (!pinned) dayButtons(dayProgress()); }, { passive: true });
+day.addEventListener('wheel', (e) => {
+  if (!pinned || !dayMax || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+  const r = day.getBoundingClientRect(); if (r.top > 1 || r.top < -dayMax - 1) return; // only while the strip is pinned on screen
+  e.preventDefault();
+  const top = r.top + scrollY, base = lenis ? lenis.targetScroll : scrollY;
+  const target = Math.min(top + dayMax, Math.max(top, base + (lang === 'ar' ? -1 : 1) * e.deltaX * (e.deltaMode === 1 ? 16 : 1)));
+  if (target === base) return;
+  if (lenis) { lenis.scrollTo(target); wake(); } else window.scrollTo(0, target);
+}, { passive: false });
 // Tabbing to the strip's link: jump to the end of the pinned strip so the button is on screen.
 dayTrack.addEventListener('focusin', () => {
   if (!pinned) return;
@@ -1205,7 +1309,7 @@ document.querySelectorAll('[data-lang-toggle]').forEach((b) => b.addEventListene
 const navLinks = [...document.querySelectorAll('.navpill [data-nav]')];
 if (io) {
   const no = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) navLinks.forEach((a) => { const on = a.dataset.nav === e.target.id; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }); }), { rootMargin: '-40% 0px -55% 0px' });
-  ['how', 'day', 'free', 'offers', 'reach', 'join', 'faq'].forEach((id) => { const el = document.getElementById(id); if (el) no.observe(el); });
+  ['how', 'day', 'free', 'offers', 'reach', 'care', 'join', 'faq'].forEach((id) => { const el = document.getElementById(id); if (el) no.observe(el); });
   // On phones and tablets the pill stays out of the way until the hero buttons have scrolled past.
   const heroCtas = document.querySelector('.hero .ctas');
   new IntersectionObserver(([e]) => document.documentElement.classList.toggle('nav-off', e.isIntersecting || e.boundingClientRect.top > 0)).observe(heroCtas);
@@ -1223,6 +1327,8 @@ if (window.Lenis) initLenis(); else { const lj = document.getElementById('lenisJ
 // and pass them on to the partner account sign-up link too.
 const track = {};
 ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'ref'].forEach((k) => { if (qs.get(k)) track[k] = qs.get(k).slice(0, 80); });
+const bookBtn = document.getElementById('bookBtn');
+if (BOOKING_URL) { bookBtn.href = BOOKING_URL; bookBtn.target = '_blank'; bookBtn.rel = 'noopener'; }
 if (Object.keys(track).length) document.querySelectorAll('[data-track-out]').forEach((a) => { const u = new URL(a.href); Object.entries(track).forEach(([k, v]) => u.searchParams.set(k, v)); a.href = u.toString(); });
 
 const form = document.getElementById('form'), msg = document.getElementById('msg');
@@ -1231,19 +1337,17 @@ form.addEventListener('submit', async (e) => {
   msg.textContent = '';
   const fd = new FormData(form);
   if (fd.get('company_site')) return; // spam trap
-  const need = ['business', 'type', 'area', 'name', 'phone', 'email'];
+  const need = ['business', 'phone'];
   const missing = need.filter((k) => !String(fd.get(k) || '').trim());
-  form.querySelectorAll('input, select').forEach((el) => el.removeAttribute('aria-invalid'));
+  form.querySelectorAll('input').forEach((el) => el.removeAttribute('aria-invalid'));
   missing.forEach((k) => form.elements[k].setAttribute('aria-invalid', 'true'));
   if (missing.length) { msg.textContent = tr('err.required'); form.elements[missing[0]].focus(); return; }
-  if (!/^\S+@\S+\.\S+$/.test(fd.get('email'))) { msg.textContent = tr('err.email'); form.elements.email.setAttribute('aria-invalid', 'true'); form.elements.email.focus(); return; }
+  // Lenient on purpose: any format with 8 to 15 digits, with or without +, spaces, dashes or brackets.
+  const phone = String(fd.get('phone')).replace(/[\s\-().]/g, '');
+  if (!/^\+?\d{8,15}$/.test(phone)) { msg.textContent = tr('err.phone'); form.elements.phone.setAttribute('aria-invalid', 'true'); form.elements.phone.focus(); return; }
   const consent = document.getElementById('consent');
   if (!consent.checked) { msg.textContent = tr('err.consent'); consent.setAttribute('aria-invalid', 'true'); consent.focus(); return; }
-  const data = {
-    business: fd.get('business').trim(), type: fd.get('type'), area: fd.get('area').trim(), name: fd.get('name').trim(),
-    phone: fd.get('phone').trim(), email: fd.get('email').trim(), ages: fd.getAll('ages'), offer: fd.getAll('offer'),
-    link: String(fd.get('link') || '').trim(), language: lang, consent: true, submittedAt: new Date().toISOString(), ...track,
-  };
+  const data = { business: fd.get('business').trim(), phone, channel: 'whatsapp', language: lang, consent: true, submittedAt: new Date().toISOString(), ...track };
   const btn = document.getElementById('submit'); btn.disabled = true;
   try {
     if (FORM_ENDPOINT) {
