@@ -803,8 +803,8 @@
   .route.deep .login a { color: #fff; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; transition: color .2s var(--e-ui); }
   .route.deep .login a:hover { color: var(--od-eyebrow); }
   /* small text links get a 44px tall tap area without moving anything */
-  .route.deep .login a, .agree a { position: relative; }
-  .route.deep .login a::after, .agree a::after { content: ""; position: absolute; inset: -12px -4px; }
+  .route.deep .login a { position: relative; }
+  .route.deep .login a::after { content: ""; position: absolute; inset: -12px -4px; } /* not on .agree a: its tap area would cover the consent sentence above it */
   .route.talk { padding: 34px; background: var(--tile); border: 2px solid #fff; } /* 34 + the 2px border = card 1's 36 */
   .route.talk .eyebrow { font-weight: 500; color: var(--brand); }
   .route.talk h3 { color: var(--head); }
@@ -930,6 +930,8 @@
   .legal .copy { font-size: 14px; line-height: 18px; color: var(--od-3); text-wrap: balance; }
   .legal .credits { font-size: 12px; line-height: 18px; color: var(--od-cap); }
   .legal .made { margin-top: 24px; text-align: center; text-wrap: balance; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--od-2); }
+  .legal .made i { font-style: normal; }
+  @media (max-width: 767px) { .legal .made .mid { display: block; height: 0; overflow: hidden; } } /* two lines of two, no dot left hanging */
   html[lang="ar"] .legal .credits { font-size: 13px; }
   @media (min-width: 1024px) and (max-width: 1279px) { .foot-cols { gap: 40px; } .foot ul a { white-space: nowrap; } }
   @media (max-width: 1023px) {
@@ -1433,7 +1435,7 @@
     </div>
     <div class="legal">
       <div class="legal-row"><span class="copy" data-i18n="foot.copy">© 2026 The Seasons (FZE), which operates Alurei.</span><span class="credits" data-i18n="foot.credits">Photos and video: Unsplash and Pexels.</span></div>
-      <p class="made" data-i18n="foot.made">Better for families · Better for nannies · Better for children · Better for local businesses</p>
+      <p class="made" data-i18n-html="foot.made"><span>Better for families</span><i> · </i><span>Better for nannies</span><i class="mid"> · </i><span>Better for children</span><i> · </i><span>Better for local businesses.</span></p>
     </div>
   </div>
 </footer>
@@ -1509,7 +1511,7 @@ const AR = {
   'faq.5q': 'هل يمكنني تغيير عرضي؟', 'faq.5a': 'نعم. يمكنك تغيير عرضك أو إيقافه مؤقتاً في أي وقت من بوابة الشركاء، وتسري التغييرات اعتباراً من نشرها دون أن تؤثر على الحجوزات التي تمت بالفعل. ولإنهاء الشراكة، يكفي أن ترسل إلينا إشعاراً مسبقاً مدته 14 يوماً عبر البريد الإلكتروني.',
   'faq.6q': 'ماذا يحدث بعد التسجيل؟', 'faq.6a': 'سنراجع بياناتك ونتواصل معك خلال يومي عمل لتأكيد عرضك. وبعد الموافقة على صفحتك، تظهر في الخطة اليومية للعائلات.',
   'foot.tag': 'دليل مربيتك إلى يوم أفضل لطفلك.', 'foot.partners': 'الشركاء', 'foot.join': 'انضم كشريك', 'foot.account': 'أنشئ حساب الشريك', 'foot.login': 'دخول الشركاء', 'foot.legal': 'معلومات قانونية', 'foot.terms': 'شروط الشركاء', 'foot.privacy': 'سياسة خصوصية الشركاء',
-  'foot.copy': '© 2026 The Seasons (FZE)، الشركة التي تشغّل Alurei.', 'foot.made': 'أفضل للعائلات · أفضل للمربيات · أفضل للأطفال · أفضل للأعمال المحلية', 'foot.credits': 'الصور والفيديو: Unsplash وPexels.', 'err.send': 'تعذّر الإرسال. يرجى المحاولة مرة أخرى أو مراسلتنا على hello@alurei.app.',
+  'foot.copy': '© 2026 The Seasons (FZE)، الشركة التي تشغّل Alurei.', 'foot.made': '<span>أفضل للعائلات</span><i> · </i><span>أفضل للمربيات</span><i class=\"mid\"> · </i><span>أفضل للأطفال</span><i> · </i><span>أفضل للأعمال المحلية.</span>', 'foot.credits': 'الصور والفيديو: Unsplash وPexels.', 'err.send': 'تعذّر الإرسال. يرجى المحاولة مرة أخرى أو مراسلتنا على hello@alurei.app.',
   'faq.7q': 'كيف ستستخدم Alurei علامتك التجارية؟',
   'faq.7a': 'نعرض اسمك وشعارك وصورك وعرضك في التطبيق وعلى alurei.app وفي رسائلنا عبر البريد الإلكتروني وعلى وسائل التواصل الاجتماعي. ويسعدنا أن تذكر أنك من شركاء Alurei. أما البيانات التي تشاركها العائلات معك فهي لأغراض الحجز فقط، وليست لقوائم التسويق.',
   't.preview': 'معاينة فقط: لم يتم إرسال أي بيانات. للانضمام الآن، راسلنا على hello@alurei.app.',
@@ -2100,7 +2102,7 @@ const GULF = ['971', '966', '974', '965', '973', '968'];
 // Mobile and landline shapes after the country code (UAE mobiles 5x xxx xxxx, landlines 2/3/4/6/7/9 x xxx xxxx, and so on).
 const SHAPE = { 971: /^(5\d{8}|[234679]\d{7})$/, 966: /^(5\d{8}|1\d{7,8})$/, 974: /^[34567]\d{7}$/, 965: /^[124569]\d{7}$/, 973: /^[136]\d{7}$/, 968: /^[279]\d{7}$/ };
 function normPhone(raw, cc) {
-  const s = latin(raw).trim(); let d = s.replace(/\D/g, '');
+  const s = latin(raw).replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '').replace(/\(0\)/g, '').trim(); let d = s.replace(/\D/g, '');
   if (/^(\+|00)/.test(s)) {
     if (s.startsWith('00')) d = d.slice(2);
     // No country code starts with 0: '+050 123 4567' is a local number with a stray +, read it with the chosen country (UAE if none)
