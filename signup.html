@@ -1,0 +1,1385 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Partner sign-up · design prototype</title>
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Clickable design of the Alurei partner sign-up. Nothing is saved or sent. -->
+<style>
+  :root {
+    --page:#F4F4F4; --tile:#E7EEEF; --line:#EEF2F6; --rule:#F0F2F8; --tabs:#041D21;
+    --found:#062E35; --found-line:#083C44; --found-on:#0A4C57; --avatar:#005B66;
+    --brand:#0B5460; --brand-h:#08424B; --accent:#009E9E; --eyebrow:#007070; --tile-line:#CAEFEF; --soft:#D7EFEF; --ok-tint:#E7F6F7;
+    --head:#202939; --strong:#364152; --body:#4B5565; --muted:#697586; --muted-field:#637083; --od-1:#EEF2F6; --od-2:#E3E8EF; --od-3:#CDD5DF;
+    --field:#F8FAFC; --in-line:#E8ECF4; --field-line:#76929A; --req:#EF4444;
+    --err:#E11D48; --err-ink:#BE123C; --err-bg:#FFF1F2; --err-line:#FECDD3; --ok:#067647;
+    --e-ui:cubic-bezier(.4,0,.2,1); --e-out3:cubic-bezier(.25,1,.5,1); --e-back:cubic-bezier(.34,1.45,.64,1); --e-enter:cubic-bezier(.16,1,.3,1);
+    --bar:40px;
+    --chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234B5565' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    --tickmark:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; min-height: 100vh; background: var(--page); color: var(--body); font: 400 14px/20px Inter, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, p { margin: 0; }
+  a { color: var(--brand); }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  [tabindex="-1"]:focus { outline: none; }
+  .vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  svg { display: block; }
+  /* Our suggestions show only with "Show our suggestions" on */
+  body:not(.ours) [data-ours] { display: none !important; }
+  body.ours [data-hers] { display: none !important; }
+
+  /* ---------- Prototype chrome (not part of the design) ---------- */
+  .proto { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; min-height: var(--bar); padding: 6px 24px; background: #FFF7E6; border-bottom: 1px solid #F3E1B8; color: #6B4E16; font-size: 13px; line-height: 18px; }
+  .proto .pt { flex: 1 1 auto; min-width: 0; }
+  .proto b { font-weight: 600; }
+  .pt-home { font-weight: 600; }
+  .tryas { display: inline-flex; align-items: center; gap: 8px; }
+  .tryas .tseg { display: inline-flex; padding: 2px; border-radius: 999px; background: #FBEBC8; }
+  .tryas label { position: relative; }
+  .tryas input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: pointer; }
+  .tryas label span { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; font-weight: 500; white-space: nowrap; }
+  .tryas input:checked + span { background: #6B4E16; color: #FFF7E6; }
+  .tryas input:focus-visible + span { outline: 2px solid #6B4E16; outline-offset: 1px; }
+  .tgs { display: inline-flex; flex-wrap: wrap; gap: 4px 18px; }
+  .tg { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap; user-select: none; }
+  .tg input { accent-color: #6B4E16; width: 16px; height: 16px; margin: 0; }
+  .tg.ours-t { font-weight: 600; }
+  #tryAsL { white-space: nowrap; }
+  @media (min-width: 640px) { .tgs { flex-wrap: nowrap; } }
+  /* One 40px row only where everything fits; from 1024 to 1199 the bar wraps to two padded rows */
+  @media (min-width: 1200px) { .proto { flex-wrap: nowrap; height: var(--bar); padding-block: 0; } .proto .pt { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
+  @media (max-width: 1023px) { .tryas { order: 3; } }
+  @media (max-width: 639px) { .proto { padding-inline: 16px; } .pt-long { display: none; } }
+  .toast { position: fixed; left: 50%; bottom: 24px; z-index: 40; width: max-content; max-width: calc(100% - 32px); padding: 10px 14px; border-radius: 12px; background: #FFF7E6; border: 1px solid #F3E1B8; color: #6B4E16; font-size: 13px; line-height: 18px; box-shadow: 0 8px 24px rgba(0,0,0,.12); opacity: 0; transform: translate(-50%, 10px); pointer-events: none; transition: opacity .2s var(--e-ui), transform .2s var(--e-ui); }
+  .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  .proto-next { display: inline-flex; align-items: center; gap: 8px; margin-top: 36px; padding: 8px 14px; border-radius: 999px; border: 1px dashed #E0C27A; background: #FFF7E6; color: #6B4E16; font-size: 13px; line-height: 18px; font-weight: 500; cursor: pointer; }
+  .proto-next { transition: background-color .2s var(--e-ui), transform .15s var(--e-ui); }
+  .proto-next:hover { background: #FBEBC8; }
+
+  /* Tags: "New" = new in your mockup; T = our suggestion, shown with "Show our suggestions" */
+  body.ours .pin.t { display: inline-block; }
+  .pin { display: none; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--eyebrow); color: #fff; font-size: 11px; line-height: 20px; font-weight: 700; font-style: normal; text-align: center; vertical-align: 1px; margin-inline-start: 6px; box-shadow: 0 0 0 2px #fff; letter-spacing: 0; white-space: nowrap; }
+  .pin.t { background: #FFF7E6; color: #6B4E16; box-shadow: 0 0 0 1px #E0C27A, 0 0 0 3px #fff; }
+  body.notes .pin:not(.t), body.notes.ours .pin.t, body.notes .pin.t.always { display: inline-block; }
+
+  /* ---------- The app's sign-up column ---------- */
+  .auth { padding: 32px 24px 80px; }
+  .col { max-width: 540px; margin: 0 auto; }
+  @media (max-width: 639px) { .auth { padding: 24px 16px 64px; } }
+
+  .tabs { display: flex; width: 100%; max-width: 358px; height: 51px; margin: 0 auto 24px; padding: 4px; background: var(--tabs); border: 1px solid rgba(255,255,255,.10); border-radius: 16px; }
+  .tabs button { flex: 1; height: 41px; border: 0; border-radius: 14px; background: transparent; color: #fff; font-size: 14px; line-height: 20px; font-weight: 700; cursor: pointer; transition: background-color .2s var(--e-ui), transform .15s var(--e-ui); }
+  .tabs button[aria-pressed="true"] { background: var(--brand); }
+  .tabs button[aria-pressed="false"]:hover { background: rgba(255,255,255,.06); }
+  .tabs button:focus-visible { outline-color: #8AD2D2; outline-offset: -1px; }
+
+  .intro { text-align: center; }
+  .intro h1 { font-size: 24px; line-height: 32px; font-weight: 600; color: var(--head); }
+  .intro p { margin-top: 10px; font-size: 14px; line-height: 20px; color: var(--body); }
+  .intro p, .f > legend, .help, .callout { text-wrap: pretty; }
+  body[data-scr="s2"] .intro p, body[data-scr="s3"] .intro p, body[data-scr="s4"] .intro p { font-size: 16px; line-height: 24px; }
+
+  .steps { display: flex; justify-content: center; align-items: center; list-style: none; margin: 36px 0 0; padding: 0; }
+  .steps li { display: flex; align-items: center; }
+  .steps li + li::before { content: ""; width: 48px; height: 2px; margin: 0 8px; border-radius: 2px; background: var(--tile); }
+  .steps .c { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--tile); color: var(--body); font-size: 14px; line-height: 20px; font-weight: 500; }
+  .steps .st-cur .c, .steps .st-done .c { background: var(--brand); color: #fff; }
+  .steps .c svg { width: 14px; height: 14px; }
+  @media (max-width: 379px) { .steps li + li::before { width: 40px; } }
+
+  .card { position: relative; margin-top: 28px; padding: 32px; background: #fff; border: 1px solid var(--tile); border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,.06); }
+  @media (max-width: 479px) { .card { padding: 24px; } }
+  .ct { font-size: 16px; line-height: 24px; font-weight: 500; color: var(--head); }
+  .banner { margin-top: 20px; padding: 12px; border: 1px solid var(--err-line); border-radius: 12px; background: var(--err-bg); color: var(--err-ink); font-size: 14px; line-height: 20px; font-weight: 500; }
+  .banner:first-child { margin-top: 0; }
+  .banner a { color: inherit; font-weight: 600; text-underline-offset: 2px; }
+  .banner, .card input, .card select, .card textarea, .lt { scroll-margin-top: 96px; scroll-margin-bottom: 24px; }
+  .fields { display: grid; gap: 18px; margin-top: 24px; }
+  .fields:first-child { margin-top: 0; }
+  .banner + .fields { margin-top: 20px; }
+  /* Log-in: both boxes are usually hidden, so the fields start at the card's own 32px padding */
+  #loginForm .fields { margin-top: 0; }
+  #loginForm .banner:not([hidden]) ~ .fields { margin-top: 20px; }
+  /* Her flow on a phone: when the field to fix is far below the red box, the box stays pinned under the top bar */
+  .banner.stick { position: sticky; top: calc(var(--proto-h, var(--bar)) + 8px); z-index: 4; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+  .banner.stick::before { content: ""; position: absolute; inset-inline: -1px; bottom: calc(100% + 1px); height: 10px; background: #fff; } /* fills the gap under the bar */
+
+  /* Fields: the app's look (40px, faint border). T3 makes them taller, clearer, with a teal ring and a message under each field. */
+  .f { display: grid; gap: 8px; align-content: start; min-width: 0; margin: 0; padding: 0; border: 0; }
+  .f > legend { padding: 0; margin-bottom: 8px; }
+  .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px 14px; }
+  @media (max-width: 479px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+  .lbl, .f > label, .f > legend { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--head); }
+  .req { color: var(--req); font-style: normal; margin-inline-start: 3px; }
+  .opt { font-weight: 400; color: var(--muted); }
+  .inp { width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--in-line); border-radius: 16px; background: var(--field); color: var(--head); font-size: 14px; line-height: 20px; transition: border-color .15s var(--e-ui), box-shadow .15s var(--e-ui); }
+  .inp::placeholder { color: var(--muted-field); opacity: 1; }
+  .inp:focus, .tel:focus-within { outline: none; border-color: var(--field-line); box-shadow: 0 0 0 1px var(--field-line); }
+  select.inp { appearance: none; -webkit-appearance: none; padding-inline-end: 38px; background-image: var(--chev); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; cursor: pointer; text-overflow: ellipsis; }
+  select.inp.empty { color: var(--muted-field); }
+  select.inp option { color: var(--head); }
+  select.inp option:disabled { color: #9AA4B2; }
+  textarea.inp.grow { display: block; height: 40px; padding: 9px 12px; resize: none; overflow: hidden; }
+  body.ours .inp, body.ours .tel { height: 44px; border-color: var(--field-line); }
+  body.ours textarea.inp.grow { height: 44px; padding: 11px 12px; }
+  body.ours .inp:focus, body.ours .tel:focus-within { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(0,158,158,.2); }
+  @media (max-width: 639px) {
+    .inp { font-size: 16px; }
+    textarea.inp.grow, body.ours textarea.inp.grow { height: 66px; line-height: 22px; padding: 10px 12px; }
+    /* Only Address starts on two lines (its example wraps); Opening Hours stays one line until it needs more */
+    textarea.inp.grow[id^="hours-"] { height: 40px; line-height: 20px; padding: 9px 12px; }
+    body.ours textarea.inp.grow[id^="hours-"] { height: 44px; line-height: 20px; padding: 11px 12px; }
+  }
+  @media (max-width: 379px) { input[id^="tt-"] { padding-inline: 10px; } input[id^="tt-"]::placeholder { font-size: 14px; } }
+  body.ours .f.bad > .inp, body.ours .f.bad > .tel, body.ours .f.bad .pctrow .inp { border-color: var(--err); }
+  body.ours .f.bad > .inp:focus, body.ours .f.bad > .tel:focus-within { box-shadow: 0 0 0 2px rgba(225,29,72,.18); }
+  .err { display: flex; gap: 6px; align-items: flex-start; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--err); }
+  .err::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 5px; border-radius: 50%; background: currentColor; }
+  .okn { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ok); }
+  .help { font-size: 13px; line-height: 18px; color: var(--body); }
+  .f > .help { margin-top: -2px; }
+
+  .upload { display: grid; justify-items: center; gap: 4px; padding: 26px; border: 2px dashed var(--od-3); border-radius: 18px; text-align: center; cursor: pointer; transition: border-color .2s var(--e-ui), background-color .2s var(--e-ui); }
+  .upload:hover { border-color: var(--field-line); background: #FCFCFD; }
+  #logo:focus-visible + .upload { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .up-ic { width: 40px; height: 40px; margin-bottom: 8px; border-radius: 50%; display: grid; place-items: center; background: #F5F5F4; color: var(--head); overflow: hidden; }
+  .up-ic svg { width: 18px; height: 18px; }
+  .up-ic img { width: 100%; height: 100%; object-fit: cover; }
+  .upload b { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--head); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .upload small { font-size: 12px; line-height: 16px; color: var(--muted); }
+
+  .tel { display: flex; height: 40px; border: 1px solid var(--in-line); border-radius: 16px; background: var(--field); overflow: hidden; transition: border-color .15s var(--e-ui), box-shadow .15s var(--e-ui); }
+  .cc { position: relative; flex: none; display: flex; align-items: center; gap: 4px; padding: 0 8px 0 12px; border-inline-end: 1px solid #D5E4E6; color: var(--head); font-weight: 500; }
+  .cc svg { width: 14px; height: 14px; color: var(--body); }
+  .cc select { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; border: 0; cursor: pointer; font-size: 16px; }
+  .tel input { flex: 1; min-width: 0; height: 100%; padding: 0 12px; border: 0; background: transparent; color: var(--head); font-size: 14px; }
+  .tel input::placeholder { color: var(--muted-field); opacity: 1; }
+  .tel input:focus { outline: none; }
+  @media (max-width: 639px) { .tel input { font-size: 16px; } } /* 16px like every other field, so iPhones don't zoom */
+  .f.same .tel { background: #F2F4F7; }
+  .f.same .tel input, .f.same .cc { color: var(--strong); }
+
+  .rads { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+  .radio { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; font-size: 14px; line-height: 20px; color: var(--head); cursor: pointer; }
+  .radio input { appearance: none; -webkit-appearance: none; flex: none; width: 20px; height: 20px; margin: 0; border: 1.5px solid var(--brand); border-radius: 50%; background: #fff; display: grid; place-items: center; cursor: pointer; transition: background-color .2s var(--e-ui); }
+  .radio input::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--brand); transform: scale(0); transition: transform .15s var(--e-back); }
+  .radio input:checked::after { transform: scale(1); }
+  .otpopt > legend { font-size: 16px; line-height: 24px; margin-bottom: 4px; }
+
+  /* Tick boxes (her [tick] items) */
+  .tick { appearance: none; -webkit-appearance: none; flex: none; width: 24px; height: 24px; margin: 0; border: 1.5px solid var(--field-line); border-radius: 6px; background: #fff; display: grid; place-items: center; cursor: pointer; transition: background-color .2s var(--e-ui), border-color .2s var(--e-ui); }
+  .tick::after { content: ""; width: 14px; height: 14px; background: var(--tickmark) center / contain no-repeat; opacity: 0; transform: scale(.8); transition: opacity .15s var(--e-ui), transform .15s var(--e-back); }
+  .tick:checked { background: var(--brand); border-color: var(--brand); }
+  .tick:checked::after { opacity: 1; transform: scale(1); }
+  .tick.sm { width: 20px; height: 20px; border-radius: 5px; }
+  .tick.sm::after { width: 12px; height: 12px; }
+  .tick:disabled { background: #F2F4F7; border-color: var(--od-3); cursor: not-allowed; }
+  .tickl { display: inline-flex; align-items: center; gap: 10px; min-height: 32px; font-size: 14px; line-height: 20px; color: var(--head); cursor: pointer; }
+  .ages { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 2px 16px; }
+  body.ours .f.bad .ages, body.ours .f.bad > .rads { border-radius: 8px; box-shadow: 0 0 0 1px var(--err); padding: 2px 8px; }
+
+  /* Step 2: her three offers */
+  .orows { display: grid; gap: 10px; }
+  .orow { border: 1px solid var(--tile); border-radius: 16px; background: var(--field); transition: border-color .2s var(--e-ui), background-color .2s var(--e-ui); }
+  .orow.on { border-color: var(--brand); background: #fff; }
+  .ohead { display: flex; gap: 12px; align-items: flex-start; min-height: 52px; padding: 14px 16px; cursor: pointer; }
+  .otx { min-width: 0; }
+  .otx b { display: block; font-size: 15px; line-height: 22px; font-weight: 600; color: var(--head); }
+  .otx small { display: block; font-size: 13px; line-height: 18px; color: var(--body); }
+  .otx .needs { display: none; margin-top: 4px; color: var(--strong); font-weight: 500; }
+  .orow.dis .ohead { cursor: not-allowed; }
+  .orow.dis .otx b { color: var(--muted-field); }
+  .orow.dis .needs { display: block; }
+  .omore { display: grid; gap: 14px; padding: 0 16px 16px 52px; }
+  .sub { display: grid; gap: 6px; min-width: 0; }
+  .sl, .sub > legend { font-size: 13px; line-height: 18px; font-weight: 500; color: var(--head); }
+  .peakmore { margin-top: 4px; }
+  .pctrow { display: flex; align-items: center; gap: 10px; }
+  .pctrow .inp { width: 80px; text-align: center; }
+  .pctrow span { font-size: 14px; font-weight: 500; color: var(--strong); }
+  .callout { padding: 12px 14px; border-radius: 12px; background: var(--tile); color: var(--strong); font-size: 14px; line-height: 20px; }
+  .carried { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--tile); color: var(--strong); font-size: 14px; line-height: 20px; }
+  .carried svg { width: 18px; height: 18px; margin-top: 1px; flex: none; color: var(--brand); }
+  @media (max-width: 479px) { .omore { padding-inline-start: 16px; } }
+
+  /* Step 3: locations */
+  .locs { display: grid; gap: 22px; }
+  .loc { display: grid; gap: 18px; }
+  .loc + .loc { padding-top: 22px; border-top: 1px solid var(--rule); }
+  .loch { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .lt { font-size: 15px; line-height: 22px; font-weight: 600; color: var(--head); }
+  .rm { padding: 6px 4px; border: 0; background: none; color: var(--brand); font-size: 14px; line-height: 20px; font-weight: 500; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; transition: color .2s var(--e-ui), transform .15s var(--e-ui); }
+  .branch { display: grid; gap: 4px; padding: 16px; border: 1px dashed var(--od-3); border-radius: 16px; }
+  .addloc { justify-self: start; margin-top: 8px; height: 40px; padding: 0 14px; border: 1px solid var(--tile-line); border-radius: 16px; background: #fff; color: var(--brand); font-size: 14px; line-height: 20px; font-weight: 600; cursor: pointer; transition: background-color .2s var(--e-ui), transform .15s var(--e-ui); }
+  .addloc:hover { background: var(--ok-tint); }
+  body.ours .addloc { height: 44px; }
+
+  .termsl { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 20px; color: var(--strong); cursor: pointer; }
+  .termsl .tick { margin-top: -2px; }
+  .termsl a { transition: color .2s var(--e-ui); }
+
+  .summary { padding: 16px 18px; border-radius: 10px; background: var(--page); }
+  .summary > span { display: block; font-size: 12px; line-height: 18px; font-weight: 600; color: var(--body); }
+  .summary dl { display: grid; gap: 8px; margin: 10px 0 0; }
+  .summary dl > div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; }
+  body.notes .summary dl > div { grid-template-columns: 116px minmax(0, 1fr); }
+  .summary dt { font-size: 13px; line-height: 20px; color: var(--body); }
+  .summary dd { margin: 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--head); overflow-wrap: anywhere; }
+  .summary dd span { display: block; }
+  .summary dd.none { font-weight: 400; font-style: italic; color: var(--body); }
+  @media (max-width: 379px) { .summary dl > div, body.notes .summary dl > div { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+
+  .actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule); }
+  .actions.end { justify-content: flex-end; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 16px; border: 1px solid transparent; border-radius: 16px; font-size: 14px; line-height: 20px; font-weight: 600; text-decoration: none; white-space: nowrap; cursor: pointer; transition: background-color .2s var(--e-ui), transform .15s var(--e-ui); }
+  body.ours .btn { height: 44px; }
+  .btn:active { transform: scale(.98); }
+  .btn.pri { background: var(--brand); color: #fff; }
+  .btn.pri:hover { background: var(--brand-h); }
+  .btn.sec { background: #EEF2F6; border-color: #E8ECF4; color: var(--head); }
+  .btn.sec:hover { background: var(--od-2); }
+  .btn:disabled { opacity: .5; cursor: default; transform: none; }
+
+  /* Request sent */
+  .done { display: grid; justify-items: center; padding-top: 24px; text-align: center; }
+  .okc { width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; background: var(--ok-tint); color: var(--brand); }
+  .okc svg { width: 48px; height: 48px; }
+  .done h1 { margin-top: 28px; font-size: 30px; line-height: 38px; font-weight: 600; color: #0A0A0A; text-wrap: balance; }
+  .done p { margin-top: 12px; max-width: 460px; font-size: 16px; line-height: 24px; color: var(--body); overflow-wrap: anywhere; }
+  .done p b { font-weight: 600; color: var(--head); }
+  .done .btn { margin-top: 28px; min-width: 136px; }
+  @media (max-width: 639px) { .done h1 { font-size: 24px; line-height: 32px; } }
+
+  /* Log-in */
+  .forgot { margin-top: 12px; text-align: end; }
+  .forgot a { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--brand); text-decoration: none; }
+  .forgot a:hover { text-decoration: underline; }
+
+  /* ---------- Venue card (T4): the app's offer-card anatomy ---------- */
+  .pl { font-size: 12px; line-height: 18px; font-weight: 600; color: var(--body); }
+  .prev { display: grid; gap: 8px; }
+  .prev-side { display: none; }
+  @media (min-width: 1280px) {
+    body.ours .prev-side { display: block; position: absolute; top: 0; bottom: 0; inset-inline-start: calc(100% + 28px); width: 300px; }
+    body.ours .prev-inline { display: none !important; }
+  }
+  @media (min-width: 1400px) { body.ours .prev-side { width: 340px; } }
+  .prev-side .prev { position: sticky; top: calc(var(--proto-h, var(--bar)) + 20px); }
+  .vc { overflow: hidden; border: 1px solid var(--tile); border-radius: 16px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.04); }
+  .vc-ban { position: relative; height: 150px; background: var(--tile); }
+  .vc-ban img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .vc-ex { position: absolute; top: 10px; inset-inline-end: 10px; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,.92); color: var(--brand); font-size: 11px; line-height: 16px; font-weight: 600; }
+  .vc-body { padding: 16px; }
+  .vc-head { display: flex; align-items: center; gap: 10px; }
+  .vc-head > div { min-width: 0; }
+  .vc-av { flex: none; width: 36px; height: 36px; padding: 7px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; background: rgba(0,158,158,.10); color: var(--brand); font-size: 13px; line-height: 1; font-weight: 700; }
+  .vc-av.img { padding: 0; }
+  .vc-av img { width: 100%; height: 100%; object-fit: cover; }
+  .vc-name { display: block; font-size: 18px; line-height: 26px; font-weight: 600; color: var(--head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .vc-sub { display: block; font-size: 13px; line-height: 18px; color: var(--body); }
+  .vc-class, .vc-price { margin-top: 16px; }
+  .vc-t { display: block; font-size: 16px; line-height: 24px; font-weight: 600; color: var(--head); }
+  .vc-s { display: block; margin-top: 2px; font-size: 13px; line-height: 18px; color: var(--body); }
+  .vc-peak { display: flex; align-items: flex-start; gap: 6px; margin-top: 8px; font-size: 13px; line-height: 18px; color: var(--eyebrow); }
+  .vc-peak svg { width: 14px; height: 14px; flex: none; margin-top: 2px; }
+  .vc-drink { display: flex; gap: 12px; align-items: flex-start; margin-top: 12px; padding: 12px 16px; border: 1px solid #E4E7EC; border-radius: 16px; }
+  .vc-drink svg { width: 20px; height: 20px; flex: none; color: var(--accent); }
+  .vc-drink b { display: block; font-size: 14px; line-height: 20px; font-weight: 600; color: var(--head); }
+  .vc-drink small { display: block; font-size: 13px; line-height: 18px; color: var(--body); }
+  .vc-btn { display: flex; align-items: center; justify-content: center; height: 44px; margin-top: 12px; border-radius: 16px; background: var(--brand); color: #fff; font-size: 14px; line-height: 20px; font-weight: 600; }
+  .vc-btn.alt { background: #FAFAFA; border: 1px solid var(--accent); color: var(--eyebrow); font-weight: 500; }
+  .vc-div { height: 1px; margin: 16px 0 0; border: 0; background: var(--line); }
+  .vc-empty { margin-top: 16px; padding: 16px; border-radius: 12px; background: var(--page); text-align: center; font-size: 14px; line-height: 20px; color: var(--body); }
+
+  /* ---------- Partner portal: the "In review" page (T8) ---------- */
+  .portal { display: grid; grid-template-columns: 256px minmax(0, 1fr); min-height: calc(100vh - var(--proto-h, var(--bar))); background: var(--page); }
+  .side { background: var(--found); color: var(--od-3); }
+  .side-in { position: sticky; top: var(--proto-h, var(--bar)); height: calc(100vh - var(--proto-h, var(--bar))); display: flex; flex-direction: column; padding: 24px 16px 20px; overflow-y: auto; }
+  .side-top { padding: 0 8px 20px; border-bottom: 1px solid var(--found-line); }
+  .side-top img { display: block; width: auto; height: 30px; }
+  .side-top span { display: block; margin-top: 8px; font-size: 16px; line-height: 24px; color: var(--od-3); }
+  .snav { display: grid; gap: 4px; margin-top: 20px; }
+  .snav a, .snav button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 16px; border: 0; border-radius: 16px; background: none; color: var(--od-3); font-size: 16px; line-height: 24px; font-weight: 400; text-align: start; text-decoration: none; cursor: pointer; transition: background-color .2s var(--e-ui), transform .15s var(--e-ui); }
+  .snav [aria-current="page"] { background: var(--found-on); color: #fff; font-weight: 500; }
+  .snav button:hover { background: rgba(255,255,255,.05); }
+  .snav svg { width: 20px; height: 20px; flex: none; }
+  .side-user { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--found-line); }
+  .su { display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+  .su > div { min-width: 0; }
+  .av { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--avatar); color: #fff; font-size: 18px; font-weight: 600; }
+  .su b { display: block; font-size: 18px; line-height: 26px; font-weight: 500; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .su small { display: block; font-size: 13px; line-height: 18px; color: var(--od-3); }
+  .logout { display: flex; align-items: center; gap: 10px; width: 100%; margin-top: 14px; padding: 10px 16px; border: 0; border-radius: 16px; background: none; color: var(--od-3); font-size: 15px; line-height: 22px; cursor: pointer; transition: background-color .2s var(--e-ui), color .2s var(--e-ui), transform .15s var(--e-ui); }
+  .logout:hover { background: rgba(255,255,255,.05); color: #fff; }
+  .logout svg { width: 18px; height: 18px; }
+  .pmain { min-width: 0; }
+  .ptop { position: sticky; top: var(--proto-h, var(--bar)); z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 46px; background: #fff; border-bottom: 1px solid var(--line); }
+  .ptop h1 { font-size: 20px; line-height: 28px; font-weight: 600; color: var(--head); }
+  .av.sm { width: 36px; height: 36px; font-size: 15px; background: var(--brand); }
+  .pcont { display: grid; gap: 24px; padding: 32px 46px 64px; }
+  .phero { position: relative; overflow: hidden; min-height: 145px; padding: 32px; border-radius: 16px; background: var(--brand); }
+  .phero::before, .phero::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
+  .phero::before { width: 200px; height: 200px; top: -80px; inset-inline-end: -50px; background: rgba(255,255,255,.06); }
+  .phero::after { width: 150px; height: 150px; top: -70px; inset-inline-end: 110px; background: rgba(255,255,255,.04); }
+  .phero > * { position: relative; }
+  .hi { font-size: 14px; line-height: 20px; color: var(--od-3); }
+  .hn { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 4px; }
+  .hn h2 { font-size: 24px; line-height: 32px; font-weight: 600; color: var(--od-1); overflow-wrap: anywhere; }
+  .rev { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: #FEF0C7; color: #B54708; font-size: 12px; line-height: 18px; font-weight: 500; }
+  .rev i { width: 6px; height: 6px; border-radius: 50%; background: #F79009; }
+  .hs { margin-top: 10px; max-width: 560px; font-size: 14px; line-height: 20px; color: var(--od-2); }
+  .nexts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+  .nx { padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+  .nx .ic { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: var(--tile); color: var(--brand); }
+  .nx .ic svg { width: 20px; height: 20px; }
+  .nx b { display: block; margin-top: 14px; font-size: 16px; line-height: 24px; font-weight: 600; color: var(--head); }
+  .nx p { margin-top: 4px; font-size: 14px; line-height: 20px; color: var(--body); }
+  .ycard h2 { font-size: 18px; line-height: 28px; font-weight: 600; color: var(--head); }
+  .ycard .vc { max-width: 400px; margin-top: 12px; }
+  .ycard .btn { margin-top: 16px; }
+  @media (min-width: 1024px) { .ph1 { display: none !important; } } /* below 1024 the top bar (and its h1) is hidden */
+  @media (max-width: 1023px) {
+    .portal { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .side-in { position: static; height: 64px; flex-direction: row; align-items: center; gap: 12px; padding: 0 16px; overflow: visible; }
+    .side-top { padding: 0; border: 0; }
+    .side-top img { height: 26px; }
+    .side-top span, .snav, .su > div { display: none; }
+    .side-user { display: flex; align-items: center; gap: 4px; margin: 0 0 0 auto; padding: 0; border: 0; }
+    .su { padding: 0; }
+    .side .av { width: 36px; height: 36px; font-size: 15px; }
+    .logout { width: auto; margin: 0; padding: 8px 10px; }
+    .ptop { display: none; }
+    .pcont { gap: 16px; padding: 24px 16px 48px; }
+    .phero { padding: 24px; }
+    .nexts { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  }
+
+  /* ---------- Design notes panel ---------- */
+  .npanel { display: none; max-width: 1040px; margin: 0 auto 64px; padding: 0 24px; }
+  body.notes .npanel { display: block; }
+  .notes-in { padding: 24px 26px 20px; border: 1px solid #F3E1B8; border-radius: 16px; background: #FFFDF7; color: #4A3A12; font-size: 14px; line-height: 21px; }
+  .npanel h2 { font-size: 16px; line-height: 24px; font-weight: 600; color: #4A3A12; }
+  .npanel h3 { margin: 20px 0 10px; font-size: 13px; line-height: 18px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: #6B4E16; }
+  .npanel .lede { margin-top: 4px; color: #6B4E16; }
+  .nl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 28px; margin: 0; padding: 0; list-style: none; }
+  .nl.one { grid-template-columns: minmax(0, 1fr); }
+  .nl li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; align-items: start; }
+  .nl .pin { display: inline-block; margin: 0; justify-self: start; }
+  .nl em { display: block; margin-top: 2px; font-style: normal; font-size: 12.5px; line-height: 18px; color: #8A6D1F; }
+  .bl { margin: 0; padding-inline-start: 18px; display: grid; gap: 6px; }
+  .npanel code { font-size: 12.5px; padding: 1px 4px; border-radius: 4px; background: #FBEBC8; overflow-wrap: anywhere; }
+  .npanel a { color: #6B4E16; font-weight: 600; }
+  .npanel details { margin-top: 20px; padding-top: 14px; border-top: 1px solid #F3E1B8; }
+  .npanel summary { cursor: pointer; font-weight: 600; color: #4A3A12; }
+  .npanel details ul { margin: 10px 0 0; padding-inline-start: 18px; display: grid; gap: 6px; }
+  .npanel details ul ul { margin-top: 6px; }
+  @media (max-width: 760px) { .nl { grid-template-columns: minmax(0, 1fr); } .npanel { padding: 0 16px; } .notes-in { padding: 20px 18px 16px; } }
+
+  /* ---------- Hover and press, as on alurei.app (200ms colour change, scale .98 when pressed) ---------- */
+  @media (hover: hover) {
+    .tickl:hover .tick:not(:checked):not(:disabled), .ohead:hover .tick:not(:checked):not(:disabled), .termsl:hover .tick:not(:checked) { border-color: var(--brand); background: #F2F6F7; }
+    .radio:hover input:not(:checked) { background: #F2F6F7; }
+    .orow:not(.on):not(.dis):hover { border-color: var(--tile-line); background: #fff; }
+    .rm:hover, .termsl a:hover { color: var(--brand-h); text-decoration-thickness: 2px; }
+  }
+  .tabs button:active, .addloc:active, .rm:active, .logout:active, .snav button:active, .proto-next:active { transform: scale(.98); }
+
+  /* ---------- Tap targets on phones: 44px rows for ticks, radios and small links ---------- */
+  @media (max-width: 639px) {
+    .tickl, .radio { min-height: 44px; }
+    .ages { row-gap: 0; }
+    .rm { min-height: 44px; padding: 12px 8px; }
+    .forgot a { display: inline-flex; align-items: center; min-height: 44px; }
+    .logout { min-height: 44px; }
+    .termsl { line-height: 24px; }
+    .termsl .tick { margin-top: 0; }
+    .termsl a { padding-block: 4px; } /* a 24px-tall target for the links inside the sentence */
+  }
+
+  /* ---------- Motion: screen change, block entry, success pop ---------- */
+  @keyframes scrIn { from { opacity: 0; transform: translateY(14px); } }
+  @keyframes blkIn { from { opacity: 0; transform: translateY(8px); } }
+  @keyframes pop { from { opacity: 0; transform: scale(.8); } }
+  .scr-in { animation: scrIn .45s var(--e-enter) both; }
+  .enter { animation: blkIn .3s var(--e-out3) both; }
+  .done.scr-in .okc, .scr-in .done .okc { animation: pop .5s var(--e-back) .12s both; }
+  @media (prefers-reduced-motion: reduce) {
+    .scr-in, .enter, .done.scr-in .okc, .scr-in .done .okc { animation: none !important; }
+    .tick::after, .radio input::after, .toast { transition: none !important; }
+  }
+  html.still .scr-in, html.still .enter, html.still .done.scr-in .okc, html.still .scr-in .done .okc { animation: none !important; }
+  html.still .tick::after, html.still .radio input::after, html.still .toast { transition: none !important; }
+</style>
+</head>
+<body data-scr="s1">
+
+<div class="proto" role="region" aria-label="Prototype controls">
+  <span class="pt"><b>Design prototype</b><span class="pt-long"> · Your partner sign-up mockup (18 Nov), clickable. Nothing is saved or sent.</span><span class="pt-home" id="ptHome" hidden> · This page is our suggestion (T8)</span></span>
+  <div class="tryas" id="tryAs" role="radiogroup" aria-labelledby="tryAsL" hidden>
+    <span id="tryAsL">Try as:</span>
+    <span class="tseg">
+      <label><input type="radio" name="tryas" value="partner" checked><span>Partner in review</span></label>
+      <label><input type="radio" name="tryas" value="family"><span>Family account</span></label>
+    </span>
+  </div>
+  <span class="tgs">
+    <label class="tg ours-t"><input type="checkbox" id="oursT"> Show our suggestions</label>
+    <input type="checkbox" id="notesT" hidden>
+  </span>
+</div>
+
+<!-- ======== The app's sign-up and log-in column ======== -->
+<main class="auth" id="auth">
+  <div class="col" id="col">
+    <div class="tabs" id="tabs" role="group" aria-label="Partner account">
+      <button type="button" data-tab="s1" aria-pressed="true">Sign up</button>
+      <button type="button" data-tab="login" aria-pressed="false">Log in</button>
+    </div>
+
+    <header class="intro" id="intro">
+      <h1 id="introT" tabindex="-1">Welcome to Alurei Partners</h1>
+      <p id="introS">Let's set up your business before you get started.</p>
+    </header>
+
+    <ol class="steps" id="steps" aria-label="Sign-up steps"></ol>
+
+    <!-- STEP 1: Business Details -->
+    <form class="card" id="s1" novalidate>
+      <h2 class="ct" tabindex="-1">Step 1 — Business Details<span class="pin t" aria-hidden="true">T3</span></h2>
+      <p class="banner" data-sum role="alert" hidden></p>
+      <div class="fields">
+        <div class="f">
+          <input type="file" id="logo" class="vh" accept="image/png,image/jpeg">
+          <label for="logo" class="upload">
+            <span class="up-ic" id="upIc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M7 9l5-5 5 5"/><path d="M20 15v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-4"/></svg></span>
+            <b id="upT">Upload logo <span class="opt">(optional)</span></b>
+            <small id="upS">PNG or JPG. You can add it later.</small>
+          </label>
+        </div>
+
+        <div class="f" data-f="venue">
+          <label for="venue">Business Name<i class="req" aria-hidden="true">*</i></label>
+          <input class="inp" id="venue" type="text" autocomplete="organization" placeholder="e.g. Little Stars Nursery" aria-required="true">
+          <p class="err" hidden></p>
+        </div>
+
+        <div class="f" data-f="cat">
+          <label for="cat">Business Category<i class="req" aria-hidden="true">*</i><span class="pin" aria-hidden="true">New options</span></label>
+          <select class="inp empty" id="cat" aria-required="true">
+            <option value="" disabled selected>Select a category</option>
+            <option>Nursery &amp; Early Learning</option>
+            <option>Kids’ Classes &amp; Activities</option>
+            <option>Soft Play, Parties &amp; Entertainment</option>
+            <option>Family Dining &amp; Cafés</option>
+            <option>Children’s Health &amp; Wellness</option>
+            <option>Mum &amp; Family Wellness</option>
+            <option>Baby &amp; Kids’ Retail</option>
+            <option>Family Travel &amp; Staycations</option>
+            <option>Home &amp; Family Services</option>
+            <option>Other</option>
+          </select>
+          <p class="err" hidden></p>
+        </div>
+
+        <div class="f" data-f="catOther" id="catOtherF" hidden>
+          <label for="catOther">Your category<i class="req" aria-hidden="true">*</i></label>
+          <input class="inp" id="catOther" type="text" placeholder="e.g. Photography studio" aria-required="true">
+          <p class="err" hidden></p>
+        </div>
+
+        <fieldset class="f" data-f="ages" data-ctl="age0">
+          <legend>Ages you welcome<i class="req" aria-hidden="true">*</i><span class="pin" aria-hidden="true">New</span></legend>
+          <p class="help" id="agesH">Tick all that apply.</p>
+          <div class="ages">
+            <label class="tickl"><input type="checkbox" class="tick sm" name="ages" value="0" id="age0" aria-describedby="agesH">0 to 6 months</label>
+            <label class="tickl"><input type="checkbox" class="tick sm" name="ages" value="1" id="age1">6 to 12 months</label>
+            <label class="tickl"><input type="checkbox" class="tick sm" name="ages" value="2" id="age2">1 to 2 years</label>
+            <label class="tickl"><input type="checkbox" class="tick sm" name="ages" value="3" id="age3">2 to 4 years</label>
+            <label class="tickl"><input type="checkbox" class="tick sm" name="ages" value="4" id="age4">4 to 8 years</label>
+            <label class="tickl"><input type="checkbox" class="tick sm" name="ages" value="5" id="age5">8 years +</label>
+          </div>
+          <p class="err" hidden></p>
+        </fieldset>
+
+        <div class="f" data-f="web">
+          <label for="web">Website</label>
+          <input class="inp" id="web" type="text" inputmode="url" autocomplete="url" spellcheck="false" placeholder="https://yourwebsite.com">
+          <p class="err" hidden></p>
+        </div>
+
+        <div class="pair">
+          <div class="f" data-f="email">
+            <label for="email">Email<i class="req" aria-hidden="true">*</i></label>
+            <input class="inp" id="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" placeholder="hello@business.com" aria-required="true">
+            <p class="err" hidden></p>
+          </div>
+          <div class="f" data-f="phone" data-ctl="phone">
+            <label for="phone">Phone Number<span class="pin t" aria-hidden="true">T2</span></label>
+            <div class="tel" dir="ltr">
+              <span class="cc" data-ours><span id="ccv-phone">+971</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                <select id="cc-phone" aria-label="Country code" autocomplete="tel-country-code"></select>
+              </span>
+              <input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+44 7700 900000">
+            </div>
+            <p class="okn" id="ok-phone" data-ours hidden></p>
+            <p class="err" hidden></p>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="f" data-f="pw">
+            <label for="pw">Password<i class="req" aria-hidden="true">*</i></label>
+            <input class="inp" id="pw" type="password" autocomplete="new-password" placeholder="Enter password" aria-required="true">
+            <p class="err" hidden></p>
+          </div>
+          <div class="f" data-f="pw2">
+            <label for="pw2">Confirm Password<i class="req" aria-hidden="true">*</i></label>
+            <input class="inp" id="pw2" type="password" autocomplete="new-password" placeholder="Confirm password" aria-required="true">
+            <p class="err" hidden></p>
+          </div>
+        </div>
+
+        <fieldset class="f otpopt">
+          <legend>Select OTP options<i class="req" aria-hidden="true">*</i></legend>
+          <div class="rads">
+            <label class="radio"><input type="radio" name="otpvia" value="email" checked>E-mail</label>
+            <label class="radio"><input type="radio" name="otpvia" value="phone">Phone</label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="actions end"><button class="btn pri" type="submit">Continue →</button></div>
+    </form>
+
+    <!-- STEP 2: Your Offer (her new step) -->
+    <form class="card" id="s2" novalidate hidden>
+      <h2 class="ct" id="s2T" tabindex="-1">Step 2 — Your Offer<span class="pin" aria-hidden="true">New step</span></h2>
+      <p class="banner" data-sum role="alert" hidden></p>
+      <div class="fields">
+        <p class="carried" id="carried" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.5M12 8h.01"/></svg><span>We’ve kept the offer you chose on the partner page.<span class="pin t" aria-hidden="true">T5</span></span></p>
+        <fieldset class="f" data-f="offer" data-ctl="optClass">
+          <legend>Choose one, two or all three for Alurei families.<i class="req" aria-hidden="true">*</i></legend>
+          <div class="orows">
+            <div class="orow" data-opt="class">
+              <label class="ohead"><input type="checkbox" class="tick" id="optClass" aria-describedby="optClassD"><span class="otx"><b>A complimentary class</b><small id="optClassD">One class per child. For a play area, one complimentary hour.</small></span></label>
+              <div class="omore" id="classMore" hidden>
+                <fieldset class="f sub" data-f="days" data-ctl="days60">
+                  <legend>How often?<i class="req" aria-hidden="true">*</i></legend>
+                  <div class="rads">
+                    <label class="radio"><input type="radio" name="days" value="60" id="days60">Every 60 days</label>
+                    <label class="radio"><input type="radio" name="days" value="90">Every 90 days</label>
+                  </div>
+                  <p class="err" hidden></p>
+                </fieldset>
+                <div class="sub">
+                  <label class="tickl"><input type="checkbox" class="tick sm" id="optPeak">Off-peak times only</label>
+                  <div class="f peakmore" data-f="peakT" id="peakMore" hidden>
+                    <label for="peakT" class="sl">Which days and times?<i class="req" aria-hidden="true" data-ours>*</i><span class="pin t" aria-hidden="true">T7</span></label>
+                    <input class="inp" id="peakT" type="text" placeholder="e.g. Sun to Thu, 9am to 2pm">
+                    <p class="err" hidden></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="orow" data-opt="price">
+              <label class="ohead"><input type="checkbox" class="tick" id="optPrice" aria-describedby="optPriceD"><span class="otx"><b>An Alurei price</b><small id="optPriceD">A discount families can use every time they pay.</small></span></label>
+              <div class="omore" id="priceMore" hidden>
+                <div class="f sub" data-f="disc">
+                  <label class="sl" for="optDisc">Discount<i class="req" aria-hidden="true" data-ours>*</i></label>
+                  <div class="pctrow"><input class="inp" id="optDisc" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="10" aria-required="true"><span aria-hidden="true">% off</span></div>
+                  <p class="err" hidden></p>
+                </div>
+              </div>
+            </div>
+            <div class="orow" data-opt="drink">
+              <label class="ohead"><input type="checkbox" class="tick" id="optDrink" aria-describedby="optDrinkD"><span class="otx"><b>A drink for the nanny<span class="pin t" aria-hidden="true">T6</span></b><small id="optDrinkD">A coffee or tea for the nanny at the complimentary class.</small><small class="needs" id="drinkNeeds" data-ours>Comes with the complimentary class, so tick that first.</small></span></label>
+            </div>
+          </div>
+          <p class="err" hidden></p>
+        </fieldset>
+        <p class="callout">Nannies often choose where the day goes. A nanny who is treated well is more likely to choose you again.</p>
+        <p class="help">You can change or pause your offer at any time.</p>
+        <div class="prev prev-inline" data-ours>
+          <span class="pl" id="prevL1">Preview: your venue card<span class="pin t" aria-hidden="true">T4</span></span>
+          <div class="vc" id="vcInline" role="group" aria-labelledby="prevL1"></div>
+        </div>
+      </div>
+      <div class="actions"><button class="btn sec" type="button" data-back>← Back</button><button class="btn pri" type="submit" id="s2Next">Continue →</button></div>
+      <aside class="prev-side" data-ours aria-labelledby="prevL2">
+        <div class="prev">
+          <span class="pl" id="prevL2">Preview: your venue card<span class="pin t" aria-hidden="true">T4</span></span>
+          <div class="vc" id="vcSide"></div>
+        </div>
+      </aside>
+    </form>
+
+    <!-- STEP 3: Business Location -->
+    <form class="card" id="s3" novalidate hidden>
+      <h2 class="ct" tabindex="-1">Step 3 — Business Location<span class="pin t" aria-hidden="true">T1</span></h2>
+      <p class="banner" data-sum role="alert" hidden></p>
+      <div class="fields">
+        <div class="locs" id="locs"></div>
+        <div class="branch">
+          <p class="lbl">More than one branch?<span class="pin" aria-hidden="true">New</span></p>
+          <p class="help">Each branch has its own address, hours and timetable. One account covers them all.</p>
+          <button class="addloc" type="button" id="addLoc">+ Add another location</button>
+        </div>
+      </div>
+      <div class="actions"><button class="btn sec" type="button" data-back>← Back</button><button class="btn pri" type="submit">Continue →</button></div>
+    </form>
+
+    <!-- STEP 4: Contact Information -->
+    <form class="card" id="s4" novalidate hidden>
+      <h2 class="ct" tabindex="-1">Step 4 — Contact Information</h2>
+      <p class="banner" data-sum role="alert" hidden></p>
+      <div class="fields">
+        <div class="pair">
+          <div class="f" data-f="name">
+            <label for="name">Contact Person<i class="req" aria-hidden="true">*</i></label>
+            <input class="inp" id="name" type="text" autocomplete="name" placeholder="Jane Smith" aria-required="true">
+            <p class="err" hidden></p>
+          </div>
+          <div class="f">
+            <label for="role">Role</label>
+            <input class="inp" id="role" type="text" autocomplete="organization-title" placeholder="e.g. Manager">
+          </div>
+        </div>
+        <div class="pair">
+          <div class="f" data-f="email4">
+            <label for="email4">Email<i class="req" aria-hidden="true">*</i></label>
+            <input class="inp" id="email4" type="email" inputmode="email" autocomplete="email" spellcheck="false" placeholder="hello@business.com" aria-required="true">
+            <p class="err" hidden></p>
+          </div>
+          <div class="f" data-f="phone4" data-ctl="phone4">
+            <label for="phone4">Phone<i class="req" aria-hidden="true">*</i></label>
+            <div class="tel" dir="ltr">
+              <span class="cc" data-ours><span id="ccv-phone4">+971</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                <select id="cc-phone4" aria-label="Country code" autocomplete="tel-country-code"></select>
+              </span>
+              <input id="phone4" type="tel" inputmode="tel" autocomplete="tel" placeholder="+44 7700 900000" aria-required="true">
+            </div>
+            <p class="okn" id="ok-phone4" data-ours hidden></p>
+            <p class="err" hidden></p>
+          </div>
+        </div>
+        <div class="f" data-f="wa" data-ctl="wa">
+          <label for="wa">WhatsApp number for bookings<i class="req" aria-hidden="true">*</i><span class="pin" aria-hidden="true">New</span></label>
+          <p class="help" id="waH">Nannies and parents message this number to book with you.</p>
+          <div class="tel" dir="ltr">
+            <span class="cc" data-ours><span id="ccv-wa">+971</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              <select id="cc-wa" aria-label="Country code" autocomplete="tel-country-code"></select>
+            </span>
+            <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="+44 7700 900000" aria-required="true" aria-describedby="waH">
+          </div>
+          <p class="okn" id="ok-wa" data-ours hidden></p>
+          <p class="err" hidden></p>
+          <label class="tickl"><input type="checkbox" class="tick sm" id="waSame">Same as phone number</label>
+        </div>
+        <div class="summary">
+          <span id="sumL">Setup Summary</span>
+          <dl aria-labelledby="sumL">
+            <div><dt>Business</dt><dd id="sumBiz"></dd></div>
+            <div><dt>Category</dt><dd id="sumCat"></dd></div>
+            <div><dt>Location</dt><dd id="sumLoc"></dd></div>
+            <div><dt>Ages<span class="pin" aria-hidden="true">New</span></dt><dd id="sumAges"></dd></div>
+            <div><dt>Offer<span class="pin" aria-hidden="true">New</span></dt><dd id="sumOffer"></dd></div>
+          </dl>
+        </div>
+        <div class="f" data-f="terms" data-ctl="terms">
+          <label class="termsl"><input type="checkbox" class="tick" id="terms" aria-required="true"><span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Partner Terms<span class="vh"> (opens in a new tab)</span></a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy<span class="vh"> (opens in a new tab)</span></a>, and I am authorised to agree this offer for the business.<i class="req" aria-hidden="true">*</i><span class="pin" aria-hidden="true">New</span></span></label>
+          <p class="err" hidden></p>
+        </div>
+      </div>
+      <div class="actions"><button class="btn sec" type="button" data-back>← Back</button><button class="btn pri" type="submit" id="sendBtn">Send request</button></div>
+    </form>
+
+    <!-- Request sent (her new screen) -->
+    <section class="done" id="sent" hidden aria-labelledby="sentT">
+      <div class="okc" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h1 id="sentT" tabindex="-1">Request sent<span class="pin" aria-hidden="true">New</span></h1>
+      <p>Thank you. We check every listing before it goes live, and we will reply within two working days.</p>
+      <p>A copy of your details has been sent to <b id="sentEmail">hello@business.com</b>.</p>
+      <a class="btn sec" href="https://alurei.app/">Back to alurei.app</a>
+      <button class="proto-next" type="button" id="toHome">Prototype: what they see when they log in →</button>
+    </section>
+
+    <!-- Log in (the app's, with her note 7: never a blank page) -->
+    <section id="login" hidden aria-labelledby="introT">
+      <form class="card" id="loginForm" novalidate>
+        <p class="banner" id="famBanner" role="alert" tabindex="-1" hidden>This log-in is for partner accounts. <span id="famWhat">The email you used</span> belongs to a family account on Alurei. Use your partner email or phone number, or <a href="#" id="toSignup">create a partner account</a>.</p>
+        <p class="banner" data-sum role="alert" hidden></p>
+        <div class="fields">
+          <div class="f" data-f="lid">
+            <label for="lid">Email or Phone Number<i class="req" aria-hidden="true">*</i></label>
+            <input class="inp" id="lid" type="text" autocomplete="username" spellcheck="false" placeholder="hello@business.com or phone number" data-ph-short="hello@business.com" aria-required="true">
+            <p class="err" hidden></p>
+          </div>
+          <div class="f" data-f="lpw">
+            <label for="lpw">Password<i class="req" aria-hidden="true">*</i></label>
+            <input class="inp" id="lpw" type="password" autocomplete="current-password" placeholder="Enter your password" aria-required="true">
+            <p class="err" hidden></p>
+          </div>
+        </div>
+        <div class="actions end"><button class="btn pri" type="submit">Continue →</button></div>
+      </form>
+      <p class="forgot"><a href="#" id="forgot">Forgotten password?</a></p>
+    </section>
+  </div>
+</main>
+
+<!-- ======== Partner portal: the "In review" page (T8, our suggestion; her note 7) ======== -->
+<div class="portal" id="home" hidden>
+  <aside class="side" aria-label="Partner portal"><div class="side-in">
+    <div class="side-top"><img src="assets/wm-white-84.webp" width="96" height="30" alt="Alurei"><span>Partner portal</span></div>
+    <nav class="snav" aria-label="Portal pages">
+      <a href="#" aria-current="page" id="navOverview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Overview</a>
+      <button type="button" data-soon><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Offers</button>
+      <button type="button" data-soon><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Redemptions</button>
+      <button type="button" data-soon><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 10c0 5.5-7.5 11-7.5 11s-7.5-5.5-7.5-11a7.5 7.5 0 0 1 15 0z"/><circle cx="12" cy="10" r="2.6"/></svg>Locations</button>
+      <button type="button" data-soon><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5 5.5 4h13L20 9.5"/><path d="M4 9.5h16a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0 2.7 2.7 0 0 1-5.3 0z"/><path d="M5.5 12.5V20h13v-7.5M10 20v-4.5h4V20"/></svg>Business Profile</button>
+    </nav>
+    <div class="side-user">
+      <div class="su"><span class="av" id="hAv" aria-hidden="true">Y</span><div><b id="hName">Your Studio</b><small>Partner</small></div></div>
+      <button class="logout" type="button" id="logout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg>Logout</button>
+    </div>
+  </div></aside>
+  <div class="pmain">
+    <header class="ptop"><h1>Overview</h1><span class="av sm" id="hAv2" aria-hidden="true">Y</span></header>
+    <main class="pcont">
+      <h1 class="vh ph1">Overview</h1>
+      <section class="phero" aria-labelledby="hName3">
+        <p class="hi">Good morning,</p>
+        <div class="hn"><h2 id="hName3" tabindex="-1">Your Studio</h2><span class="rev"><i></i>In review</span><span class="pin t always" aria-hidden="true">T8</span></div>
+        <p class="hs">Thank you. We check every listing before it goes live, and we will reply within two working days.</p>
+      </section>
+      <ol class="nexts" aria-label="What happens next">
+        <li class="nx"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5l2.5 2.5L20 5.5"/><path d="M20 12v6.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13A1.5 1.5 0 0 1 5.5 4H15"/></svg></span><b>We check your listing</b><p>We reply within two working days.</p></li>
+        <li class="nx"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.5L3.5 20.5l1.5-4.4A8.5 8.5 0 1 1 20.5 11.5z"/></svg></span><b>We confirm your offer with you</b><p>By email or WhatsApp.</p></li>
+        <li class="nx"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l1.8 4.9 4.9 1.8-4.9 1.8L12 16.9l-1.8-4.9-4.9-1.8 4.9-1.8z"/><path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg></span><b>Your card goes live</b><p>In families’ Daily Flow, for the ages you welcome.</p></li>
+      </ol>
+      <section class="ycard" aria-labelledby="ycT">
+        <h2 id="ycT">Your venue card</h2>
+        <div class="vc" id="vcHome" role="group" aria-labelledby="ycT"></div>
+        <button class="btn sec" type="button" id="edit">Edit your offer</button>
+      </section>
+    </main>
+  </div>
+</div>
+
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $ = (q, r = document) => r.querySelector(q);
+const $$ = (q, r = document) => [...r.querySelectorAll(q)];
+const latin = (v) => String(v).replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+const Q = new URLSearchParams(location.search);
+if (Q.has('still')) document.documentElement.classList.add('still');
+
+// ---------- Prototype switches ----------
+const notesT = $('#notesT'), oursT = $('#oursT');
+if (Q.get('notes') === '0') notesT.checked = false;
+if (/^(1|on|true|yes)$/i.test(Q.get('suggest') || Q.get('ours') || '')) oursT.checked = true;
+const ours = () => oursT.checked;
+const setNotes = () => document.body.classList.toggle('notes', notesT.checked);
+notesT.addEventListener('change', setNotes); setNotes();
+document.body.classList.toggle('ours', ours());
+
+// The yellow bar's real height (55px on phones, two rows from 1024 to 1199) for everything that sticks under it
+const protoBar = $('.proto');
+const setBarH = () => document.documentElement.style.setProperty('--proto-h', protoBar.offsetHeight + 'px');
+if ('ResizeObserver' in window) new ResizeObserver(setBarH).observe(protoBar);
+setBarH();
+
+let toastT;
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), 2600); }
+
+// ---------- Errors ----------
+// Her flow (the app's way): one message at a time in the red box at the top of the card.
+// T3: a message under each field, and the red box counts them when there are two or more.
+let errSeq = 0;
+const F = (n) => document.querySelector(`[data-f="${n}"]`);
+const ctlOf = (f) => (f.dataset.ctl ? document.getElementById(f.dataset.ctl) : f.querySelector('input:not([type=file]):not(:disabled), select, textarea'));
+function describe(ctl, id, on) {
+  const ids = (ctl.getAttribute('aria-describedby') || '').split(/\s+/).filter((x) => x && x !== id);
+  if (on) ids.push(id);
+  if (ids.length) ctl.setAttribute('aria-describedby', ids.join(' ')); else ctl.removeAttribute('aria-describedby');
+}
+function setErr(f, msg, pre = '') {
+  if (!f) return;
+  const e = f.querySelector(':scope > .err'), ctl = ctlOf(f), show = !!msg && ours();
+  if (e && !e.id) e.id = 'err-' + (++errSeq);
+  f.classList.toggle('bad', !!msg);
+  if (msg) f.dataset.msg = pre + msg; else delete f.dataset.msg;
+  if (e) { e.hidden = !show; e.textContent = show ? msg : ''; }
+  if (ctl) { if (msg) ctl.setAttribute('aria-invalid', 'true'); else ctl.removeAttribute('aria-invalid'); if (e) describe(ctl, e.id, show); }
+}
+const sumText = (n) => `Please check the ${n} fields marked below.`;
+function showBanner(form) {
+  const b = $('.banner[data-sum]', form); if (!b) return;
+  const bad = $$('.f.bad', form);
+  if (ours()) { b.hidden = bad.length < 2; if (!b.hidden) b.textContent = sumText(bad.length); }
+  else { b.hidden = !bad.length; if (bad.length) b.textContent = bad[0].dataset.msg; }
+  if (b.hidden || ours()) b.classList.remove('stick');
+}
+function recount(form) { const b = form && $('.banner[data-sum]', form); if (b && !b.hidden) showBanner(form); }
+function validate(form, checks) {
+  checks.forEach(([f, m, pre]) => setErr(f, m, pre));
+  showBanner(form);
+  const bad = checks.filter(([f, m]) => f && m);
+  if (bad.length) {
+    const c = ctlOf(bad[0][0]), b = $('.banner[data-sum]', form);
+    // Her flow: the message is in the red box at the top of the card. Box and field come into view together;
+    // when the field is too far below the box for one screen (a phone), the box stays pinned at the top while the field comes into view.
+    if (!ours() && b && !b.hidden) {
+      b.classList.remove('stick');
+      const far = c && c.getBoundingClientRect().bottom - b.getBoundingClientRect().top > innerHeight - 120;
+      if (far) { b.classList.add('stick'); c.scrollIntoView({ block: 'center' }); }
+      else { b.scrollIntoView({ block: 'nearest' }); if (c) c.scrollIntoView({ block: 'nearest' }); }
+      if (c) c.focus({ preventScroll: true });
+    }
+    else if (c) c.focus();
+  }
+  return !bad.length;
+}
+function clearAllErrors() { $$('form').forEach((fm) => { $$('.f.bad', fm).forEach((f) => setErr(f, '')); const b = $('.banner[data-sum]', fm); if (b) { b.hidden = true; b.classList.remove('stick'); } }); }
+function clearOnEdit(el) {
+  const f = el.closest('[data-f]'); if (!f || !f.classList.contains('bad')) return;
+  setErr(f, ''); recount(el.closest('form'));
+}
+document.addEventListener('input', (e) => { const el = e.target; if (el.closest && el.closest('form') && !['checkbox', 'radio', 'file'].includes(el.type)) clearOnEdit(el); });
+document.addEventListener('change', (e) => {
+  const el = e.target; if (!el.closest || !el.closest('form') || el.closest('.cc')) return; // a country code re-checks its own number
+  if (el.tagName === 'SELECT') { el.classList.toggle('empty', !el.value); delete el.dataset.auto; }
+  if (['checkbox', 'radio'].includes(el.type) || el.tagName === 'SELECT') clearOnEdit(el);
+});
+
+// Address and opening hours grow with their text
+document.addEventListener('input', (e) => { const t = e.target; if (t.matches && t.matches('textarea.grow')) { t.style.height = ''; if (t.value) t.style.height = Math.max(t.offsetHeight, t.scrollHeight + 2) + 'px'; } });
+
+// Narrow screens get the short version of a long example
+const narrow = matchMedia('(max-width: 479px)');
+function shortPh() { $$('[data-ph-short]').forEach((el) => { if (!el.dataset.phLong) el.dataset.phLong = el.placeholder; el.placeholder = narrow.matches ? el.dataset.phShort : el.dataset.phLong; }); }
+narrow.addEventListener('change', shortPh); shortPh();
+
+// Light checks for links: a web address, or an Instagram @name for the timetable
+const linkOK = (v, at) => (at && /^@[A-Za-z0-9._]{2,30}$/.test(v)) || /^(https?:\/\/)?[^\s/@]+\.[^\s/@]{2,}(\/\S*)?$/i.test(v);
+
+// ---------- Phone: lenient, the same parser as the partner page ----------
+// Her flow: one box with her example; a number without + is read as a UAE number. T2 adds the code picker and the read-back.
+const GULF = ['971', '966', '974', '965', '973', '968'];
+const SHAPE = { 971: /^(5\d{8}|[234679]\d{7})$/, 966: /^(5\d{8}|1\d{7,8})$/, 974: /^[34567]\d{7}$/, 965: /^[124569]\d{7}$/, 973: /^[136]\d{7}$/, 968: /^[279]\d{7}$/ };
+const CN = { 971: 'UAE', 966: 'Saudi', 974: 'Qatari', 965: 'Kuwaiti', 973: 'Bahraini', 968: 'Omani' };
+const PH_EG = { 971: 'e.g. 50 123 4567', 966: 'e.g. 50 123 4567', 974: 'e.g. 3312 3456', 965: 'e.g. 5012 3456', 973: 'e.g. 3612 3456', 968: 'e.g. 9212 3456', '': 'e.g. +44 7700 900123' };
+const PH_HERS = '+44 7700 900000';
+const CC_OPTS = '<option value="971" selected>+971 UAE</option><option value="966">+966 Saudi Arabia</option><option value="974">+974 Qatar</option><option value="965">+965 Kuwait</option><option value="973">+973 Bahrain</option><option value="968">+968 Oman</option><option value="">Other (type +)</option>';
+function normPhone(raw, cc) {
+  const s = latin(raw).replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '').replace(/\(0\)/g, '').trim(); let d = s.replace(/\D/g, '');
+  if (/^(\+|00)/.test(s)) {
+    if (s.startsWith('00')) d = d.slice(2);
+    // No country code starts with 0: "+050 123 4567" is a UAE mobile with a stray +, anything else needs checking
+    if (/^0/.test(d)) { const c = SHAPE[cc] ? cc : '971', n = d.replace(/^0+/, ''); return SHAPE[c].test(n) ? { cc: c, nat: n } : null; }
+    const g = GULF.find((c) => d.startsWith(c) && SHAPE[c].test(d.slice(c.length).replace(/^0+/, '')));
+    if (g) return { cc: g, nat: d.slice(g.length).replace(/^0+/, '') };
+    if (GULF.some((c) => d.startsWith(c))) return null;
+    return d.length >= 8 && d.length <= 15 ? { cc: '', nat: d } : null;
+  }
+  if (!cc) return null;
+  if (d.startsWith(cc) && d.length >= cc.length + 8) d = d.slice(cc.length);
+  d = d.replace(/^0+/, '');
+  return SHAPE[cc].test(d) ? { cc, nat: d } : null;
+}
+function fmtNat(d, cc) {
+  if (d.length === 9) return `${d.slice(0, 2)} ${d.slice(2, 5)} ${d.slice(5)}`;
+  if (d.length === 8) return cc === '971' ? `${d[0]} ${d.slice(1, 4)} ${d.slice(4)}` : `${d.slice(0, 4)} ${d.slice(4)}`;
+  return d;
+}
+const shown = (r) => (r.cc ? `+${r.cc} ${fmtNat(r.nat, r.cc)}` : '+' + r.nat);
+function phoneErr(raw, cc) {
+  if (normPhone(raw, cc)) return '';
+  const s = latin(raw).trim(), plus = /^(\+|00)/.test(s);
+  if (!ours()) return plus ? 'Please check the phone number. For a number outside the UAE, start with + and the country code.' : 'That doesn’t look like a UAE number. For a number from another country, start with + and the country code.';
+  if (plus) return 'Please check the number. For numbers outside the Gulf, start with + and the country code.';
+  if (!cc) return 'Please type the number with + and the country code, for example +44 7700 900123.';
+  return `That doesn’t look like a ${CN[cc]} number. If it’s from another country, choose Other and type + and the country code.`;
+}
+const PH = {};
+function bindPhone(key, after) {
+  const inp = $('#' + key), cc = $('#cc-' + key), ok = $('#ok-' + key), ccv = $('#ccv-' + key), f = inp.closest('[data-f]');
+  cc.innerHTML = CC_OPTS;
+  const code = () => (ours() ? cc.value : '971');
+  let last = cc.value; // the code the number in the box was read against
+  const sync = () => { ccv.textContent = cc.value ? '+' + cc.value : 'Other'; inp.placeholder = ours() ? PH_EG[cc.value] : PH_HERS; last = cc.value; };
+  function check(showErr, adopt = true) {
+    const v = inp.value.trim();
+    if (!v) { ok.hidden = true; if (showErr) { setErr(f, ''); recount(inp.closest('form')); } if (after) after(); return null; }
+    const r = normPhone(v, code());
+    if (adopt && ours() && r && r.cc) { cc.value = r.cc; inp.value = fmtNat(r.nat, r.cc); sync(); }
+    ok.hidden = !(r && ours()); if (r) ok.textContent = `✓ We’ll use ${r.cc ? shown(r) : '+' + latin(v).replace(/^\s*(\+|00)\s*/, '')}`;
+    if (showErr) { setErr(f, r ? '' : phoneErr(v, code())); recount(inp.closest('form')); }
+    if (after) after();
+    return r;
+  }
+  // Choosing "Other" after typing a number: a number that was valid for the old code is written out in full
+  // (+971 50 123 4567), never turned into a different code by putting "+" in front of it
+  cc.addEventListener('change', () => {
+    const was = last; sync();
+    const v = inp.value.trim();
+    if (!cc.value && v && !/^\s*(\+|00)/.test(latin(v))) { const r = was ? normPhone(v, was) : null; if (r) inp.value = shown(r); }
+    if (inp.value.trim()) check(true, !!cc.value); // "Other" stays chosen until they leave the box
+    inp.focus();
+  });
+  // Arabic digits become 0-9 on leaving the field (they would otherwise show in reverse order in this left-to-right box)
+  inp.addEventListener('blur', () => { if (/[٠-٩۰-۹]/.test(inp.value)) { inp.value = latin(inp.value); if (after) after(); } if (ours() && !inp.readOnly) check(true); });
+  inp.addEventListener('input', () => { ok.hidden = true; if (after) after(); });
+  sync();
+  PH[key] = { inp, cc, ok, f, sync, check, code };
+}
+// Switching our suggestions off: a number typed against another code keeps its code in the box
+function phonesToHers() {
+  Object.values(PH).forEach((p) => {
+    const v = p.inp.value.trim();
+    if (v && p.cc.value !== '971' && !/^\s*(\+|00)/.test(latin(v))) { const r = normPhone(v, p.cc.value); if (r) p.inp.value = shown(r); }
+    p.cc.value = '971'; p.ok.hidden = true;
+  });
+}
+
+// ---------- Logo upload (stays in this browser; shown on the card) ----------
+let logoURL = '';
+$('#logo').addEventListener('change', () => {
+  const file = $('#logo').files[0]; if (!file) return;
+  if (logoURL) URL.revokeObjectURL(logoURL);
+  logoURL = URL.createObjectURL(file);
+  const img = new Image(); img.alt = ''; img.src = logoURL; $('#upIc').replaceChildren(img);
+  $('#upT').textContent = file.name; $('#upS').textContent = 'Choose another file';
+  renderOffer();
+});
+
+// ---------- Step 1: "Other" opens a free-text box; ages ----------
+// A block that appears rises 8px and fades in once; the class goes when it ends, so showing a screen again doesn't replay it
+document.addEventListener('animationend', (e) => { if (e.animationName === 'blkIn') e.target.classList.remove('enter'); });
+function reveal(el, on, animate = true) {
+  if (on && el.hidden) { el.hidden = false; if (animate) { el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); } }
+  else if (!on && !el.hidden) { el.hidden = true; el.classList.remove('enter'); }
+}
+$('#cat').addEventListener('change', () => { const on = $('#cat').value === 'Other'; reveal($('#catOtherF'), on); if (!on) setErr(F('catOther'), ''); });
+const AGE_LBL = ['0 to 6 months', '6 to 12 months', '1 to 2 years', '2 to 4 years', '4 to 8 years', '8 years +'];
+const agesOn = () => AGE_LBL.map((_, i) => $('#age' + i).checked);
+function agesText(on = agesOn()) {
+  const runs = []; let i = 0;
+  while (i < 6) { if (!on[i]) { i++; continue; } let j = i; while (j + 1 < 6 && on[j + 1]) j++; runs.push([i, j]); i = j + 1; }
+  return runs.map(([a, b]) => {
+    if (a === b) return AGE_LBL[a];
+    // Her band style throughout ("0 to 6 months", "1 to 2 years", "8 years +"); "From birth to 8 years +" only when all six are ticked
+    if (b === 5) return a === 0 ? 'From birth to 8 years +' : `${['', '6 months', '1 year', '2 years', '4 years'][a]} +`;
+    if (b === 1) return '0 to 12 months';
+    const end = [0, 0, 2, 4, 8][b];
+    if (a >= 2) return `${[0, 0, 1, 2, 4][a]} to ${end} years`;
+    return `${a === 0 ? '0' : '6 months'} to ${end} years`;
+  }).join(', ');
+}
+$$('input[name=ages]').forEach((el) => el.addEventListener('change', renderOffer));
+
+// ---------- Step 2: her offer ----------
+const optClass = $('#optClass'), optPrice = $('#optPrice'), optDrink = $('#optDrink'), optPeak = $('#optPeak'), optDisc = $('#optDisc'), peakT = $('#peakT');
+let drinkWanted = false; // T6: the drink comes back when the class is ticked again
+function offer() {
+  const cls = optClass.checked, peak = cls && optPeak.checked;
+  const v = latin(optDisc.value).replace(/\D/g, ''), n = parseInt(v, 10);
+  return { cls, days: cls ? (($('input[name=days]:checked') || {}).value || '') : '', peak, times: peak ? peakT.value.trim() : '', drink: optDrink.checked && (cls || !ours()), price: optPrice.checked, disc: (ours() ? n >= 5 && n <= 50 : n >= 1) ? n : null, discRaw: v };
+}
+// Her summary format: "Complimentary class every 60 days (off-peak), 10% off"
+function offerText(o) {
+  const p = [];
+  if (o.cls) p.push(`complimentary class every ${o.days || '60 or 90'} days${o.peak ? (o.times ? ` (off-peak: ${o.times})` : ' (off-peak)') : ''}`);
+  if (o.price) p.push(o.disc != null ? `${o.disc}% off` : 'an Alurei price');
+  if (o.drink) p.push('a drink for the nanny');
+  const s = p.join(', ');
+  return s ? s[0].toUpperCase() + s.slice(1) : '';
+}
+
+// Venue card (T4 in step 2, and on the T8 page): the app's offer-card anatomy, only what is ticked
+const ICON = {
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  ring: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.25"/><path d="m8.5 12.3 2.4 2.4 4.6-4.9"/></svg>',
+};
+const VC_TPL = `<div class="vc-ban"><img src="assets/media/story-3.webp" srcset="assets/media/story-3.webp 1x, assets/media/story-3@2x.webp 2x" alt="" width="330" height="500" loading="lazy" decoding="async"><span class="vc-ex">Example</span></div>
+<div class="vc-body">
+  <div class="vc-head"><span class="vc-av"></span><div><b class="vc-name"></b><small class="vc-sub"></small></div></div>
+  <div class="vc-class" hidden><b class="vc-t">Complimentary class available</b><small class="vc-s">For Eve · <span class="vc-days"></span></small>
+    <p class="vc-peak" hidden>${ICON.clock}<span class="vc-peakt"></span></p>
+    <div class="vc-drink" hidden>${ICON.ring}<div><b>Includes a drink for the nanny</b><small>A coffee or tea at the complimentary class</small></div></div>
+    <span class="vc-btn">Use complimentary class</span></div>
+  <div class="vc-drink vc-solo" hidden>${ICON.ring}<div><b>A drink for the nanny</b><small>A coffee or tea for the nanny when they visit</small></div></div>
+  <hr class="vc-div" hidden>
+  <div class="vc-price" hidden><b class="vc-t">Alurei price</b><small class="vc-s vc-disc"></small><span class="vc-btn alt">Use Alurei price</span></div>
+  <p class="vc-empty" hidden>Tick at least one offer to see your card.</p>
+</div>`;
+function mountCard(host) {
+  host.innerHTML = VC_TPL;
+  const q = (c) => $(c, host);
+  return { first: true, av: q('.vc-av'), name: q('.vc-name'), sub: q('.vc-sub'), cls: q('.vc-class'), days: q('.vc-days'), peak: q('.vc-peak'), peakt: q('.vc-peakt'), drink: q('.vc-class .vc-drink'), solo: q('.vc-solo'), div: q('.vc-div'), price: q('.vc-price'), disc: q('.vc-disc'), empty: q('.vc-empty') };
+}
+const stepCards = [mountCard($('#vcSide')), mountCard($('#vcInline'))], homeCard = mountCard($('#vcHome'));
+const initials = (n) => n.split(/\s+/).filter(Boolean).map((w) => w[0]).join('').slice(0, 2).toUpperCase() || 'YS';
+const lc = (s) => (s ? s[0].toLowerCase() + s.slice(1) : s);
+function updateCard(c, o, m) {
+  c.name.textContent = m.name;
+  c.sub.textContent = m.city && m.ages ? `${m.city} · ages ${lc(m.ages)}` : m.city || (m.ages ? `Ages ${lc(m.ages)}` : 'Your city');
+  if (logoURL && !m.demo) { if (c.av.dataset.src !== logoURL) { c.av.dataset.src = logoURL; c.av.classList.add('img'); const img = new Image(); img.alt = ''; img.src = logoURL; c.av.replaceChildren(img); } }
+  else { delete c.av.dataset.src; c.av.classList.remove('img'); c.av.textContent = initials(m.name); }
+  c.days.textContent = `one every ${o.days || '60 or 90'} days`;
+  c.peakt.textContent = o.times ? `Off-peak times only: ${o.times}` : 'Off-peak times only';
+  c.disc.textContent = o.disc != null ? `${o.disc}% off, any time the family pays` : 'A discount any time the family pays';
+  const a = !c.first;
+  reveal(c.cls, o.cls, a); reveal(c.peak, o.peak, a); reveal(c.drink, o.cls && o.drink, a); reveal(c.solo, !o.cls && o.drink, a); reveal(c.price, o.price, a);
+  reveal(c.div, (o.cls || o.drink) && o.price, false); reveal(c.empty, !o.cls && !o.price && !o.drink, a);
+  c.first = false;
+}
+const firstCity = () => { const L = $('#locs .loc'); return L ? $('[data-city]', L).value.trim() : ''; };
+const venueName = () => $('#venue').value.trim() || 'Your Studio';
+function renderOffer() {
+  const strict = ours(); // T6
+  if (strict) { if (!optClass.checked) optDrink.checked = false; else if (drinkWanted) optDrink.checked = true; }
+  else optDrink.checked = drinkWanted;
+  optDrink.disabled = strict && !optClass.checked;
+  const o = offer();
+  $('.orow[data-opt=class]').classList.toggle('on', o.cls);
+  $('.orow[data-opt=price]').classList.toggle('on', o.price);
+  $('.orow[data-opt=drink]').classList.toggle('on', o.drink);
+  $('.orow[data-opt=drink]').classList.toggle('dis', optDrink.disabled);
+  reveal($('#classMore'), o.cls); reveal($('#peakMore'), o.peak); reveal($('#priceMore'), o.price);
+  [['days', o.cls], ['disc', o.price], ['peakT', o.peak && strict]].forEach(([k, keep]) => { if (!keep && F(k).classList.contains('bad')) { setErr(F(k), ''); recount($('#s2')); } });
+  const m = { name: venueName(), city: firstCity(), ages: agesText() };
+  stepCards.forEach((c) => updateCard(c, o, m));
+}
+optDrink.addEventListener('change', () => { drinkWanted = optDrink.checked; renderOffer(); });
+[optClass, optPrice, optPeak].forEach((el) => el.addEventListener('change', renderOffer));
+$$('input[name=days]').forEach((el) => el.addEventListener('change', renderOffer));
+peakT.addEventListener('input', renderOffer);
+optDisc.addEventListener('input', () => { const v = latin(optDisc.value).replace(/\D/g, '').slice(0, 2); if (v !== optDisc.value) optDisc.value = v; renderOffer(); });
+optDisc.addEventListener('blur', () => { const o = offer(); if (ours() && o.discRaw && o.disc == null) { setErr(F('disc'), 'Please enter a discount from 5 to 50%.'); recount($('#s2')); } });
+$('#venue').addEventListener('input', renderOffer);
+
+// T5: an offer built on the partner page arrives ticked (?suggest=1&offer=class,drink,price,offpeak&days=90&disc=10&times=Sun+to+Thu)
+let carried = false;
+function carryOffer() {
+  if (carried || !Q.has('offer') || optClass.checked || optPrice.checked || optDrink.checked) return;
+  const list = Q.get('offer').split(',');
+  // T6: the drink only comes with the complimentary class, so a drink carried on its own brings the class with it
+  optClass.checked = list.includes('class') || list.includes('drink'); optPrice.checked = list.includes('price');
+  drinkWanted = list.includes('drink'); optDrink.checked = drinkWanted; optPeak.checked = list.includes('offpeak');
+  const d = Q.get('days'); if (d === '60' || d === '90') $(`input[name=days][value="${d}"]`).checked = true;
+  const t = (Q.get('times') || '').trim(); if (optPeak.checked && t) peakT.value = t.slice(0, 80);
+  // A discount outside 5 to 50 is not changed behind their back: the box stays empty with its message
+  const dq = (Q.get('disc') || '').trim(), n = parseInt(latin(dq), 10);
+  if (n >= 5 && n <= 50) optDisc.value = String(n);
+  else if (optPrice.checked && dq) setErr(F('disc'), 'Please enter a discount from 5 to 50%.');
+  renderOffer();
+  carried = optClass.checked || optPrice.checked || optDrink.checked;
+}
+
+// ---------- Step 3: locations (one or more, all under one account) ----------
+let locSeq = 0;
+const ADDR_HERS = 'e.g. 123 High Street, London, SW1A 1AA', ADDR_OURS = 'e.g. Shop 4, Al Wasl Road, Jumeirah 1';
+function locHTML(i) {
+  return `<div class="loc" data-loc="${i}">
+  <div class="loch" hidden><h3 class="lt" tabindex="-1">Location</h3>${i > 1 ? `<button type="button" class="rm" data-rm="${i}">Remove<span class="vh"> this location</span></button>` : ''}</div>
+  <div class="pair">
+    <div class="f" data-f="country-${i}"><label for="country-${i}">Country<i class="req" aria-hidden="true">*</i></label>
+      <select class="inp empty" id="country-${i}" data-country autocomplete="country" aria-required="true"><option value="" disabled selected>Select country</option><option value="AE">United Arab Emirates</option></select>
+      <p class="err" hidden></p></div>
+    <div class="f" data-f="city-${i}"><label for="city-${i}">City<i class="req" aria-hidden="true">*</i></label>
+      <input class="inp" id="city-${i}" data-city type="text" autocomplete="address-level2" placeholder="e.g. Dubai" aria-required="true">
+      <p class="err" hidden></p></div>
+  </div>
+  <div class="f"><label for="addr-${i}">Address</label>
+    <textarea class="inp grow" id="addr-${i}" rows="1" autocomplete="street-address" placeholder="${ADDR_HERS}" data-ph-ours="${ADDR_OURS}"></textarea></div>
+  <div class="f"><label for="hours-${i}">Opening Hours <span class="opt">(optional)</span></label>
+    <textarea class="inp grow" id="hours-${i}" rows="1" placeholder="e.g. Mon–Fri 9:00–18:00"></textarea></div>
+  <fieldset class="f" data-f="visit-${i}" data-ctl="visitF-${i}"><legend>How do families visit?<i class="req" aria-hidden="true">*</i><span class="pin" aria-hidden="true">New</span></legend>
+    <div class="rads"><label class="radio"><input type="radio" name="visit-${i}" value="fixed" id="visitF-${i}">Fixed classes</label><label class="radio"><input type="radio" name="visit-${i}" value="open">Open play, drop in any time</label></div>
+    <p class="err" hidden></p></fieldset>
+  <div class="f" data-f="tt-${i}"><label for="tt-${i}">Link to your class timetable<i class="req tt-req" aria-hidden="true">*</i><span class="opt tt-opt" hidden> (optional)</span><span class="pin" aria-hidden="true">New</span></label>
+    <p class="help" id="ttH-${i}">Your website or Instagram. We take your schedule from here, so there is nothing to type in.</p>
+    <input class="inp" id="tt-${i}" type="text" inputmode="url" spellcheck="false" placeholder="https://yourwebsite.com/timetable" aria-describedby="ttH-${i}">
+    <p class="err" hidden></p></div>
+</div>`;
+}
+function autoCountry(sel) {
+  if (ours()) { if (!sel.value) { sel.value = 'AE'; sel.dataset.auto = '1'; } }
+  else if (sel.dataset.auto) { if (sel.value === 'AE') sel.selectedIndex = 0; delete sel.dataset.auto; }
+  sel.classList.toggle('empty', !sel.value);
+}
+function setPh(el) { if (!el.dataset.phHers) el.dataset.phHers = el.placeholder; el.placeholder = ours() ? el.dataset.phOurs : el.dataset.phHers; }
+function numberLocs() {
+  const locs = $$('#locs .loc'), multi = locs.length > 1;
+  locs.forEach((L, k) => { const h = $('.loch', L); h.hidden = !multi; $('.lt', h).textContent = `Location ${k + 1}`; });
+}
+function addLoc(focus) {
+  const i = ++locSeq;
+  $('#locs').insertAdjacentHTML('beforeend', locHTML(i));
+  const L = $('#locs .loc:last-child');
+  autoCountry($('[data-country]', L)); $$('[data-ph-ours]', L).forEach(setPh);
+  numberLocs();
+  // The heading (with its 96px scroll margin) comes into view, so "Location 2" and "Remove" sit clear of the top bar
+  if (focus) { L.classList.add('enter'); const h = $('.lt', L); h.focus({ preventScroll: true }); h.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches || Q.has('still') ? 'auto' : 'smooth' }); }
+  return L;
+}
+$('#addLoc').addEventListener('click', () => addLoc(true));
+$('#locs').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-rm]'); if (!b) return;
+  b.closest('.loc').remove(); numberLocs(); recount($('#s3')); $('#addLoc').focus();
+});
+// The timetable link is required for Fixed classes and optional for Open play
+$('#locs').addEventListener('change', (e) => {
+  const r = e.target; if (r.type !== 'radio' || !r.name.startsWith('visit-')) return;
+  const i = r.name.slice(6), open = r.value === 'open', f = F('tt-' + i);
+  $('.tt-req', f).hidden = open; $('.tt-opt', f).hidden = !open;
+  if (open && f.classList.contains('bad') && !$('#tt-' + i).value.trim()) { setErr(f, ''); recount($('#s3')); }
+});
+$('#locs').addEventListener('input', (e) => { if (e.target.matches('[data-city]')) renderOffer(); });
+addLoc(false);
+
+// ---------- Screens ----------
+const AUTH = ['s1', 's2', 's3', 's4', 'sent', 'login'];
+const STEPS = ['s1', 's2', 's3', 's4'];
+const STEP_NAMES = ['Business Details', 'Your Offer', 'Business Location', 'Contact Information'];
+const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+function stepsHTML(cur) {
+  return [1, 2, 3, 4].map((n) => {
+    const st = n < cur ? 'done' : n === cur ? 'cur' : 'up';
+    return `<li class="st-${st}"${n === cur ? ' aria-current="step"' : ''}><span class="c" aria-hidden="true">${st === 'done' ? CHECK : n}</span><span class="vh">Step ${n} of 4, ${STEP_NAMES[n - 1]}${st === 'done' ? ', done' : ''}</span></li>`;
+  }).join('');
+}
+let cur = 's1', editing = false, demo = false, fromDemo = false;
+function animateIn(el) {
+  el.classList.remove('scr-in'); void el.offsetWidth; el.classList.add('scr-in');
+  el.addEventListener('animationend', function done(e) { if (e.target === el) { el.classList.remove('scr-in'); el.removeEventListener('animationend', done); } });
+}
+// Browser Back and the phone's back gesture: one history entry per screen, like the app's routes (/partner/signup, /signup/location…).
+// Each entry remembers the screen under it, so "← Back" can step back through history instead of piling up entries.
+const STEP_Q = { s1: '1', s2: '2', s3: '3', s4: '4', sent: 'sent', login: 'login', home: 'home' };
+function urlFor(id) { const u = new URL(location.href); u.searchParams.set('step', STEP_Q[id]); return u.pathname + u.search + u.hash; }
+function go(id, { edit = false, focus = true, push = true } = {}) {
+  const was = { scr: cur, edit: editing };
+  cur = id; editing = id === 's2' && edit;
+  if (push && (was.scr !== id || was.edit !== editing)) { try { history.pushState({ scr: id, edit: editing, prev: was }, '', urlFor(id)); } catch (e) { /* history unavailable: screens still change */ } }
+  document.body.dataset.scr = id;
+  const isStep = STEPS.includes(id);
+  $('#auth').hidden = id === 'home';
+  $('#home').hidden = id !== 'home';
+  AUTH.forEach((s) => { $('#' + s).hidden = s !== id; });
+  $('#tabs').hidden = !(id === 's1' || id === 'login');
+  $$('#tabs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tab === id)));
+  $('#intro').hidden = !(isStep || id === 'login') || editing;
+  $('#introS').hidden = id === 'login';
+  $('#steps').hidden = !isStep || editing;
+  if (isStep) $('#steps').innerHTML = stepsHTML(STEPS.indexOf(id) + 1);
+  $('#tryAs').hidden = id !== 'login';
+  $('#ptHome').hidden = id !== 'home';
+  // Step 2 opened from "Edit your offer" on the In review page saves and goes back there
+  $('#s2T').firstChild.textContent = editing ? 'Your Offer' : 'Step 2 — Your Offer';
+  $('#s2Next').textContent = editing ? 'Save changes' : 'Continue →';
+  $('#carried').hidden = !(ours() && carried) || editing;
+  if (id === 's1') { demo = false; fromDemo = false; }
+  if (id === 's4') fillStep4();
+  if (id === 'sent') $('#sentEmail').textContent = $('#email4').value.trim() || $('#email').value.trim() || 'hello@business.com';
+  if (id === 'home') renderHome();
+  if (id === 'login') { $('#famBanner').hidden = true; if (!$('#lid').value) $('#lid').value = $('#email4').value.trim() || $('#email').value.trim(); }
+  renderOffer();
+  animateIn(id === 'home' ? $('#home') : $('#col'));
+  scrollTo(0, 0);
+  if (focus) {
+    const h = { s1: '#s1 .ct', s2: '#s2T', s3: '#s3 .ct', s4: '#s4 .ct', sent: '#sentT', login: '#introT', home: '#hName3' }[id];
+    const el = $(h); if (el) el.focus({ preventScroll: true });
+  }
+}
+$$('#tabs button').forEach((b) => b.addEventListener('click', () => { if (b.getAttribute('aria-pressed') !== 'true') go(b.dataset.tab); }));
+$$('[data-back]').forEach((b) => b.addEventListener('click', () => {
+  const to = { s2: editing ? 'home' : 's1', s3: 's2', s4: 's3' }[cur] || 's1', p = history.state && history.state.prev;
+  if (p && p.scr === to && !p.edit) history.back(); else go(to);
+}));
+addEventListener('popstate', (e) => {
+  const st = e.state || {};
+  go(st.scr || START_OF(new URLSearchParams(location.search).get('step')), { edit: !!st.edit, push: false });
+});
+
+// Step 1
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const emailMsg = (v) => (!v ? 'Please add your email address.' : EMAIL_RE.test(v) ? '' : 'Please check your email address.');
+$('#s1').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const ph = $('#phone').value.trim(), viaPhone = $('input[name=otpvia]:checked').value === 'phone';
+  const pw = $('#pw').value, pw2 = $('#pw2').value, web = $('#web').value.trim(), other = $('#cat').value === 'Other';
+  const ok = validate($('#s1'), [
+    [F('venue'), $('#venue').value.trim() ? '' : 'Please add your business name.'],
+    [F('cat'), $('#cat').value ? '' : 'Please choose a business category.'],
+    [F('catOther'), other && !$('#catOther').value.trim() ? 'Please tell us your category.' : ''],
+    [F('ages'), agesOn().some(Boolean) ? '' : 'Please tick at least one age group.'],
+    [F('web'), !web || linkOK(web) ? '' : 'Please check the website address.'],
+    [F('email'), emailMsg($('#email').value.trim())],
+    [F('phone'), ph ? phoneErr(ph, PH.phone.code()) : viaPhone ? 'Please add your phone number to get the code by phone.' : ''],
+    [F('pw'), pw ? '' : 'Please enter a password.'],
+    [F('pw2'), !pw2 ? 'Please confirm your password.' : pw2 !== pw ? 'The passwords don’t match.' : ''],
+  ]);
+  if (ph && !F('phone').classList.contains('bad')) PH.phone.check(false);
+  if (ok) go('s2');
+});
+$$('input[name=otpvia]').forEach((r) => r.addEventListener('change', () => { if (!$('#phone').value.trim() && F('phone').classList.contains('bad')) { setErr(F('phone'), ''); recount($('#s1')); } }));
+
+// Step 2
+$('#s2').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const o = offer();
+  const ok = validate($('#s2'), [
+    [F('offer'), o.cls || o.price || o.drink ? '' : 'Please tick at least one offer.'],
+    [F('days'), o.cls && !o.days ? 'Please choose every 60 or every 90 days.' : ''],
+    [F('peakT'), ours() && o.peak && !o.times ? 'Please add the days and times.' : ''],
+    [F('disc'), o.price && o.disc == null ? (ours() ? 'Please enter a discount from 5 to 50%.' : 'Please enter the discount.') : ''],
+  ]);
+  if (!ok) return;
+  if (editing) { go('home'); toast('Prototype: your changes would be saved and sent to the Alurei team.'); } else go('s3');
+});
+
+// Step 3
+$('#s3').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const locs = $$('#locs .loc'), multi = locs.length > 1, checks = [];
+  locs.forEach((L, k) => {
+    const i = L.dataset.loc, pre = multi ? `Location ${k + 1}: ` : '';
+    const visit = ($(`input[name="visit-${i}"]:checked`) || {}).value || '', tt = $('#tt-' + i).value.trim();
+    checks.push(
+      [F('country-' + i), $('#country-' + i).value ? '' : 'Please choose your country.', pre],
+      [F('city-' + i), $('#city-' + i).value.trim() ? '' : 'Please add your city.', pre],
+      [F('visit-' + i), visit ? '' : 'Please choose how families visit.', pre],
+      [F('tt-' + i), tt ? (linkOK(tt, true) ? '' : 'Please check the link to your timetable.') : visit === 'fixed' ? 'Please add a link to your class timetable.' : '', pre],
+    );
+  });
+  if (validate($('#s3'), checks)) go('s4');
+});
+
+// Step 4: email (and phone, as in the app) filled in from step 1; WhatsApp can copy the phone
+const auto4 = { email: null, phone: null };
+const waSame = $('#waSame');
+function syncWa() {
+  const on = waSame.checked, w = PH.wa, p = PH.phone4;
+  w.inp.readOnly = on; w.f.classList.toggle('same', on);
+  if (on) {
+    w.inp.value = p.inp.value; w.cc.value = p.cc.value; w.sync();
+    w.ok.hidden = p.ok.hidden; w.ok.textContent = p.ok.textContent;
+    if (w.f.classList.contains('bad')) { setErr(w.f, ''); recount($('#s4')); }
+  }
+}
+waSame.addEventListener('change', () => { syncWa(); if (!waSame.checked) PH.wa.inp.focus(); });
+function sumRow(id, v) { const el = $(id); el.replaceChildren(); [].concat(v || 'Not added yet').forEach((t) => { const s = document.createElement('span'); s.textContent = t; el.append(s); }); el.classList.toggle('none', !v || !v.length); }
+function fillStep4() {
+  const e1 = $('#email').value.trim();
+  if (!$('#email4').value.trim() || $('#email4').value === auto4.email) { $('#email4').value = e1; auto4.email = e1; }
+  const p1 = latin($('#phone').value.trim()), p4 = PH.phone4;
+  if (!p4.inp.value.trim() || p4.inp.value === auto4.phone) { p4.inp.value = p1; p4.cc.value = PH.phone.cc.value; p4.sync(); if (p1 && ours()) p4.check(false); auto4.phone = p4.inp.value; }
+  syncWa();
+  const cat = $('#cat').value, other = $('#catOther').value.trim();
+  sumRow('#sumBiz', $('#venue').value.trim());
+  sumRow('#sumCat', cat === 'Other' && other ? `Other: ${other}` : cat);
+  const locs = $$('#locs .loc').map((L) => { const c = $('[data-city]', L).value.trim(), s = $('[data-country]', L); return c ? (s.value ? `${c}, ${s.selectedOptions[0].text}` : c) : ''; }).filter(Boolean);
+  sumRow('#sumLoc', locs.length ? locs : '');
+  sumRow('#sumAges', agesText());
+  sumRow('#sumOffer', offerText(offer()));
+}
+$('#s4').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const ph = PH.phone4.inp.value.trim(), w = PH.wa.inp.value.trim(), same = waSame.checked;
+  const ok = validate($('#s4'), [
+    [F('name'), $('#name').value.trim() ? '' : 'Please add a contact person.'],
+    [F('email4'), emailMsg($('#email4').value.trim())],
+    [F('phone4'), ph ? phoneErr(ph, PH.phone4.code()) : 'Please add a phone number.'],
+    [F('wa'), same ? '' : w ? phoneErr(w, PH.wa.code()) : 'Please add a WhatsApp number for bookings, or tick “Same as phone number”.'],
+    [F('terms'), $('#terms').checked ? '' : 'Please tick the box to agree to the Partner Terms and Privacy Policy.'],
+  ]);
+  if (!ok) return;
+  PH.phone4.check(false); if (!same) PH.wa.check(false);
+  const btn = $('#sendBtn'); btn.disabled = true; btn.textContent = 'Sending request…';
+  setTimeout(() => { btn.disabled = false; btn.textContent = 'Send request'; go('sent'); }, Q.has('still') ? 0 : 650);
+});
+
+// Request sent → what the partner sees after logging in (T8)
+$('#toHome').addEventListener('click', () => go('home'));
+
+// Log in (her note 7: never a blank page)
+$('#loginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  $('#famBanner').hidden = true;
+  const id = $('#lid').value.trim();
+  const idMsg = !id ? 'Please enter your email or phone number.' : id.includes('@') ? (EMAIL_RE.test(id) ? '' : 'Please check your email address.') : (normPhone(id, '971') ? '' : 'Please check your email or phone number.');
+  if (!validate($('#loginForm'), [[F('lid'), idMsg], [F('lpw'), $('#lpw').value ? '' : 'Please enter your password.']])) return;
+  if ($('input[name=tryas]:checked').value === 'family') {
+    $('#famWhat').textContent = id.includes('@') ? 'The email you used' : 'The phone number you used';
+    $('#famBanner').hidden = false; $('#famBanner').focus(); return;
+  }
+  go('home');
+});
+$$('input[name=tryas]').forEach((r) => r.addEventListener('change', () => { $('#famBanner').hidden = true; }));
+$('#toSignup').addEventListener('click', (e) => { e.preventDefault(); go('s1'); });
+$('#forgot').addEventListener('click', (e) => { e.preventDefault(); toast('Prototype: the password reset screen isn’t drawn here.'); });
+
+// "In review" page (T8). Logging in without signing up here shows a sample partner, without filling in the form.
+const DEMO_OFFER = { cls: true, days: '90', peak: false, times: '', drink: true, price: true, disc: 10, discRaw: '10' };
+function renderHome() {
+  const o = offer();
+  demo = !$('#venue').value.trim() && !o.cls && !o.price && !o.drink;
+  const name = demo ? 'Your Studio' : venueName(), ini = initials(name).slice(0, 1);
+  $('#hName').textContent = name; $('#hName3').textContent = name; $('#hAv').textContent = ini; $('#hAv2').textContent = ini;
+  // The sample partner keeps its city and ages after "Edit your offer", saved or not
+  updateCard(homeCard, demo ? DEMO_OFFER : o, demo ? { name, city: 'Dubai', ages: '1 to 4 years', demo: true }
+    : { name, city: firstCity() || (fromDemo ? 'Dubai' : ''), ages: agesText() || (fromDemo ? '1 to 4 years' : '') });
+}
+$('#edit').addEventListener('click', () => {
+  if (demo) { fromDemo = true; optClass.checked = true; $('input[name=days][value="90"]').checked = true; drinkWanted = true; optPrice.checked = true; optDisc.value = '10'; }
+  go('s2', { edit: true });
+});
+$('#logout').addEventListener('click', () => { $('#lpw').value = ''; go('login'); });
+$('#navOverview').addEventListener('click', (e) => e.preventDefault());
+$$('[data-soon]').forEach((b) => b.addEventListener('click', () => toast('Prototype: only Overview is drawn. The other pages open once the partnership is confirmed.')));
+
+// ---------- "Show our suggestions" ----------
+bindPhone('phone'); bindPhone('phone4', () => { if (waSame.checked) syncWa(); }); bindPhone('wa');
+function applyOurs(init) {
+  const on = ours();
+  document.body.classList.toggle('ours', on);
+  $$('[data-ph-ours]').forEach(setPh);                    // T1 examples
+  $$('[data-country]').forEach(autoCountry);              // T1 United Arab Emirates chosen
+  if (!on) phonesToHers();                                // T2
+  Object.values(PH).forEach((p) => { p.sync(); if (on && p.inp.value.trim() && !p.inp.readOnly) p.check(false); });
+  syncWa();
+  if (!init) clearAllErrors();                            // T3 moves the messages, so start clean
+  if (on) carryOffer();                                   // T5
+  $('#carried').hidden = !(on && carried) || editing;
+  renderOffer();                                          // T4, T6
+  if (cur === 'home') renderHome();
+}
+oursT.addEventListener('change', () => applyOurs(false));
+
+// Start: ?step=1|2|3|4|sent|login|home, ?as=family|partner, ?suggest=1
+const tryAs = Q.get('as'); if (tryAs === 'family' || tryAs === 'partner') $(`input[name=tryas][value="${tryAs}"]`).checked = true;
+function START_OF(step) { return { 1: 's1', 2: 's2', 3: 's3', 4: 's4', 5: 'sent', sent: 'sent', done: 'sent', submitted: 'sent', login: 'login', home: 'home', review: 'home' }[(step || '1').toLowerCase()] || 's1'; }
+const START = START_OF(Q.get('step'));
+applyOurs(true);
+go(START, { focus: false, push: false });
+try {
+  history.scrollRestoration = 'manual'; // each screen opens at the top, as go() does
+  const st = history.state; // after a reload, keep what was under this screen so "← Back" still steps back
+  history.replaceState({ scr: START, edit: false, prev: st && st.scr === START ? st.prev || null : null }, '');
+} catch (e) { /* history unavailable */ }
+</script>
+</body>
+</html>
