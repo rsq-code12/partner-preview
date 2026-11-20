@@ -957,9 +957,12 @@
     .faq-list details[open] .faq-a, .thanks { animation: none; }
     .xring::before, .bal, .scr-2 .ev, .enter { animation: none !important; }
   }
+  /* Preview hosts only, when Arabic is on */
+  .draft-badge { margin: 0; padding: 6px 16px; background: #FFF7E6; border-bottom: 1px solid #F3E1B8; color: #6B4E16; font-family: Inter, "IBM Plex Sans Arabic", sans-serif; font-size: 12px; line-height: 18px; font-weight: 500; text-align: center; }
 </style>
 </head>
 <body>
+<p class="draft-badge" id="draftBadge" hidden><span lang="en" dir="ltr">Arabic draft – needs native check</span> · <span lang="ar" dir="rtl">مسودة عربية – تحتاج إلى مراجعة من متحدث أصلي</span></p>
 
 <!-- Floating bottom navigation (as on alurei.app) -->
 <nav class="navpill" aria-label="Sections" data-i18n-aria="nav.sections">
@@ -1345,7 +1348,7 @@
           <p class="r-d" data-i18n="r1.d2">Free, with no fees or commission. Signing up takes about 2 minutes, and we check every listing before it goes live.</p>
           <ul class="checks"><li data-i18n="s.2a">Shown by age and time of day</li><li data-i18n="s.3a">No codes, vouchers or paperwork</li><li data-i18n="st.4d">We’re in touch within two working days</li></ul>
           <div class="actions">
-            <a class="btn btn-ondark" href="https://alurei.app/partner/signup" data-track-out><span data-i18n="r1.btn">Create partner account</span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn-ondark" id="signupBtn" href="signup.html" data-track-out><span data-i18n="r1.btn">Create partner account</span><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
             <p class="login"><span data-i18n="r1.login">Already a partner?</span> <a href="https://alurei.app/partner/login" data-i18n="r1.loginL">Log in</a></p>
           </div>
         </div>
@@ -1428,7 +1431,7 @@
         <p class="tag" data-i18n="foot.tag">Your nanny’s guide to a better day for your child.</p>
       </div>
       <div class="foot-cols">
-        <div><h2 class="foot-h" data-i18n="foot.partners">Partners</h2><ul><li><a href="#join" class="hl" data-i18n="foot.join">Join as a partner</a></li><li><a href="https://alurei.app/partner/signup" data-track-out data-i18n="foot.account">Create partner account</a></li><li><a href="https://alurei.app/partner/login" data-i18n="foot.login">Partner login</a></li></ul></div>
+        <div><h2 class="foot-h" data-i18n="foot.partners">Partners</h2><ul><li><a href="#join" class="hl" data-i18n="foot.join">Join as a partner</a></li><li><a href="signup.html" id="signupFoot" data-track-out data-i18n="foot.account">Create partner account</a></li><li><a href="https://alurei.app/partner/login" data-i18n="foot.login">Partner login</a></li></ul></div>
         <div><h2 class="foot-h" data-i18n="foot.legal">Legal</h2><ul><li><a href="terms.html" data-i18n="foot.terms">Partner Terms</a></li><li><a href="privacy.html" data-i18n="foot.privacy">Partner Privacy Policy</a></li></ul></div>
         <div><h2 class="foot-h">Alurei</h2><ul><li><a href="https://alurei.app">alurei.app</a></li><li><a href="mailto:hello@alurei.app">hello@alurei.app</a></li></ul></div>
       </div>
@@ -1968,6 +1971,9 @@ function setLang(l) {
   document.documentElement.classList.remove('i18n-wait');
 }
 document.querySelectorAll('[data-lang-toggle]').forEach((b) => b.addEventListener('click', () => setLang(lang === 'ar' ? 'en' : 'ar')));
+// Preview hosts only (as on signup.html): the Arabic is a draft until a native speaker has checked it. Never on the public site.
+const PREVIEW_HOST = ['rsq-code12.github.io', 'localhost', '127.0.0.1'].includes(location.hostname) || location.protocol === 'file:' || qs.get('preview') === '1';
+langHooks.push(() => { document.getElementById('draftBadge').hidden = !(PREVIEW_HOST && lang === 'ar'); });
 
 // Highlight the current section in the bottom pill (nothing while the hero is in view).
 const navLinks = [...document.querySelectorAll('.navpill [data-nav]')];
@@ -2067,6 +2073,26 @@ if (CARRY_OFFER) document.querySelectorAll('a[href*="/partner/signup"]').forEach
   if (o.complimentaryClass) list.push('class'); if (o.drinkForNanny) list.push('drink'); if (o.alureiPrice) list.push('price'); if (o.offPeakOnly) list.push('offpeak');
   u.searchParams.set('offer', list.join(',')); u.searchParams.set('days', o.days); u.searchParams.set('disc', o.discount); a.href = u.toString();
 }));
+// "Create partner account" opens signup.html in the page's language, with the offer built above (if one was built)
+// arriving ticked: ?offer=class,drink,price,offpeak&days=90&disc=10&times=… The link is brought up to date just before it is used.
+const signupBtn = document.getElementById('signupBtn');
+function signupHref() {
+  const u = new URL(signupBtn.href);
+  if (lang === 'ar') u.searchParams.set('lang', 'ar'); else u.searchParams.delete('lang');
+  ['offer', 'days', 'disc', 'times'].forEach((k) => u.searchParams.delete(k));
+  const o = offer(), list = [];
+  if (offerTouched) { if (o.complimentaryClass) list.push('class'); if (o.drinkForNanny) list.push('drink'); if (o.alureiPrice) list.push('price'); if (o.offPeakOnly) list.push('offpeak'); }
+  if (list.length) {
+    u.searchParams.set('offer', list.join(','));
+    if (o.complimentaryClass) u.searchParams.set('days', o.days);
+    if (o.alureiPrice) u.searchParams.set('disc', o.discount);
+    if (o.offPeakTimes) u.searchParams.set('times', o.offPeakTimes);
+  }
+  signupBtn.href = u.toString();
+}
+['pointerdown', 'focus', 'click', 'contextmenu'].forEach((ev) => signupBtn.addEventListener(ev, signupHref));
+const signupFoot = document.getElementById('signupFoot');
+if (signupFoot) ['pointerdown', 'focus', 'click', 'contextmenu'].forEach((ev) => signupFoot.addEventListener(ev, () => { signupHref(); signupFoot.href = signupBtn.href; }));
 optDrink.addEventListener('change', () => { drinkWanted = optDrink.checked; });
 [[optClass, 'class'], [optDrink, 'class'], [optPeak, 'class'], [optPrice, 'price']].forEach(([el, k]) => el.addEventListener('change', () => touch(k)));
 document.querySelectorAll('input[name="days"]').forEach((el) => el.addEventListener('change', () => touch('class')));
