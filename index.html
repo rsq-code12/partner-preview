@@ -1593,6 +1593,7 @@ const AR = {
   'cn.973': 'البحرين',
   'cn.968': 'عُمان',
   'cn.65': 'سنغافورة',
+  'err.soon': 'سيتوفر هذا قريباً جداً. إلى ذلك الحين، راسلنا على ⁦hello@alurei.app⁩ وسنتواصل معك خلال يومي عمل.',
   'cn.44': 'المملكة المتحدة',
   'how.tabs': 'كيف يعمل، في ثلاث خطوات',
   'how.prev': 'الخطوة السابقة',
@@ -1634,7 +1635,7 @@ const AR = {
   'err.phoneGulf': 'لا يبدو أن هذا رقم من {c}. يرجى التحقق من الأرقام.',
   'a11y.newtab': ' (تفتح في علامة تبويب جديدة)',
 };
-const EXTRA_EN = { 'err.phoneCC': 'That doesn’t look like a {c} number. If it’s from another country, choose Other and type + and the country code.', 'err.phoneOther': 'Please type the number with + and the country code, for example +33 6 12 34 56 78.', 'wa.hintOther': 'Type + and the country code, for example +33 6 12 34 56 78.', 'b.mini': 'Your card: {s}', 'cn.971': 'UAE', 'cn.966': 'Saudi', 'cn.974': 'Qatari', 'cn.965': 'Kuwaiti', 'cn.973': 'Bahraini', 'cn.968': 'Omani', 'cn.65': 'Singapore', 'cn.44': 'UK', 'b.miniNone': 'Your card: no offers yet', 'err.phoneEmpty': 'Please enter your WhatsApp number.', 'err.agree': 'Please tick the box so we can contact you.', 'err.phone2': 'Please check your WhatsApp number. For numbers outside the Gulf, start with + and the country code.', 'err.phoneGulf': 'That doesn’t look like a {c} number. Please check the digits.', 'b.every': 'One every {n} days', 'b.discL': '{n}% off, any time the family pays', 'b.sClass': 'Complimentary class every {n} days', 'b.sPeak': ' (off-peak)', 'b.sPeakT': ' (off-peak: {t})', 'b.sep': ', ', 'b.sDrink': 'a drink for the nanny', 'b.sPrice': '{n}% off', 'b.sum': 'Your card shows: {s}.', 'b.sumNone': 'Your card has no offers yet.', 't.text2': 'We’ll message you on WhatsApp at {num} within two working days.', 'mail.subj': 'Book a 10-minute call', 'mail.body': 'Hello Alurei team,\n\nI’d like to book a 10-minute call.\n\nVenue name:\nArea:\nBest days and times:\nPhone or WhatsApp:\n', 'err.send': 'Sorry, that didn’t send. Please try again, or email hello@alurei.app.', 'hero.play': 'Play motion', 't.preview': 'Preview only: nothing was sent. To join now, email hello@alurei.app.' };
+const EXTRA_EN = { 'err.soon': 'This opens very soon. Until then, email hello@alurei.app and we’ll be in touch within 2 working days.', 'err.phoneCC': 'That doesn’t look like a {c} number. If it’s from another country, choose Other and type + and the country code.', 'err.phoneOther': 'Please type the number with + and the country code, for example +33 6 12 34 56 78.', 'wa.hintOther': 'Type + and the country code, for example +33 6 12 34 56 78.', 'b.mini': 'Your card: {s}', 'cn.971': 'UAE', 'cn.966': 'Saudi', 'cn.974': 'Qatari', 'cn.965': 'Kuwaiti', 'cn.973': 'Bahraini', 'cn.968': 'Omani', 'cn.65': 'Singapore', 'cn.44': 'UK', 'b.miniNone': 'Your card: no offers yet', 'err.phoneEmpty': 'Please enter your WhatsApp number.', 'err.agree': 'Please tick the box so we can contact you.', 'err.phone2': 'Please check your WhatsApp number. For numbers outside the Gulf, start with + and the country code.', 'err.phoneGulf': 'That doesn’t look like a {c} number. Please check the digits.', 'b.every': 'One every {n} days', 'b.discL': '{n}% off, any time the family pays', 'b.sClass': 'Complimentary class every {n} days', 'b.sPeak': ' (off-peak)', 'b.sPeakT': ' (off-peak: {t})', 'b.sep': ', ', 'b.sDrink': 'a drink for the nanny', 'b.sPrice': '{n}% off', 'b.sum': 'Your card shows: {s}.', 'b.sumNone': 'Your card has no offers yet.', 't.text2': 'We’ll message you on WhatsApp at {num} within two working days.', 'mail.subj': 'Book a 10-minute call', 'mail.body': 'Hello Alurei team,\n\nI’d like to book a 10-minute call.\n\nVenue name:\nArea:\nBest days and times:\nPhone or WhatsApp:\n', 'err.send': 'Sorry, that didn’t send. Please try again, or email hello@alurei.app.', 'hero.play': 'Play motion', 't.preview': 'Preview only: nothing was sent. To join now, email hello@alurei.app.' };
 
 // Language switch (the English text is read from the page itself).
 const EN = {};
@@ -2209,6 +2210,9 @@ form.addEventListener('submit', async (e) => {
     if (FORM_ENDPOINT) {
       const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
       if (!res.ok) throw new Error('send failed');
+    } else if (!PREVIEW_HOST) {
+      // Public site with no address connected yet: never pretend it was sent.
+      say('err.soon'); btn.disabled = false; form.removeAttribute('aria-busy'); return;
     } else {
       console.info('Preview mode: this request was not sent anywhere.', data);
       document.getElementById('previewNote').hidden = false;
