@@ -28,3 +28,6 @@ no wildcard record; no CAA record (so GitHub's certificate can be issued). alure
 ## Not touched
 - No DNS changed, nothing on the Hostinger server, no Caddy change, no Alurei-Org repo.
 - Sign-up address (FORM_ENDPOINT) still blank: on partners.alurei.app the sign-up shows the calm "opens very soon, email hello@alurei.app" card and the WhatsApp box says the same, so nothing looks broken and nothing is silently lost.
+
+## Book-a-call button
+Until https://alurei.app/book is live (Arham will say), "Book a 10-minute call" opens an email to hello@alurei.app. To switch: in `index.html` change the one line under `BOOK-A-CALL SWITCH` to `const BOOKING_URL = 'https://alurei.app/book';`, rebuild with `python3 tools/make-release.py` and copy `release/` into alurei-partners.
