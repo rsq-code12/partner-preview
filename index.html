@@ -1447,7 +1447,9 @@
 
 <script defer id="lenisJs" src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
-// Where partner sign-ups are sent. Empty = preview mode (nothing leaves the page).
+// ===== WHATSAPP CALL-BACK SWITCH: off until the partner-applications backend is deployed =====
+// '' = nothing is sent (preview mode; nothing leaves the page).
+// When the backend is live, change the line below to:  const FORM_ENDPOINT = 'https://api.alurei.app/api/v1/partner-applications/callback';
 const FORM_ENDPOINT = '';
 // ===== BOOK-A-CALL SWITCH (the one line to change) =====
 // Empty = "Book a 10-minute call" opens an email to hello@alurei.app (English or Arabic subject and body).

@@ -570,7 +570,10 @@
 </main>
 
 <script>
-const FORM_ENDPOINT = ''; // set when Arham gives the sign-up address
+// ===== SIGN-UP SWITCH: off until the partner-applications backend is deployed =====
+// '' = nothing is sent; the public site shows the "opens very soon, email hello@alurei.app" card.
+// When the backend is live, change the line below to:  const FORM_ENDPOINT = 'https://api.alurei.app/api/v1/partner-applications';
+const FORM_ENDPOINT = '';
 const TERMS_VERSION = '2026-11-12', PRIVACY_VERSION = '2026-11-12';
 
 const $ = (q, r = document) => r.querySelector(q);
@@ -1218,16 +1221,53 @@ function termsSentence() {
   $$('.vh, .req', c).forEach((x) => x.remove());
   return c.textContent.replace(/\s+/g, ' ').trim();
 }
-function buildRequest(r1, r4, rw) {
+// Small logo thumbnail for the request (the server takes a JSON body of about 100 KB; logo dataUrl max 150000 chars).
+// Longest side 256 px, WEBP 0.85 (PNG if the browser can't make WEBP); too long → 160 px, 0.7; still too long or any error → null.
+// The on-screen preview keeps using the original file.
+const THUMB_MAX_CHARS = 90000;
+async function logoThumb() {
+  try {
+    const file = logoFile, url = logoURL;
+    if (!file || !url) return null;
+    const img = await new Promise((ok, bad) => {
+      const im = new Image(), t = setTimeout(() => bad(new Error('logo load timeout')), 5000);
+      im.onload = () => { clearTimeout(t); ok(im); };
+      im.onerror = () => { clearTimeout(t); bad(new Error('logo load failed')); };
+      im.src = url;
+    });
+    const w0 = img.naturalWidth, h0 = img.naturalHeight;
+    if (!w0 || !h0) return null;
+    const make = (side, q) => {
+      const s = Math.min(1, side / Math.max(w0, h0));
+      const w = Math.max(1, Math.round(w0 * s)), h = Math.max(1, Math.round(h0 * s));
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      if (file.type === 'image/jpeg') { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); }
+      ctx.drawImage(img, 0, 0, w, h);
+      const dataUrl = c.toDataURL('image/webp', q);
+      const type = dataUrl.startsWith('data:image/webp') ? 'image/webp' : 'image/png';
+      return { dataUrl, type };
+    };
+    let t = make(256, 0.85);
+    if (t.dataUrl.length > THUMB_MAX_CHARS) t = make(160, 0.7);
+    if (t.dataUrl.length > THUMB_MAX_CHARS) return null;
+    return { name: file.name, type: t.type, dataUrl: t.dataUrl };
+  } catch (err) {
+    return null;
+  }
+}
+// Campaign tags the server accepts (it rejects unknown keys)
+const TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'ref'];
+function buildRequest(r1, r4, rw, logo) {
   const o = offer(), cat = $('#cat').value, on = agesOn(), val = (id) => $('#' + id).value.trim();
   const track = {};
-  Q.forEach((v, k) => { if (/^utm_/i.test(k) || k === 'src' || k === 'ref') track[k] = v.slice(0, 200); });
+  TRACK_KEYS.forEach((k) => { const v = Q.get(k); if (v != null) track[k] = v.trim().slice(0, 200); });
   return {
     business: {
       name: val('venue'), category: cat, categoryOther: cat === 'Other' ? val('catOther') : '',
       ages: AGE_LBL.filter((_, i) => on[i]), agesSummary: agesText(on, 'en'),
       website: val('web'), email: val('email'), phone: r1 ? e164(r1) : '',
-      logo: logoData, // { name, type, dataUrl } or null
+      logo: logo || null, // small thumbnail { name, type, dataUrl } or null
     },
     offer: {
       complimentaryClass: o.cls, days: o.cls ? Number(o.days) : null,
@@ -1284,10 +1324,11 @@ $('#s4').addEventListener('submit', async (e) => {
   const p1 = $('#phone').value.trim(), r1 = p1 ? okPhone(p1, PH.phone.cc.value) : null;
   const r4 = PH.phone4.check(false); if (same) syncWa();
   const rw = same ? r4 : PH.wa.check(false);
-  const data = buildRequest(r1, r4, rw);
   const form = $('#s4'), btn = $('#sendBtn');
   sending = true; btn.disabled = true; btn.textContent = tr('btn.sending'); form.setAttribute('aria-busy', 'true');
   try {
+    const logo = await logoThumb(); // never throws; null on any problem
+    const data = buildRequest(r1, r4, rw, logo);
     if (FORM_ENDPOINT) {
       const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
       if (!res.ok) throw new Error('send failed');
