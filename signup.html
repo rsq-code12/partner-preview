@@ -293,8 +293,6 @@
   .lang-b svg { width: 18px; height: 18px; }
   .lang-b:hover { background: var(--ok-tint); color: var(--brand-h); }
   .lang-b:active { transform: scale(.98); }
-  /* Preview hosts only, when Arabic is on */
-  .draft { margin-inline-end: auto; padding: 6px 12px; border: 1px solid #F3E1B8; border-radius: 12px; background: #FFF7E6; color: #6B4E16; font-family: Inter, "IBM Plex Sans Arabic", sans-serif; font-size: 12px; line-height: 18px; font-weight: 500; }
 
   /* Arabic: IBM Plex Sans Arabic, with taller lines as on the partner page */
   html[lang="ar"] body { font-family: "IBM Plex Sans Arabic", Inter, sans-serif; line-height: 22px; }
@@ -314,7 +312,6 @@
 <main class="auth" id="auth">
   <div class="col" id="col">
     <div class="topbar">
-      <p class="draft" id="draftBadge" hidden><span lang="en" dir="ltr">Arabic draft – needs native check</span> · <span lang="ar" dir="rtl">مسودة عربية – تحتاج إلى مراجعة من متحدث أصلي</span></p>
       <button type="button" class="lang-b" id="langB" lang="ar" aria-label="العربية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span id="langL">العربية</span></button>
     </div>
     <header class="intro" id="intro">
@@ -1367,7 +1364,6 @@ function setLang(l) {
   document.title = tr('title');
   const other = l === 'ar' ? 'English' : 'العربية', lb = $('#langB');
   $('#langL').textContent = other; lb.lang = l === 'ar' ? 'en' : 'ar'; lb.setAttribute('aria-label', other);
-  $('#draftBadge').hidden = !(PREVIEW && l === 'ar'); // preview hosts only, never on the public site
   $('#backLink').href = l === 'ar' ? 'index.html?lang=ar' : 'index.html';
   $('#sendBtn').textContent = tr(sending ? 'btn.sending' : 'btn.send');
   try { const u = new URL(location.href); if (l === 'ar') u.searchParams.set('lang', 'ar'); else u.searchParams.delete('lang'); history.replaceState(history.state, '', u.pathname + u.search + u.hash); } catch (e) { /* history unavailable */ }

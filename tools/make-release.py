@@ -3,7 +3,7 @@
 
 Same pages as the preview, with these differences:
 - search engines may index it (robots meta + robots.txt + sitemap.xml), with canonical and social-share tags
-- preview-only behaviour is off everywhere (draft badges, "Preview only" notes, ?preview=1)
+- preview-only behaviour is off everywhere ("Preview only" notes, ?preview=1)
 - the sign-up's last button says "Back to alurei.app" and opens https://alurei.app
 - CNAME is staged as CNAME.staged (rename to CNAME, or set the custom domain, on go-live day)
 Run from the repo root: python3 tools/make-release.py
