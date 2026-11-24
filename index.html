@@ -294,6 +294,18 @@
   .sound svg { width: 24px; height: 24px; }
   @media (min-width: 640px) { .hero { height: 680px; } }
   @media (min-width: 1024px) { .hero { height: clamp(620px, 85vh, 762px); height: clamp(620px, 85svh, 762px); } }
+  /* short screens (phone held sideways, or a laptop zoomed to 200%): the heading and button fit above the menu bar on the first screen */
+  @media (min-width: 640px) and (max-height: 600px) {
+    .hero { height: max(340px, 100vh); height: max(340px, 100svh); }
+    .hero .hero-frame { padding: 12px 32px 96px; }
+    .hero h1 { font-size: 32px; line-height: 40px; }
+    .hero :is(h1, .lead) { text-shadow: 0 0 2px rgba(6,46,53,.9), 0 1px 14px rgba(6,46,53,.75); }
+    .hero .ctas { margin-top: 16px; }
+    .hero-shade { background: linear-gradient(0deg, #062E35 0%, rgba(6,46,53,.88) 50%, rgba(6,46,53,0) 92%); }
+    .navpill { height: 64px; bottom: calc(12px + var(--sb)); }
+    .navpill > a, .navpill > button { height: 48px; }
+    .navpill .join .in { height: 44px; }
+  }
   @media (max-width: 1023px) { .hero h1 { font-size: 32px; line-height: 40px; } }
   /* phones and tablets: the portrait film puts bright sky behind the language link, so a short top fade keeps it readable */
   @media (max-width: 1023px) { .hero-shade::before { content: ""; position: absolute; inset: 0 0 auto; height: 140px; background: linear-gradient(180deg, rgba(6,46,53,.55), rgba(6,46,53,0)); } }
