@@ -32,7 +32,7 @@
        Lines     --line #EEF2F6 · --line-2 #E2E8F0 · --tile-line #CAEFEF (decorative tile borders only)
                  · --field-line #64838B (fields and tick boxes: 3.5:1 on #E7EEEF, 4.1:1 on white)
        Teals     --deep #052328 (band, nav, reach card) · --found #062E35 (hero gradient)
-                 · --brand #0B5460 (buttons, active pills, filled cards; hover --brand-h)
+                 · --brand #0B5460 (buttons, active pills; hover --brand-h)
                  · --hero-line / --hero-h (hero button border / hover) · --beam-fill / --beam (nav light)
                  · --eyebrow #007070 (teal text under 24px, and focus rings: #009E9E is under 3:1 on #F4F4F4)
                  · --accent #009E9E (text 24px and up, icons, borders) · --link-dark #2ED0C5 (links on dark) · --footer #0E2D34 · --swoosh-2 #094A54
@@ -48,7 +48,7 @@
                  · --dir 1, or -1 in RTL: multiply every x offset by var(--dir)
        Icons     --i-check, --i-info (mask images used by .checks and .callout)
      TYPE      h2 / .h2 (section heading) · .statement (dark band) · .h2-dark (dark card) · h3 (card title)
-               · .h4 (small card title) · .sub (intro; 740 wide, 640 inside .center) · .caption · .stat-num
+               · .sub (intro; 740 wide, 640 inside .center) · .caption
                · .t (two-tone words, same weight) · .eyebrow · .eyebrow.on-dark · .eyebrow.faq
                · .on-dark (light text and white focus rings on a dark surface)
      LAYOUT    .wrap (1280 max inside the gutters) · section (padding-block var(--sec); each section
@@ -57,7 +57,7 @@
                · .arr (16px arrow: nudges 4px on hover, mirrors in RTL) · .btn-arrow (48px chevron
                square; put <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg> inside)
                · .linkbtn (underlined text button)
-     CARDS     .card-light (.alt = #FCFCFD) · .card-teal · .card-filled · .icon-tile (44px; <svg> inside)
+     CARDS     .icon-tile (44px; <svg> inside)
                · .pill-tabs (scrolling row) + .pill-tab (active: [aria-selected=true], [aria-current] or .on)
                · .checks (<ul class="checks"><li>text</li></ul>, icon drawn by CSS) · .callout (info icon
                drawn by CSS) · .example ("Example" tag; .on-photo over photos)
@@ -110,7 +110,7 @@
   a { color: inherit; text-decoration: none; }
   button { font: inherit; }
   :focus-visible { outline: 2px solid var(--eyebrow); outline-offset: 2px; }
-  :is(.hero, .navpill, .on-dark, .card-filled, .route.deep) :focus-visible { outline-color: #fff; }
+  :is(.hero, .navpill, .on-dark, .route.deep) :focus-visible { outline-color: #fff; }
   /* in-page links move focus to the section they land on (for screen readers); that focus draws no ring */
   :is(section, header)[tabindex="-1"]:focus { outline: none; }
   /* our own pressed states replace the browser's grey tap flash */
@@ -125,7 +125,6 @@
   .sub, .lead { text-wrap: pretty; }
   h2, .h2 { font-size: 36px; line-height: 44px; font-weight: 700; letter-spacing: -0.72px; color: var(--head); }
   h3 { font-size: 24px; line-height: 32px; }
-  .h4 { font-size: 18px; line-height: 28px; font-weight: 600; color: var(--head); }
   .statement { margin: 0; font-size: 36px; line-height: 44px; font-weight: 600; letter-spacing: -0.72px; color: var(--od-1); text-align: center; }
   .h2-dark { font-size: 30px; line-height: 38px; font-weight: 600; letter-spacing: -0.02em; color: var(--od-1); }
   .t { color: var(--accent); }
@@ -133,12 +132,11 @@
   .center .sub { max-width: 640px; margin-inline: auto; }
   .caption { font-size: 12px; line-height: 18px; color: var(--muted); }
   .caption.on-dark, .on-dark .caption { color: var(--od-cap); }
-  .stat-num { font-size: 36px; line-height: 44px; font-weight: 600; letter-spacing: -0.72px; color: var(--accent); }
   .eyebrow { display: block; margin: 0 0 12px; font-size: 14px; line-height: 20px; font-weight: 600; color: var(--brand); }
   .eyebrow.on-dark, .on-dark .eyebrow { font-size: 16px; line-height: 24px; font-weight: 400; color: var(--od-eyebrow); }
   .eyebrow.faq { font-size: 16px; line-height: 24px; font-weight: 500; color: var(--eyebrow); }
   .on-dark { color: var(--od-2); }
-  html[lang="ar"] :is(h1, h2, h3, .h2, .h4, .statement, .h2-dark, .stat-num) { letter-spacing: 0; }
+  html[lang="ar"] :is(h1, h2, h3, .h2, .statement, .h2-dark) { letter-spacing: 0; }
   html[lang="ar"] :is(h2, .h2) { font-weight: 600; line-height: 1.4; }
   html[lang="ar"] .caption { font-size: 13px; line-height: 20px; }
   html[lang="ar"] :is(.checks, .sub) { line-height: 26px; } /* Arabic body is 16/26 */
@@ -152,7 +150,6 @@
     .statement { font-size: 22px; line-height: 32px; }
     .h2-dark { font-size: 22px; line-height: 28px; }
     h3 { font-size: 22px; line-height: 30px; }
-    .stat-num { font-size: 28px; line-height: 36px; }
   }
 
   /* Buttons */
@@ -188,11 +185,6 @@
   }
 
   /* Cards, pills, check list, callout, "Example" tag (no card shadows: borders only) */
-  .card-light { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 32px; }
-  .card-light.alt { background: var(--card); }
-  .card-teal { background: var(--tile); border: 1px solid #fff; border-radius: var(--r-lg); padding: 32px; }
-  .card-filled { background: var(--brand); color: var(--od-2); border-radius: var(--r-lg); padding: 32px; }
-  .card-filled :is(h2, h3, .h2, .h4) { color: #fff; }
   .icon-tile { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: var(--r); background: var(--tile); border: 1px solid var(--tile-line); color: var(--accent); }
   .icon-tile svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
   /* the 4px inner room keeps the pills' focus rings inside the scroll box (it clips both ways); the -4px keeps them in place */
@@ -213,7 +205,6 @@
   html[lang="ar"] .example { font-size: 13px; line-height: 18px; }
   @media (max-width: 639px) {
     .pill-tab { padding: 10px 18px; }
-    .card-light, .card-teal, .card-filled { padding: 24px; }
   }
 
   /* Reveals (alurei.app: rise in at 85% of the screen, hide again above the start point, replay) */
@@ -1320,7 +1311,7 @@
         <p class="sub" data-reveal data-i18n="care.text">Alurei rewards nannies for the care they give every day, with Care Moments they can spend at local businesses. We fund the rewards, so there’s no cost to you.</p>
       </div>
       <div class="care-visual" aria-hidden="true">
-        <div class="care-photo ph" data-reveal="img"><img loading="lazy" decoding="async" alt="" src="assets/media/faq@2x.webp"></div>
+        <div class="care-photo ph" data-reveal="img"><img loading="lazy" decoding="async" alt="" src="assets/media/faq.webp" srcset="assets/media/faq@2x.webp 2x"></div>
         <div class="bal-wrap" data-reveal="settle" style="--d:.2s">
           <div class="bal">
             <p class="bal-l"><span data-i18n="care.bal">Available Balance</span> <span class="example" data-i18n="s3.example">Example</span></p>
@@ -1455,9 +1446,8 @@ const FORM_ENDPOINT = '';
 // Empty = "Book a 10-minute call" opens an email to hello@alurei.app (English or Arabic subject and body).
 // When the booking page is live, change the line below to:  const BOOKING_URL = 'https://alurei.app/book';
 const BOOKING_URL = '';
-// When the app's sign-up can read it, set to true: an offer built in the Offers section is passed to the sign-up link,
-// so step 2 arrives filled in (?offer=class,drink,price,offpeak&days=90&disc=10). Off until the app supports it.
-const CARRY_OFFER = false;
+// An offer built in the Offers section always goes with the "Create partner account" link to signup.html,
+// so its step 2 arrives filled in (?offer=class,drink,price,offpeak&days=90&disc=10&times=…; see signupHref below).
 document.documentElement.classList.add('js');
 const qs = new URLSearchParams(location.search);
 const still = qs.has('still');
@@ -2016,16 +2006,15 @@ if (BOOKING_URL) { bookBtn.href = BOOKING_URL; bookBtn.target = '_blank'; bookBt
 else { document.getElementById('bookNote').hidden = false; bookBtn.setAttribute('aria-describedby', 'bookNote'); const mail = () => { bookBtn.href = `mailto:hello@alurei.app?subject=${encodeURIComponent(tr('mail.subj'))}&body=${encodeURIComponent(tr('mail.body'))}`; }; mail(); langHooks.push(mail); }
 if (Object.keys(track).length) document.querySelectorAll('[data-track-out]').forEach((a) => { const u = new URL(a.href); Object.entries(track).forEach(([k, v]) => u.searchParams.set(k, v)); a.href = u.toString(); });
 
-// Arabic keyboards type Arabic-Indic digits: accept them everywhere a number is typed.
 // FAQ: one answer open at a time. <details name="faq"> does it natively; this also covers browsers without it.
 const faqItems = [...document.querySelectorAll('.faq-list details')];
 faqItems.forEach((d) => d.addEventListener('toggle', () => { if (d.open) faqItems.forEach((o) => { if (o !== d && o.open) o.open = false; }); }));
 
+// Arabic keyboards type Arabic-Indic digits: accept them everywhere a number is typed.
 const latin = (v) => String(v).replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
 
 // Offers: the venue card follows the choices, which are the ones a venue makes at sign-up (step 2, in the sign-up's words).
-// The offer a visitor builds travels with a WhatsApp request. It reaches the sign-up form itself only when CARRY_OFFER
-// is on and the app reads it.
+// The offer a visitor builds travels with a WhatsApp request, and with the sign-up link (signupHref below).
 const optClass = document.getElementById('optClass'), optDrink = document.getElementById('optDrink'), optPrice = document.getElementById('optPrice'), optPeak = document.getElementById('optPeak'), optDisc = document.getElementById('optDisc'), optPeakT = document.getElementById('optPeakT');
 const vc = { cls: document.getElementById('vcClass'), price: document.getElementById('vcPrice'), empty: document.getElementById('vcEmpty'), days: document.getElementById('vcDays'), disc: document.getElementById('vcDisc'), peak: document.getElementById('vcPeak'), peakT: document.getElementById('vcPeakT'), drink: document.getElementById('vcDrink'), div: document.getElementById('vcDiv'), sum: document.getElementById('vcSum'), peakMore: document.getElementById('peakMore') };
 const [discDown, discUp] = document.querySelectorAll('.stepper button');
@@ -2078,12 +2067,6 @@ function renderOffer(changed) {
   if (changed && changed !== 'times') vc.sum.textContent = txt ? tr('b.sum').replace('{s}', () => txt) : tr('b.sumNone');
 }
 const touch = (k) => { offerTouched = true; renderOffer(k); };
-if (CARRY_OFFER) document.querySelectorAll('a[href*="/partner/signup"]').forEach((a) => a.addEventListener('click', () => {
-  if (!offerTouched) return;
-  const o = offer(), u = new URL(a.href), list = [];
-  if (o.complimentaryClass) list.push('class'); if (o.drinkForNanny) list.push('drink'); if (o.alureiPrice) list.push('price'); if (o.offPeakOnly) list.push('offpeak');
-  u.searchParams.set('offer', list.join(',')); u.searchParams.set('days', o.days); u.searchParams.set('disc', o.discount); a.href = u.toString();
-}));
 // "Create partner account" opens signup.html in the page's language, with the offer built above (if one was built)
 // arriving ticked: ?offer=class,drink,price,offpeak&days=90&disc=10&times=… The link is brought up to date just before it is used.
 const signupBtn = document.getElementById('signupBtn');
@@ -2149,7 +2132,6 @@ function normPhone(raw, cc) {
     if (g) return { cc: g, nat: d.slice(g.length).replace(/^0+/, '') };
     const near = GULF.find((c) => d.startsWith(c));
     if (near) return { bad: near }; // a Gulf code with the wrong number of digits after it: say which country
-
     return d.length >= 8 && d.length <= 15 ? { cc: '', nat: d } : null;
   }
   if (!cc) return null;
