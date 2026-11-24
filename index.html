@@ -805,6 +805,7 @@
   /* small text links get a 44px tall tap area without moving anything */
   .route.deep .login a { position: relative; }
   .route.deep .login a::after { content: ""; position: absolute; inset: -12px -4px; } /* not on .agree a: its tap area would cover the consent sentence above it */
+  @media (pointer: coarse), (max-width: 768px) { .route.deep .login a::after { inset: -14px -4px; } } /* touch: 17 + 28 = 45px tall, still clear of the button 16px above */
   .route.talk { padding: 34px; background: var(--tile); border: 2px solid #fff; } /* 34 + the 2px border = card 1's 36 */
   .route.talk .eyebrow { font-weight: 500; color: var(--brand); }
   .route.talk h3 { color: var(--head); }
