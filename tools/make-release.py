@@ -54,5 +54,5 @@ for name, path in PAGES.items():
 (OUT / 'CNAME.staged').write_text('partners.alurei.app\n')
 (OUT / '.nojekyll').write_text('')
 (OUT / 'README.md').write_text('# Alurei partner page (go-live copy)\n\nBuilt from rsq-code12/partner-preview with `python3 tools/make-release.py`. Do not edit here.\n\n'
-    'Go-live: see GO-LIVE.md. `CNAME.staged` is NOT active; GitHub Pages only uses a file named `CNAME`.\n')
+    'Go-live steps are kept with the source in partner-preview. `CNAME.staged` is NOT active; GitHub Pages only uses a file named `CNAME`.\n')
 print('release/ built:', sorted(p.name for p in OUT.iterdir()))
