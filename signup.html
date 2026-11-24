@@ -2,6 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' https://api.alurei.app; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Sign up your venue as an Alurei partner and appear in families’ Daily Flow. Free to join: no fees, no commission.">
@@ -12,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Alurei partner sign-up (Aoife's 18 Nov design). Sends a request to the Alurei team; the account is set up after the venue is approved. -->
+<!-- Alurei partner sign-up. Sends a request to the Alurei team; the account is set up after the venue is approved. -->
 <style>
   :root {
     --page:#F4F4F4; --tile:#E7EEEF; --line:#EEF2F6; --rule:#F0F2F8; --tabs:#041D21;
@@ -132,7 +134,7 @@
   .radio input::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--brand); transform: scale(0); transition: transform .15s var(--e-back); }
   .radio input:checked::after { transform: scale(1); }
 
-  /* Tick boxes (her [tick] items) */
+  /* Tick boxes (the [tick] items) */
   .tick { appearance: none; -webkit-appearance: none; flex: none; width: 24px; height: 24px; margin: 0; border: 1.5px solid var(--field-line); border-radius: 6px; background: #fff; display: grid; place-items: center; cursor: pointer; transition: background-color .2s var(--e-ui), border-color .2s var(--e-ui); }
   .tick::after { content: ""; width: 14px; height: 14px; background: var(--tickmark) center / contain no-repeat; opacity: 0; transform: scale(.8); transition: opacity .15s var(--e-ui), transform .15s var(--e-back); }
   .tick:checked { background: var(--brand); border-color: var(--brand); }
@@ -144,7 +146,7 @@
   .ages { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 2px 16px; }
   .f.bad .ages, .f.bad > .rads { border-radius: 8px; box-shadow: 0 0 0 1px var(--err); padding: 2px 8px; }
 
-  /* Step 2: her three offers */
+  /* Step 2: the three offers */
   .orows { display: grid; gap: 10px; }
   .orow { border: 1px solid var(--tile); border-radius: 16px; background: var(--field); transition: border-color .2s var(--e-ui), background-color .2s var(--e-ui); }
   .orow.on { border-color: var(--brand); background: #fff; }
@@ -162,7 +164,7 @@
   .callout { padding: 12px 14px; border-radius: 12px; background: var(--tile); color: var(--strong); font-size: 14px; line-height: 20px; }
   .carried { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--tile); color: var(--strong); font-size: 14px; line-height: 20px; }
   .carried svg { width: 18px; height: 18px; margin-top: 1px; flex: none; color: var(--brand); }
-  /* the drink needs the class (Aoife, gl4, 23 Nov): its head dims and its tick is disabled; the reason stays readable */
+  /* the drink needs the class (decided 23 Nov): its head dims and its tick is disabled; the reason stays readable */
   .oneeds { display: none; margin: 0; padding: 0 16px 14px; padding-inline-start: 52px; font-size: 13px; line-height: 18px; color: var(--body); text-wrap: pretty; }
   .orow.dis .oneeds { display: block; }
   .orow.dis .ohead { opacity: .5; cursor: default; }
@@ -554,7 +556,7 @@
       <p class="promise" data-i18n="promise">We’ll be in touch within 2 working days.</p>
     </form>
 
-    <!-- Request sent (her screen) -->
+    <!-- Request sent screen -->
     <section class="done" id="sent" hidden aria-labelledby="sentT">
       <div class="okc" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
       <h1 id="sentT" tabindex="-1" data-i18n="sent.t">Request sent</h1>
@@ -939,9 +941,9 @@ function agesText(on = agesOn(), l = lang) {
 }
 $$('input[name=ages]').forEach((el) => el.addEventListener('change', renderOffer));
 
-// ---------- Step 2: her offer ----------
-// A drink for the nanny now comes only with the complimentary class, never on its own (Aoife, gl4, 23 Nov):
-// its tick is disabled until the class is ticked; unticking the class unticks it, re-ticking restores what she wanted.
+// ---------- Step 2: the offer ----------
+// A drink for the nanny now comes only with the complimentary class, never on its own (decided 23 Nov):
+// its tick is disabled until the class is ticked; unticking the class unticks it, re-ticking restores the earlier choice.
 const optClass = $('#optClass'), optPrice = $('#optPrice'), optDrink = $('#optDrink'), optPeak = $('#optPeak'), optDisc = $('#optDisc'), peakT = $('#peakT');
 let drinkWanted = false;
 function offer() {

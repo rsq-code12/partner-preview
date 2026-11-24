@@ -2,6 +2,8 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' https://api.alurei.app; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>(function(){try{try{localStorage.removeItem('alurei.lang')}catch(e){}if(new URLSearchParams(location.search).get('lang')==='ar'){var d=document.documentElement;d.lang='ar';d.dir='rtl';d.classList.add('i18n-wait');setTimeout(function(){d.classList.remove('i18n-wait')},3000)}}catch(e){}})();</script>
@@ -473,7 +475,7 @@
   .s3-foot { margin: 14px 0 auto; padding-bottom: 36px; text-align: center; font-size: 12px; line-height: 18px; color: var(--muted); }
   .scr-3 .example { top: auto; bottom: 20px; inset-inline-end: auto; left: 50%; translate: -50% 0; }
 
-  /* A day in Dubai: a light room and a native sideways scroller (Aoife's note 2: it must work on every laptop input) */
+  /* A day in Dubai: a light room and a native sideways scroller (it must work on every laptop input) */
   .day { background: #fff; }
   .day-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
   .day-head .sub { max-width: 600px; }
@@ -486,7 +488,7 @@
   .day-view::-webkit-scrollbar { display: none; }
   .day-view:focus-visible { outline-offset: -2px; }
   .day-view.drag { scroll-snap-type: none; cursor: grabbing; user-select: none; -webkit-user-select: none; }
-  /* Mouse and trackpad: no snapping, so a short or slow sideways swipe stays where it ends (Aoife's note 2). Touch keeps it. */
+  /* Mouse and trackpad: no snapping, so a short or slow sideways swipe stays where it ends. Touch keeps it. */
   @media (hover: hover) and (pointer: fine) { .day-view { scroll-snap-type: none; cursor: grab; } }
   .day-track { display: flex; align-items: stretch; gap: 20px; width: max-content; padding-inline: var(--dpad); padding-block: 2px; }
   .dcard { display: flex; flex-direction: column; flex: none; width: 300px; padding: 8px; border: 1px solid var(--line); border-radius: var(--r-lg); background: #fff; scroll-snap-align: start; }
@@ -578,7 +580,7 @@
     .stat:nth-child(n+3)::after { inset-inline: 12px; }
   }
 
-  /* ===== Batch 3 (Offers): tick your offers (Aoife's sign-up step 2 wording) and see the venue card as the app draws it ===== */
+  /* ===== Batch 3 (Offers): tick your offers (sign-up step 2 wording) and see the venue card as the app draws it ===== */
   #offers { overflow-x: clip; background: #fff; } /* the two columns slide in from 80px aside */
   .builder { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 48px; align-items: start; margin-top: 48px; }
   .opts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-content: start; }
@@ -602,7 +604,7 @@
   .tick.sm, .tick.sm input { width: 20px; height: 20px; margin: 0; }
   .opt-more { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; padding-inline-start: 60px; }
   .opt:not(.on) .opt-more { display: none; }
-  .opt-more > .often-l { flex: 1 1 100%; margin-bottom: -6px; } /* "How often?" over the 60 / 90 control, as in her step 2 */
+  .opt-more > .often-l { flex: 1 1 100%; margin-bottom: -6px; } /* "How often?" over the 60 / 90 control, as in sign-up step 2 */
   /* hover (as alurei.app's tiles) and press */
   .opt:not(.on):not(.dis):hover { background: var(--tile-h); }
   .opt.on:hover { border-color: #A6DCDC; }
@@ -723,7 +725,7 @@
   html[dir="rtl"] .reach-copy .swoosh { scale: -1 1; }
   .reach-copy .h2-dark { max-width: 560px; }
   .reach-copy .checks { margin-top: 24px; }
-  /* her six age bands in even rows: 3 + 3 (2 + 2 + 2 on phones), so "8 years +" never sits alone */
+  /* the six age bands in even rows: 3 + 3 (2 + 2 + 2 on phones), so "8 years +" never sits alone */
   .ages { display: grid; grid-template-columns: repeat(3, minmax(0, max-content)); gap: 2px 18px; margin: 6px 0 0; padding: 0; list-style: none; font-size: 14px; line-height: 20px; color: var(--od-cap); }
   .ages li { display: flex; align-items: center; gap: 6px; }
   .ages li::before { content: ""; width: 4px; height: 4px; flex: none; border-radius: 50%; background: currentColor; }
@@ -735,7 +737,7 @@
   .reach-photo > img { position: absolute; inset: 0; }
   html[lang="ar"] .areas li { font-size: 14px; line-height: 20px; }
 
-  /* Nannies are rewarded for great care: Aoife's block, quiet. Her words; a photo with the app's balance card over it.
+  /* Nannies are rewarded for great care: a quiet block in the approved words; a photo with the app's balance card over it.
      The card floats (the section's one ambient loop): it pauses on hover, off screen, with the pause button and when motion is reduced. */
   #care { overflow-x: clip; background: #fff; } /* the photo slides in from 70px aside; at 1024-1279 the gutter is only 32px */
   .care { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
@@ -906,7 +908,7 @@
   }
 
   /* Footer: alurei.app's footer. Square #0E2D34, pulled over the FAQ (z 20), a faint wordmark centred behind it, the
-     logo and Aoife's tagline at the start, three link columns, then the bottom block with her "Better for…" line last. */
+     logo and the tagline at the start, three link columns, then the bottom block with the "Better for…" line last. */
   footer { position: relative; z-index: 20; overflow: hidden; margin-top: -40px; padding: 80px 0 calc(128px + var(--sb)); background: var(--footer); color: var(--od-3); }
   footer :focus-visible { outline-color: #fff; }
   /* the wordmark drawn in the accent through its own shape, so it reads as a teal tint (alurei.app), not a grey one */
@@ -1077,7 +1079,7 @@
               </div>
               <div class="ph-tab"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7v8.5a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.75"/><path d="M4.5 20.5c.9-3.7 3.9-6 7.5-6s6.6 2.3 7.5 6"/></svg></span></div>
             </div>
-            <!-- Screen 3: the confirmation the nanny shows at the front desk (Aoife, lp11 §2) -->
+            <!-- Screen 3: the confirmation the nanny shows at the front desk -->
             <div class="scr scr-3">
               <div class="appbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg><b data-i18n="b.venue">Your Studio</b><span></span></div>
               <div class="okc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
@@ -1175,7 +1177,7 @@
     </div>
   </section>
 
-  <!-- Offers: venues tick their offers (Aoife's sign-up step 2 wording) and see their venue card as the app's offer card -->
+  <!-- Offers: venues tick their offers (sign-up step 2 wording) and see their venue card as the app's offer card -->
   <section id="offers" aria-labelledby="offH">
     <div class="wrap">
       <div class="center" data-reveal-group="header">
@@ -1269,7 +1271,7 @@
     </div>
   </section>
 
-  <!-- Who you'll reach: alurei.app's multilingual banner card, with Aoife's 16 areas in her order (lp14) -->
+  <!-- Who you'll reach: alurei.app's multilingual banner card, with the 16 areas in the agreed order -->
   <section id="reach" aria-labelledby="whoH">
     <div class="wrap">
       <div class="reach-card on-dark" data-reveal="strong">
@@ -1309,7 +1311,7 @@
     </div>
   </section>
 
-  <!-- Nannies are rewarded for great care: Aoife's heading and text, word for word, with the app's balance card over a photo -->
+  <!-- Nannies are rewarded for great care: the approved heading and text, word for word, with the app's balance card over a photo -->
   <section id="care" aria-labelledby="careH">
     <div class="wrap care">
       <div class="care-copy" data-reveal-group="header">
@@ -1420,8 +1422,8 @@
   </section>
 </main>
 
-<!-- Footer: alurei.app's footer (square #0E2D34, pulled over the FAQ, a faint wordmark behind it). Aoife's tagline,
-     and her "Better for…" line as the very last line. -->
+<!-- Footer: alurei.app's footer (square #0E2D34, pulled over the FAQ, a faint wordmark behind it). The tagline,
+     and the "Better for…" line as the very last line. -->
 <footer>
   <span class="wm-big" aria-hidden="true"></span>
   <div class="wrap">
@@ -1443,7 +1445,7 @@
   </div>
 </footer>
 
-<script defer id="lenisJs" src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer id="lenisJs" src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
 <script>
 // ===== WHATSAPP CALL-BACK SWITCH: off until the partner-applications backend is deployed =====
 // '' = nothing is sent (preview mode; nothing leaves the page).
@@ -1451,7 +1453,7 @@
 const FORM_ENDPOINT = '';
 // ===== BOOK-A-CALL SWITCH (the one line to change) =====
 // Empty = "Book a 10-minute call" opens an email to hello@alurei.app (English or Arabic subject and body).
-// When Arham confirms the booking page is live, change the line below to:  const BOOKING_URL = 'https://alurei.app/book';
+// When the booking page is live, change the line below to:  const BOOKING_URL = 'https://alurei.app/book';
 const BOOKING_URL = '';
 // When the app's sign-up can read it, set to true: an offer built in the Offers section is passed to the sign-up link,
 // so step 2 arrives filled in (?offer=class,drink,price,offpeak&days=90&disc=10). Off until the app supports it.
@@ -1821,7 +1823,7 @@ addEventListener('resize', () => requestAnimationFrame(howLink), { passive: true
 addEventListener('load', howLink); if (document.fonts) document.fonts.ready.then(howLink);
 howLink();
 
-// A day in Dubai (Aoife's note 2): a native sideways scroller, so every laptop input moves it. Sideways trackpad swipes
+// A day in Dubai: a native sideways scroller, so every laptop input moves it. Sideways trackpad swipes
 // and Shift+wheel are kept away from Lenis (it lets through only wheel events with no vertical part), so the browser
 // scrolls the strip itself; a plain vertical wheel still scrolls the page. The arrows step one card, the time-of-day pills
 // jump to their part of the day, ←/→, Home and End work while the strip has focus, and a mouse can drag it.
@@ -2021,7 +2023,7 @@ faqItems.forEach((d) => d.addEventListener('toggle', () => { if (d.open) faqItem
 
 const latin = (v) => String(v).replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
 
-// Offers: the venue card follows the choices, which are the ones a venue makes at sign-up (step 2, in Aoife's words).
+// Offers: the venue card follows the choices, which are the ones a venue makes at sign-up (step 2, in the sign-up's words).
 // The offer a visitor builds travels with a WhatsApp request. It reaches the sign-up form itself only when CARRY_OFFER
 // is on and the app reads it.
 const optClass = document.getElementById('optClass'), optDrink = document.getElementById('optDrink'), optPrice = document.getElementById('optPrice'), optPeak = document.getElementById('optPeak'), optDisc = document.getElementById('optDisc'), optPeakT = document.getElementById('optPeakT');
@@ -2179,7 +2181,7 @@ langHooks.push(ccHint);
 ccHint(); addEventListener('resize', ccSize, { passive: true }); if (document.fonts) document.fonts.ready.then(ccSize);
 phoneEl.addEventListener('blur', () => { const r = normPhone(phoneEl.value, ccEl.value); if (r && r.cc) { ccEl.value = r.cc; phoneEl.value = fmtNat(r.nat, r.cc); ccHint(); } });
 phoneEl.addEventListener('input', () => { if (telBox.classList.contains('bad')) { telBox.classList.remove('bad'); phoneEl.removeAttribute('aria-invalid'); say(null); } });
-// The contact tick (Aoife, lp15): required; ticking it clears its own message.
+// The contact tick: required; ticking it clears its own message.
 agree.addEventListener('change', () => { if (agree.checked && agree.hasAttribute('aria-invalid')) { agree.removeAttribute('aria-invalid'); say(null); } });
 let sent = null;
 function renderThanks() {
