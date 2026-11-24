@@ -1186,7 +1186,7 @@
         <div class="opts" data-reveal="start">
           <a class="vc-mini" id="vcMini" href="#vcard" aria-hidden="true" tabindex="-1"><span class="dot"></span><span id="vcMiniTxt"></span></a>
           <div class="opt on" data-opt="class">
-            <label class="opt-head" for="optClass">
+            <label class="opt-head">
               <span class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-1.5-3-5-3.5-5-1.2C7 8 9.5 8 12 8zm0 0c1.5-3 5-3.5 5-1.2C17 8 14.5 8 12 8z"/></svg></span>
               <span class="ot"><b id="tClass" data-i18n="off.1t">A complimentary class</b><span id="dClass" data-i18n="off.1d">One class per child. For a play area, one complimentary hour.</span></span>
               <span class="tick"><input type="checkbox" id="optClass" aria-labelledby="tClass" aria-describedby="dClass" checked><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></span>
@@ -1205,7 +1205,7 @@
             </div>
           </div>
           <div class="opt on" data-opt="price">
-            <label class="opt-head" for="optPrice">
+            <label class="opt-head">
               <span class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg></span>
               <span class="ot"><b id="tPrice" data-i18n="off.2t">An Alurei price</b><span id="dPrice" data-i18n="off.2d">A discount families can use every time they pay.</span></span>
               <span class="tick"><input type="checkbox" id="optPrice" aria-labelledby="tPrice" aria-describedby="dPrice" checked><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></span>
@@ -1214,14 +1214,14 @@
               <span class="more-l" id="discL" data-i18n="b.disc">Discount</span>
               <div class="stepper">
                 <button type="button" data-step="-5" aria-label="Lower discount" data-i18n-aria="b.less">−</button>
-                <label class="num" for="optDisc" dir="ltr"><input id="optDisc" type="text" inputmode="numeric" maxlength="2" value="10" aria-labelledby="discL" aria-describedby="discH" autocomplete="off" role="spinbutton" aria-valuemin="5" aria-valuemax="50" aria-valuenow="10"><i data-i18n="b.pct">% off</i></label>
+                <label class="num" dir="ltr"><input id="optDisc" type="text" inputmode="numeric" maxlength="2" value="10" aria-labelledby="discL" aria-describedby="discH" autocomplete="off" role="spinbutton" aria-valuemin="5" aria-valuemax="50" aria-valuenow="10"><i data-i18n="b.pct">% off</i></label>
                 <button type="button" data-step="5" aria-label="Higher discount" data-i18n-aria="b.more">+</button>
               </div>
               <span class="help" id="discH" data-i18n="b.help">Usually 10–15%</span>
             </div>
           </div>
           <div class="opt on" data-opt="drink">
-            <label class="opt-head" for="optDrink">
+            <label class="opt-head">
               <span class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M17 8h1a4 4 0 0 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg></span>
               <span class="ot"><b id="tDrink" data-i18n="off.3t">A drink for the nanny</b><span id="dDrink" data-i18n="off.3d">A coffee or tea for the nanny at the complimentary class.</span></span>
               <span class="tick"><input type="checkbox" id="optDrink" aria-labelledby="tDrink" aria-describedby="dDrink" checked><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></span>
@@ -1376,7 +1376,7 @@
               </div>
               <small class="wa-hint" id="waHint" data-i18n="wa.hint">Any format is fine, for example 050 123 4567.</small>
               <div class="agree">
-                <label class="tick sm" for="agree"><input type="checkbox" id="agree" name="agree" aria-required="true" aria-describedby="msg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></label>
+                <label class="tick sm"><input type="checkbox" id="agree" name="agree" aria-required="true" aria-describedby="msg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></label>
                 <p><label for="agree" data-i18n="wa.agree">I agree to be contacted by Alurei about the partnership.</label> <a href="privacy.html" target="_blank" rel="noopener"><span data-i18n="foot.privacy">Partner Privacy Policy</span><span class="sr" data-i18n="a11y.newtab"> (opens in a new tab)</span></a></p>
               </div>
               <p class="form-msg" id="msg" role="alert"></p>

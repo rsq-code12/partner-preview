@@ -33,6 +33,7 @@ article.doc li { margin-bottom: 8px; }
 article.doc li::marker { color: var(--teal); }
 .intro { font-size: 17.5px; color: var(--head); }
 .table { overflow-x: auto; margin: 6px 0 22px; border: 1px solid #e6eaee; border-radius: 16px; }
+.table:focus-visible { outline: 2px solid var(--eyebrow); outline-offset: 2px; }
 table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.55; }
 th { text-align: start; font-weight: 600; color: var(--head); background: var(--surface); padding: 12px 14px; }
 td { padding: 12px 14px; border-top: 1px solid #edf0f2; vertical-align: top; }
