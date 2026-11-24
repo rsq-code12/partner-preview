@@ -286,7 +286,7 @@
   .logo .wm { height: 28px; width: auto; }
   .hero h1 { max-width: 620px; color: var(--page); font-size: 40px; line-height: 48px; font-weight: 600; letter-spacing: -0.72px; }
   html[lang="ar"] .hero h1 { line-height: 1.35; }
-  .hero .lead { margin-top: 8px; max-width: 560px; color: var(--line); font-size: 16px; line-height: 24px; font-weight: 500; }
+  .hero .lead { text-wrap: balance; margin-top: 8px; max-width: 560px; color: var(--line); font-size: 16px; line-height: 24px; font-weight: 500; }
   .hero .ctas { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 24px; }
   .sound { display: grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--page); cursor: pointer; transition: background-color .2s var(--e-ui), transform .15s var(--e-ui); }
   .sound:hover { background: rgba(255,255,255,.10); }
@@ -1366,7 +1366,7 @@
                   <option value="44" data-i18n="cc.uk">+44 United Kingdom</option>
                   <option value="" data-i18n="cc.other">Other</option>
                 </select><i class="tel-sep" aria-hidden="true"></i>
-                <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="50 123 4567" aria-describedby="waHint msg">
+                <input id="phone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel-national" placeholder="50 123 4567" aria-describedby="waHint msg">
               </div>
               <small class="wa-hint" id="waHint" data-i18n="wa.hint">Any format is fine, for example 050 123 4567.</small>
               <div class="agree">

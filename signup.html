@@ -306,6 +306,7 @@
   html[lang="ar"] body[data-scr="s2"] .intro p, html[lang="ar"] body[data-scr="s3"] .intro p, html[lang="ar"] body[data-scr="s4"] .intro p, html[lang="ar"] :is(.done p, .soon p) { line-height: 26px; }
   html[lang="ar"] :is(.tel input, .cc, input[dir="ltr"]) { font-family: Inter, "IBM Plex Sans Arabic", sans-serif; } /* Latin digits, e-mail and links as in English */
   html[dir="rtl"] input[dir="ltr"] { text-align: right; }
+  html[dir="rtl"] .tel input[dir="ltr"] { text-align: left; } /* phone digits stay next to the country code */
   html[lang="ar"] .summary dl > div { grid-template-columns: 96px minmax(0, 1fr); }
   @media (max-width: 379px) { html[lang="ar"] .summary dl > div { grid-template-columns: minmax(0, 1fr); } }
 </style>
@@ -319,7 +320,7 @@
     </div>
     <header class="intro" id="intro">
       <h1 id="introT" tabindex="-1" data-i18n="intro.t">Welcome to Alurei Partners</h1>
-      <p id="introS" data-i18n="intro.s">Let's set up your business before you get started.</p>
+      <p id="introS" data-i18n="intro.s">Let’s set up your business before you get started.</p>
     </header>
 
     <ol class="steps" id="steps" aria-label="Sign-up steps" data-i18n-aria="steps.aria"></ol>
@@ -401,7 +402,7 @@
               <span class="cc"><span id="ccv-phone">+971</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                 <select id="cc-phone" aria-label="Country code" data-i18n-aria="cc.aria" autocomplete="tel-country-code"></select>
               </span>
-              <input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="e.g. 50 123 4567">
+              <input id="phone" type="tel" dir="ltr"inputmode="tel" autocomplete="tel" placeholder="e.g. 50 123 4567">
             </div>
             <p class="okn" id="ok-phone" hidden></p>
             <p class="err" hidden></p>
@@ -517,7 +518,7 @@
               <span class="cc"><span id="ccv-phone4">+971</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                 <select id="cc-phone4" aria-label="Country code" data-i18n-aria="cc.aria" autocomplete="tel-country-code"></select>
               </span>
-              <input id="phone4" type="tel" inputmode="tel" autocomplete="tel" placeholder="e.g. 50 123 4567" aria-required="true">
+              <input id="phone4" type="tel" dir="ltr"inputmode="tel" autocomplete="tel" placeholder="e.g. 50 123 4567" aria-required="true">
             </div>
             <p class="okn" id="ok-phone4" hidden></p>
             <p class="err" hidden></p>
@@ -530,7 +531,7 @@
             <span class="cc"><span id="ccv-wa">+971</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
               <select id="cc-wa" aria-label="Country code" data-i18n-aria="cc.aria" autocomplete="tel-country-code"></select>
             </span>
-            <input id="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="e.g. 50 123 4567" aria-required="true" aria-describedby="waH">
+            <input id="wa" type="tel" dir="ltr"inputmode="tel" autocomplete="tel" placeholder="e.g. 50 123 4567" aria-required="true" aria-describedby="waH">
           </div>
           <p class="okn" id="ok-wa" hidden></p>
           <p class="err" hidden></p>
