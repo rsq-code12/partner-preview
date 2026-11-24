@@ -161,7 +161,11 @@
   .callout { padding: 12px 14px; border-radius: 12px; background: var(--tile); color: var(--strong); font-size: 14px; line-height: 20px; }
   .carried { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--tile); color: var(--strong); font-size: 14px; line-height: 20px; }
   .carried svg { width: 18px; height: 18px; margin-top: 1px; flex: none; color: var(--brand); }
-  @media (max-width: 479px) { .omore { padding-inline-start: 16px; } }
+  /* the drink needs the class (Aoife, gl4, 23 Nov): its head dims and its tick is disabled; the reason stays readable */
+  .oneeds { display: none; margin: 0; padding: 0 16px 14px; padding-inline-start: 52px; font-size: 13px; line-height: 18px; color: var(--body); text-wrap: pretty; }
+  .orow.dis .oneeds { display: block; }
+  .orow.dis .ohead { opacity: .5; cursor: default; }
+  @media (max-width: 479px) { .omore, .oneeds { padding-inline-start: 16px; } }
 
   /* Step 3: locations */
   .locs { display: grid; gap: 22px; }
@@ -296,7 +300,7 @@
   html[lang="ar"] body { font-family: "IBM Plex Sans Arabic", Inter, sans-serif; line-height: 22px; }
   html[lang="ar"] :is(.intro h1, .done h1) { line-height: 1.4; }
   html[lang="ar"] :is(.intro p, .lbl, .f > label, .f > legend, .radio, .tickl, .termsl, .callout, .carried, .banner, .vc-empty, .vc-drink b, .upload b, .rm) { line-height: 22px; }
-  html[lang="ar"] :is(.help, .sl, .sub > legend, .otx small, .vc-s, .vc-sub, .vc-drink small, .vc-peak, .promise, .summary dt) { line-height: 20px; }
+  html[lang="ar"] :is(.help, .sl, .sub > legend, .otx small, .oneeds, .vc-s, .vc-sub, .vc-drink small, .vc-peak, .promise, .summary dt) { line-height: 20px; }
   html[lang="ar"] :is(.err, .okn, .upload small, .pl, .summary > span) { line-height: 18px; }
   html[lang="ar"] body[data-scr="s2"] .intro p, html[lang="ar"] body[data-scr="s3"] .intro p, html[lang="ar"] body[data-scr="s4"] .intro p, html[lang="ar"] :is(.done p, .soon p) { line-height: 26px; }
   html[lang="ar"] :is(.tel input, .cc, input[dir="ltr"]) { font-family: Inter, "IBM Plex Sans Arabic", sans-serif; } /* Latin digits, e-mail and links as in English */
@@ -449,6 +453,7 @@
             </div>
             <div class="orow" data-opt="drink">
               <label class="ohead"><input type="checkbox" class="tick" id="optDrink" aria-describedby="optDrinkD"><span class="otx"><b data-i18n="drink.t">A drink for the nanny</b><small id="optDrinkD" data-i18n="drink.d">A coffee or tea for the nanny at the complimentary class.</small></span></label>
+              <p class="oneeds" id="drinkNeeds" data-i18n="drink.needs">Comes with the complimentary class, so tick that first.</p>
             </div>
           </div>
           <p class="err" hidden></p>
@@ -626,7 +631,7 @@ const EN = {
   'btn.send': 'Send request', 'btn.sending': 'Sending request…',
   'sum.none': 'Not added yet', 'sum.other': 'Other: {x}',
   'vc.ex': 'Example', 'vc.cAvail': 'Complimentary class available', 'vc.forEve': 'For Eve · ', 'vc.inclT': 'Includes a drink for the nanny', 'vc.inclD': 'A coffee or tea at the complimentary class',
-  'vc.useC': 'Use complimentary class', 'vc.soloT': 'A drink for the nanny', 'vc.soloD': 'A coffee or tea for the nanny when they visit',
+  'vc.useC': 'Use complimentary class',
   'vc.priceT': 'Alurei price', 'vc.useP': 'Use Alurei price', 'vc.none': 'Tick at least one offer to see your card.',
   'vc.every': 'one every {n} days', 'vc.peak': 'Off-peak times only', 'vc.peakT': 'Off-peak times only: {t}',
   'vc.disc': '{n}% off, any time the family pays', 'vc.discNone': 'A discount any time the family pays',
@@ -672,7 +677,7 @@ const AR = {
   'peak.l': 'في أوقات غير الذروة فقط', 'peakT.l': 'ما الأيام والأوقات؟', 'peakT.ph': 'مثلاً: الأحد–الخميس، 9 ص–2 م',
   'price.t': 'سعر خاص لعائلات Alurei', 'price.d': 'خصم يمكن للعائلات استخدامه في كل مرة تدفع فيها.',
   'disc.l': 'الخصم', 'disc.pct': '٪ خصم',
-  'drink.t': 'مشروب للمربية', 'drink.d': 'قهوة أو شاي للمربية خلال الحصة المجانية.',
+  'drink.t': 'مشروب للمربية', 'drink.d': 'قهوة أو شاي للمربية خلال الحصة المجانية.', 'drink.needs': 'يُقدَّم مع الحصة المجانية، لذا حدّدها أولاً.',
   'callout': 'غالباً ما تختار المربيات وجهة اليوم. والمربية التي تلقى معاملة طيبة تكون أكثر ميلاً لاختيارك مرة أخرى.',
   'offer.change': 'يمكنك تغيير عرضك أو إيقافه مؤقتاً في أي وقت.',
   'prev.l': 'معاينة: بطاقة منشأتك',
@@ -680,7 +685,7 @@ const AR = {
   'e.peakT': 'يرجى إدخال الأيام والأوقات.', 'e.disc': 'يرجى إدخال خصم بين 5 و50٪.',
   // Venue card
   'vc.ex': 'مثال', 'vc.cAvail': 'حصة مجانية متاحة', 'vc.forEve': 'لإيف · ', 'vc.inclT': 'تشمل مشروباً للمربية', 'vc.inclD': 'قهوة أو شاي خلال الحصة المجانية',
-  'vc.useC': 'استخدم الحصة المجانية', 'vc.soloT': 'مشروب للمربية', 'vc.soloD': 'قهوة أو شاي للمربية عند زيارتها',
+  'vc.useC': 'استخدم الحصة المجانية',
   'vc.priceT': 'سعر خاص لعائلات Alurei', 'vc.useP': 'استخدم السعر الخاص', 'vc.none': 'حدّد عرضاً واحداً على الأقل لتظهر بطاقتك.',
   'vc.every': 'واحدة كل {n} يوماً', 'vc.peak': 'في أوقات غير الذروة فقط', 'vc.peakT': 'في أوقات غير الذروة فقط: {t}',
   'vc.disc': 'خصم {n}٪ في كل مرة تدفع فيها العائلة', 'vc.discNone': 'خصم في كل مرة تدفع فيها العائلة',
@@ -937,12 +942,14 @@ function agesText(on = agesOn(), l = lang) {
 $$('input[name=ages]').forEach((el) => el.addEventListener('change', renderOffer));
 
 // ---------- Step 2: her offer ----------
-// A drink for the nanny can be offered on its own, as in her mockup.
+// A drink for the nanny now comes only with the complimentary class, never on its own (Aoife, gl4, 23 Nov):
+// its tick is disabled until the class is ticked; unticking the class unticks it, re-ticking restores what she wanted.
 const optClass = $('#optClass'), optPrice = $('#optPrice'), optDrink = $('#optDrink'), optPeak = $('#optPeak'), optDisc = $('#optDisc'), peakT = $('#peakT');
+let drinkWanted = false;
 function offer() {
   const cls = optClass.checked, peak = cls && optPeak.checked;
   const v = latin(optDisc.value).replace(/\D/g, ''), n = parseInt(v, 10);
-  return { cls, days: cls ? (($('input[name=days]:checked') || {}).value || '') : '', peak, times: peak ? peakT.value.trim() : '', drink: optDrink.checked, price: optPrice.checked, disc: n >= 5 && n <= 50 ? n : null, discRaw: v };
+  return { cls, days: cls ? (($('input[name=days]:checked') || {}).value || '') : '', peak, times: peak ? peakT.value.trim() : '', drink: cls && optDrink.checked, price: optPrice.checked, disc: n >= 5 && n <= 50 ? n : null, discRaw: v };
 }
 // Her summary format: "Complimentary class every 60 days (off-peak), 10% off"
 function offerText(o, l = lang) {
@@ -966,7 +973,6 @@ const VC_TPL = `<div class="vc-ban"><img src="assets/media/story-3.webp" srcset=
     <p class="vc-peak" hidden>${ICON.clock}<span class="vc-peakt"></span></p>
     <div class="vc-drink" hidden>${ICON.ring}<div><b data-i18n="vc.inclT">Includes a drink for the nanny</b><small data-i18n="vc.inclD">A coffee or tea at the complimentary class</small></div></div>
     <span class="vc-btn" data-i18n="vc.useC">Use complimentary class</span></div>
-  <div class="vc-drink vc-solo" hidden>${ICON.ring}<div><b data-i18n="vc.soloT">A drink for the nanny</b><small data-i18n="vc.soloD">A coffee or tea for the nanny when they visit</small></div></div>
   <hr class="vc-div" hidden>
   <div class="vc-price" hidden><b class="vc-t" data-i18n="vc.priceT">Alurei price</b><small class="vc-s vc-disc"></small><span class="vc-btn alt" data-i18n="vc.useP">Use Alurei price</span></div>
   <p class="vc-empty" hidden data-i18n="vc.none">Tick at least one offer to see your card.</p>
@@ -974,7 +980,7 @@ const VC_TPL = `<div class="vc-ban"><img src="assets/media/story-3.webp" srcset=
 function mountCard(host) {
   host.innerHTML = VC_TPL;
   const q = (c) => $(c, host);
-  return { first: true, av: q('.vc-av'), name: q('.vc-name'), sub: q('.vc-sub'), cls: q('.vc-class'), days: q('.vc-days'), peak: q('.vc-peak'), peakt: q('.vc-peakt'), drink: q('.vc-class .vc-drink'), solo: q('.vc-solo'), div: q('.vc-div'), price: q('.vc-price'), disc: q('.vc-disc'), empty: q('.vc-empty') };
+  return { first: true, av: q('.vc-av'), name: q('.vc-name'), sub: q('.vc-sub'), cls: q('.vc-class'), days: q('.vc-days'), peak: q('.vc-peak'), peakt: q('.vc-peakt'), drink: q('.vc-class .vc-drink'), div: q('.vc-div'), price: q('.vc-price'), disc: q('.vc-disc'), empty: q('.vc-empty') };
 }
 const stepCards = [mountCard($('#vcSide')), mountCard($('#vcInline'))];
 // An Arabic name shows its first letter (after "ال"): Arabic initials side by side don't read as a monogram
@@ -989,22 +995,26 @@ function updateCard(c, o, m) {
   c.peakt.textContent = o.times ? tr('vc.peakT', { t: o.times }) : tr('vc.peak');
   c.disc.textContent = o.disc != null ? tr('vc.disc', { n: o.disc }) : tr('vc.discNone');
   const a = !c.first;
-  reveal(c.cls, o.cls, a); reveal(c.peak, o.peak, a); reveal(c.drink, o.cls && o.drink, a); reveal(c.solo, !o.cls && o.drink, a); reveal(c.price, o.price, a);
-  reveal(c.div, (o.cls || o.drink) && o.price, false); reveal(c.empty, !o.cls && !o.price && !o.drink, a);
+  reveal(c.cls, o.cls, a); reveal(c.peak, o.peak, a); reveal(c.drink, o.cls && o.drink, a); reveal(c.price, o.price, a);
+  reveal(c.div, o.cls && o.price, false); reveal(c.empty, !o.cls && !o.price, a);
   c.first = false;
 }
 const firstCity = () => { const L = $('#locs .loc'); return L ? $('[data-city]', L).value.trim() : ''; };
 const venueName = () => $('#venue').value.trim() || tr('vc.name');
 function renderOffer() {
+  optDrink.disabled = !optClass.checked; optDrink.checked = optClass.checked && drinkWanted;
+  optDrink.setAttribute('aria-describedby', optDrink.disabled ? 'optDrinkD drinkNeeds' : 'optDrinkD');
   const o = offer();
   $('.orow[data-opt=class]').classList.toggle('on', o.cls);
   $('.orow[data-opt=price]').classList.toggle('on', o.price);
   $('.orow[data-opt=drink]').classList.toggle('on', o.drink);
+  $('.orow[data-opt=drink]').classList.toggle('dis', !o.cls);
   reveal($('#classMore'), o.cls); reveal($('#peakMore'), o.peak); reveal($('#priceMore'), o.price);
   [['days', o.cls], ['disc', o.price], ['peakT', o.peak]].forEach(([k, keep]) => { if (!keep && F(k).classList.contains('bad')) { setErr(F(k), ''); recount($('#s2')); } });
   const m = { name: venueName(), city: firstCity(), ages: agesText() };
   stepCards.forEach((c) => updateCard(c, o, m));
 }
+optDrink.addEventListener('change', () => { drinkWanted = optDrink.checked; });
 [optClass, optPrice, optPeak, optDrink].forEach((el) => el.addEventListener('change', renderOffer));
 $$('input[name=days]').forEach((el) => el.addEventListener('change', renderOffer));
 peakT.addEventListener('input', renderOffer);
@@ -1017,7 +1027,8 @@ let carried = false;
 function carryOffer() {
   if (!Q.has('offer')) return;
   const list = Q.get('offer').split(',');
-  optClass.checked = list.includes('class'); optPrice.checked = list.includes('price'); optDrink.checked = list.includes('drink');
+  // a drink arriving without the class is dropped: it only comes with the class
+  optClass.checked = list.includes('class'); optPrice.checked = list.includes('price'); drinkWanted = optDrink.checked = optClass.checked && list.includes('drink');
   optPeak.checked = optClass.checked && list.includes('offpeak');
   const d = Q.get('days'); if (optClass.checked && (d === '60' || d === '90')) $(`input[name=days][value="${d}"]`).checked = true;
   const t = (Q.get('times') || '').trim(); if (optPeak.checked && t) peakT.value = t.slice(0, 80);
@@ -1158,7 +1169,7 @@ $('#s2').addEventListener('submit', (e) => {
   e.preventDefault();
   const o = offer();
   const ok = validate($('#s2'), [
-    [F('offer'), o.cls || o.price || o.drink ? '' : M('e.offer')],
+    [F('offer'), o.cls || o.price ? '' : M('e.offer')],
     [F('days'), o.cls && !o.days ? M('e.days') : ''],
     [F('peakT'), o.peak && !o.times ? M('e.peakT') : ''],
     [F('disc'), o.price && o.disc == null ? M('e.disc') : ''],
