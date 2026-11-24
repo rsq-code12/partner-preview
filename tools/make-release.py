@@ -32,10 +32,10 @@ for name, path in PAGES.items():
     desc = desc_m.group(1) if desc_m else 'Free to join: no fees, no commission.'
     tags = [f'<link rel="canonical" href="{SITE}{path}">']
     if 'property="og:title"' not in s:
-        tags += [f'<meta property="og:title" content="{title}">', f'<meta property="og:description" content="{desc}">', '<meta property="og:image" content="assets/icon.png">']
-    tags += [f'<meta property="og:url" content="{SITE}{path}">', '<meta property="og:type" content="website">', '<meta property="og:site_name" content="Alurei">', '<meta name="twitter:card" content="summary">']
+        tags += [f'<meta property="og:title" content="{title}">', f'<meta property="og:description" content="{desc}">', '<meta property="og:image" content="assets/og-image.jpg">']
+    tags += [f'<meta property="og:url" content="{SITE}{path}">', '<meta property="og:type" content="website">', '<meta property="og:site_name" content="Alurei">', '<meta property="og:image:width" content="1200">', '<meta property="og:image:height" content="630">', '<meta property="og:image:alt" content="A grown-up holding a child’s hand on a sunny walk, with the Alurei logo">', '<meta name="twitter:card" content="summary_large_image">']
     s = must(s, '<title>', '\n'.join(tags) + '\n<title>')
-    s = must(s, '<meta property="og:image" content="assets/icon.png">', f'<meta property="og:image" content="{SITE}/assets/icon.png">')
+    s = must(s, '<meta property="og:image" content="assets/og-image.jpg">', f'<meta property="og:image" content="{SITE}/assets/og-image.jpg">')
     if name == 'index.html':
         s = must(s, "const PREVIEW_HOST = ['rsq-code12.github.io', 'localhost', '127.0.0.1'].includes(location.hostname) || location.protocol === 'file:' || qs.get('preview') === '1';",
                  "const PREVIEW_HOST = false; // go-live copy: no preview behaviour")
