@@ -547,6 +547,9 @@
             <div><dt data-i18n="sum.offer">Offer</dt><dd id="sumOffer"></dd></div>
           </dl>
         </div>
+        <div class="f">
+          <label class="termsl"><input type="checkbox" class="tick" id="fieldRepVisit"><span data-i18n="fieldRep.l">Happy to have an Alurei field rep visit your centre for a day (it helps your staff and customers if they have questions)</span></label>
+        </div>
         <div class="f" data-f="terms" data-ctl="terms">
           <label class="termsl"><input type="checkbox" class="tick" id="terms" aria-required="true"><span id="termsTxt"><span data-i18n="terms.a">I agree to the </span><a href="terms.html" target="_blank" rel="noopener"><span data-i18n="terms.t">Partner Terms</span><span class="vh" data-i18n="a11y.newtab"> (opens in a new tab)</span></a><span data-i18n="terms.b"> and </span><a href="privacy.html" target="_blank" rel="noopener"><span data-i18n="terms.p">Privacy Policy</span><span class="vh" data-i18n="a11y.newtab"> (opens in a new tab)</span></a><span data-i18n="terms.c">, and I am authorised to agree this offer for the business.</span><i class="req" aria-hidden="true">*</i></span></label>
           <p class="err" hidden></p>
@@ -621,8 +624,8 @@ const EN = {
   'e.tt': 'Please check the link to your timetable.', 'e.ttEmpty': 'Please add a link to your class timetable.',
   'loc.pre': 'Location {n}: ', 'loc.n': 'Location {n}', 'loc.t': 'Location', 'loc.rm': 'Remove', 'loc.rmVh': ' this location',
   'country.l': 'Country', 'country.ph': 'Select country', 'country.AE': 'United Arab Emirates',
-  'city.l': 'City', 'city.ph': 'e.g. Dubai', 'area.l': 'Area', 'area.ph': 'e.g. Jumeirah', 'opt': '(optional)', 'opt.sp': ' (optional)',
-  'addr.l': 'Address', 'addr.ph': 'e.g. Shop 4, Al Wasl Road, Jumeirah 1', 'hours.l': 'Opening Hours', 'hours.ph': 'e.g. Mon–Fri 9:00–18:00',
+  'city.l': 'City', 'city.ph': 'e.g. Dubai, Doha or Riyadh', 'area.l': 'Area', 'area.ph': 'e.g. Jumeirah or West Bay', 'opt': '(optional)', 'opt.sp': ' (optional)',
+  'addr.l': 'Address', 'addr.ph': 'e.g. Shop 4, Al Wasl Road', 'hours.l': 'Opening Hours', 'hours.ph': 'e.g. Mon–Fri 9:00–18:00',
   'visit.l': 'How do families visit?', 'visit.fixed': 'Fixed classes', 'visit.open': 'Open play, drop in any time',
   'tt.l': 'Link to your class timetable', 'tt.h': 'Your website or Instagram. We take your schedule from here, so there is nothing to type in.',
   'e.name': 'Please add a contact person.', 'e.phone4': 'Please add a phone number.',
@@ -696,8 +699,8 @@ const AR = {
   'branch.t': 'لديك أكثر من فرع؟', 'branch.d': 'لكل فرع عنوانه وساعات عمله وجدول حصصه، وحساب واحد يشملها جميعاً.', 'branch.add': '+ أضف موقعاً آخر',
   'loc.pre': 'الموقع {n}: ', 'loc.n': 'الموقع {n}', 'loc.t': 'الموقع', 'loc.rm': 'إزالة', 'loc.rmVh': ' هذا الموقع',
   'country.l': 'الدولة', 'country.ph': 'اختر الدولة', 'country.AE': 'الإمارات العربية المتحدة',
-  'city.l': 'المدينة', 'city.ph': 'مثلاً: دبي', 'area.l': 'المنطقة', 'area.ph': 'مثلاً: جميرا',
-  'addr.l': 'العنوان', 'addr.ph': 'مثلاً: محل 4، شارع الوصل، جميرا 1', 'hours.l': 'ساعات العمل', 'hours.ph': 'مثلاً: الإثنين–الجمعة 9:00–18:00',
+  'city.l': 'المدينة', 'city.ph': 'مثلاً: دبي أو الدوحة أو الرياض', 'area.l': 'المنطقة', 'area.ph': 'مثلاً: جميرا أو الخليج الغربي',
+  'addr.l': 'العنوان', 'addr.ph': 'مثلاً: محل 4، شارع الوصل', 'hours.l': 'ساعات العمل', 'hours.ph': 'مثلاً: الإثنين–الجمعة 9:00–18:00',
   'visit.l': 'كيف تزورك العائلات؟', 'visit.fixed': 'حصص بمواعيد ثابتة', 'visit.open': 'لعب حر، والحضور في أي وقت',
   'tt.l': 'رابط جدول حصصك', 'tt.h': 'موقعك الإلكتروني أو حسابك على إنستغرام. نأخذ جدولك من هناك، فلا حاجة لكتابة أي شيء.',
   'e.country': 'يرجى اختيار الدولة.', 'e.city': 'يرجى إدخال المدينة.', 'e.visit': 'يرجى اختيار طريقة زيارة العائلات لك.',
@@ -707,6 +710,7 @@ const AR = {
   'phone4.l': 'الهاتف', 'wa.l': 'رقم واتساب للحجوزات', 'wa.h': 'تراسل المربيات والأهل هذا الرقم للحجز لديك.', 'wa.same': 'نفس رقم الهاتف',
   'sum.l': 'ملخص الإعداد', 'sum.biz': 'المنشأة', 'sum.cat': 'الفئة', 'sum.loc': 'الموقع', 'sum.ages': 'الأعمار', 'sum.offer': 'العرض',
   'sum.none': 'لم تُضَف بعد', 'sum.other': 'أخرى: {x}',
+  'fieldRep.l': 'نرحّب بزيارة ممثل ميداني من Alurei لمركزكم ليوم واحد (يساعد ذلك فريقكم وعملاءكم إذا كانت لديهم أسئلة)',
   'terms.a': 'أوافق على ', 'terms.t': 'شروط الشركاء', 'terms.b': ' و', 'terms.p': 'سياسة الخصوصية', 'terms.c': '، وأنا مخوَّل بالموافقة على هذا العرض نيابةً عن المنشأة.',
   'a11y.newtab': ' (تفتح في علامة تبويب جديدة)',
   'promise': 'نتواصل معك خلال يومي عمل.',
@@ -1305,6 +1309,7 @@ function buildRequest(r1, r4, rw, logo) {
       termsAccepted: $('#terms').checked, termsText: termsSentence(),
       termsVersion: TERMS_VERSION, privacyVersion: PRIVACY_VERSION,
     },
+    fieldRepVisit: $('#fieldRepVisit').checked,
     language: document.documentElement.lang || 'en',
     ...track,
     submittedAt: new Date().toISOString(),
