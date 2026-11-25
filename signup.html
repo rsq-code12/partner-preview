@@ -576,10 +576,12 @@
 </main>
 
 <script>
-// ===== SIGN-UP SWITCH: off until the partner-applications backend is deployed =====
-// '' = nothing is sent; the public site shows the "opens very soon, email hello@alurei.app" card.
-// When the backend is live, change the line below to:  const FORM_ENDPOINT = 'https://api.alurei.app/api/v1/partner-applications';
-const FORM_ENDPOINT = '';
+// ===== SIGN-UP SWITCH =====
+// false = the public site shows the "email us" card and nothing is sent (go-live default).
+// true  = the form sends to the API below. Turn on only after the backend is deployed and Aoife says OK.
+const SIGNUP_LIVE = false;
+const SIGNUP_API = 'https://api.alurei.app/api/v1/partner-applications';
+const FORM_ENDPOINT = SIGNUP_LIVE ? SIGNUP_API : '';
 const TERMS_VERSION = '2026-11-12', PRIVACY_VERSION = '2026-11-12';
 
 const $ = (q, r = document) => r.querySelector(q);
@@ -629,6 +631,7 @@ const EN = {
   'e.wa': 'Please add a WhatsApp number for bookings, or tick “Same as phone number”.',
   'e.terms': 'Please tick the box to agree to the Partner Terms and Privacy Policy.',
   'e.send': 'We couldn’t send your request. Please try again, or email hello@alurei.app.',
+  'e.busy': 'Too many tries in a short time. Please wait a few minutes and try again, or email hello@alurei.app.',
   'btn.send': 'Send request', 'btn.sending': 'Sending request…',
   'sum.none': 'Not added yet', 'sum.other': 'Other: {x}',
   'vc.ex': 'Example', 'vc.cAvail': 'Complimentary class available', 'vc.forEve': 'For Eve · ', 'vc.inclT': 'Includes a drink for the nanny', 'vc.inclD': 'A coffee or tea at the complimentary class',
@@ -714,6 +717,7 @@ const AR = {
   'e.wa': 'يرجى إدخال رقم واتساب للحجوزات، أو تحديد «نفس رقم الهاتف».',
   'e.terms': 'يرجى تحديد المربع للموافقة على شروط الشركاء وسياسة الخصوصية.',
   'e.send': 'تعذّر إرسال طلبك. يرجى المحاولة مرة أخرى أو مراسلتنا على hello@alurei.app.',
+  'e.busy': 'محاولات كثيرة خلال وقت قصير. يرجى الانتظار بضع دقائق ثم المحاولة مرة أخرى، أو مراسلتنا على hello@alurei.app.',
   // Request sent, and the public site before sign-up opens
   'sent.t': 'تم إرسال الطلب', 'sent.d': 'شكراً لك. نراجع كل صفحة قبل نشرها، وسنردّ عليك خلال يومي عمل.', 'sent.back': 'العودة إلى صفحة الشركاء',
   'sent.dev': 'معاينة فقط: لم يتم إرسال أي بيانات. النموذج متوقف إلى أن يتم ربط عنوان التسجيل.',
@@ -1273,7 +1277,7 @@ const TRACK_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', '
 function buildRequest(r1, r4, rw, logo) {
   const o = offer(), cat = $('#cat').value, on = agesOn(), val = (id) => $('#' + id).value.trim();
   const track = {};
-  TRACK_KEYS.forEach((k) => { const v = Q.get(k); if (v != null) track[k] = v.trim().slice(0, 200); });
+  TRACK_KEYS.forEach((k) => { const v = Q.get(k); if (v != null) track[k] = v.trim().slice(0, 160); });
   return {
     business: {
       name: val('venue'), category: cat, categoryOther: cat === 'Other' ? val('catOther') : '',
@@ -1308,15 +1312,16 @@ function buildRequest(r1, r4, rw, logo) {
     language: document.documentElement.lang || 'en',
     ...track,
     submittedAt: new Date().toISOString(),
+    formFillMs: Math.round(performance.now()), // time on the page before sending; the server flags under 3 s as spam
     // Spam trap: a filled trap goes through as normal (a person whose browser filled it is never stuck), flagged for the server
     ...($('#hp').value ? { spamTrap: true } : {}),
   };
 }
 let sending = false;
-function sendFailed() {
+function sendFailed(key = 'e.send') {
   const b = $('.banner[data-sum]', $('#s4'));
   b.classList.remove('stick');
-  b._m = M('e.send'); b.textContent = String(b._m);
+  b._m = M(key); b.textContent = String(b._m);
   b.hidden = false;
   b.scrollIntoView({ block: 'nearest' });
   $('#sendBtn').focus({ preventScroll: true });
@@ -1343,6 +1348,7 @@ $('#s4').addEventListener('submit', async (e) => {
     const data = buildRequest(r1, r4, rw, logo);
     if (FORM_ENDPOINT) {
       const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      if (res.status === 429) { sendFailed('e.busy'); return; } // rate limited; everything they typed stays in the form
       if (!res.ok) throw new Error('send failed');
     } else {
       console.info('Preview only: this request was not sent anywhere.', data);
@@ -1353,6 +1359,15 @@ $('#s4').addEventListener('submit', async (e) => {
   } finally {
     sending = false; btn.disabled = false; btn.textContent = tr('btn.send'); form.removeAttribute('aria-busy');
   }
+});
+
+// ---------- First tap on Continue / Send always counts ----------
+// Leaving a field (e.g. the phone number) adds its hint line and pushes the button down between press and release,
+// so the first click or tap missed. Keep the focus where it is while the button is pressed, then let the field's
+// own blur checks run just before the step is checked.
+$$('#s1, #s2, #s3, #s4').forEach((f) => {
+  $$('button[type="submit"]', f).forEach((b) => b.addEventListener('mousedown', (e) => e.preventDefault()));
+  f.addEventListener('submit', () => { const a = document.activeElement; if (a && a !== document.body && f.contains(a) && a.type !== 'submit') a.blur(); }, true);
 });
 
 // ---------- Language switch: keeps the screen and everything typed; the link's ?lang follows ----------
