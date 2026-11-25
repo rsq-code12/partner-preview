@@ -1450,10 +1450,12 @@
 
 <script defer id="lenisJs" src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
 <script>
-// ===== WHATSAPP CALL-BACK SWITCH: off until the partner-applications backend is deployed =====
-// '' = nothing is sent (preview mode; nothing leaves the page).
-// When the backend is live, change the line below to:  const FORM_ENDPOINT = 'https://api.alurei.app/api/v1/partner-applications/callback';
-const FORM_ENDPOINT = '';
+// ===== WHATSAPP CALL-BACK SWITCH =====
+// false = the public site shows the "email us" message and nothing is sent (go-live default).
+// true  = the call-back form sends to the API below. Turn on only after the backend is deployed and Aoife says OK.
+const CALLBACK_LIVE = false;
+const CALLBACK_API = 'https://api.alurei.app/api/v1/partner-applications/callback';
+const FORM_ENDPOINT = CALLBACK_LIVE ? CALLBACK_API : '';
 // ===== BOOK-A-CALL SWITCH (the one line to change) =====
 // Empty = "Book a 10-minute call" opens an email to hello@alurei.app (English or Arabic subject and body).
 // When the booking page is live, change the line below to:  const BOOKING_URL = 'https://alurei.app/book';
@@ -1601,6 +1603,7 @@ const AR = {
   'cn.968': 'عُمان',
   'cn.65': 'سنغافورة',
   'err.soon': 'سيتوفر هذا قريباً جداً. إلى ذلك الحين، راسلنا على ⁦hello@alurei.app⁩ وسنتواصل معك خلال يومي عمل.',
+  'err.busy': 'محاولات كثيرة خلال وقت قصير. يرجى الانتظار بضع دقائق ثم المحاولة مرة أخرى، أو مراسلتنا على ⁦hello@alurei.app⁩.',
   'cn.44': 'المملكة المتحدة',
   'how.tabs': 'كيف يعمل، في ثلاث خطوات',
   'how.prev': 'الخطوة السابقة',
@@ -1642,7 +1645,7 @@ const AR = {
   'err.phoneGulf': 'لا يبدو أن هذا رقم من {c}. يرجى التحقق من الأرقام.',
   'a11y.newtab': ' (تفتح في علامة تبويب جديدة)',
 };
-const EXTRA_EN = { 'err.soon': 'This opens very soon. Until then, email hello@alurei.app and we’ll be in touch within 2 working days.', 'err.phoneCC': 'That doesn’t look like a {c} number. If it’s from another country, choose Other and type + and the country code.', 'err.phoneOther': 'Please type the number with + and the country code, for example +33 6 12 34 56 78.', 'wa.hintOther': 'Type + and the country code, for example +33 6 12 34 56 78.', 'b.mini': 'Your card: {s}', 'cn.971': 'UAE', 'cn.966': 'Saudi', 'cn.974': 'Qatari', 'cn.965': 'Kuwaiti', 'cn.973': 'Bahraini', 'cn.968': 'Omani', 'cn.65': 'Singapore', 'cn.44': 'UK', 'b.miniNone': 'Your card: no offers yet', 'err.phoneEmpty': 'Please enter your WhatsApp number.', 'err.agree': 'Please tick the box so we can contact you.', 'err.phone2': 'Please check your WhatsApp number. For numbers outside the Gulf, start with + and the country code.', 'err.phoneGulf': 'That doesn’t look like a {c} number. Please check the digits.', 'b.every': 'One every {n} days', 'b.discL': '{n}% off, any time the family pays', 'b.sClass': 'Complimentary class every {n} days', 'b.sPeak': ' (off-peak)', 'b.sPeakT': ' (off-peak: {t})', 'b.sep': ', ', 'b.sDrink': 'a drink for the nanny', 'b.sPrice': '{n}% off', 'b.sum': 'Your card shows: {s}.', 'b.sumNone': 'Your card has no offers yet.', 't.text2': 'We’ll message you on WhatsApp at {num} within two working days.', 'mail.subj': 'Alurei partners: book a 10-minute call', 'mail.body': 'Hello Alurei team,\n\nI’d like to book a 10-minute call.\n\nVenue name:\nArea:\nBest days and times:\nPhone or WhatsApp:\n', 'err.send': 'Sorry, that didn’t send. Please try again, or email hello@alurei.app.', 'hero.play': 'Play motion', 't.preview': 'Preview only: nothing was sent. To join now, email hello@alurei.app.' };
+const EXTRA_EN = { 'err.soon': 'This opens very soon. Until then, email hello@alurei.app and we’ll be in touch within 2 working days.', 'err.phoneCC': 'That doesn’t look like a {c} number. If it’s from another country, choose Other and type + and the country code.', 'err.phoneOther': 'Please type the number with + and the country code, for example +33 6 12 34 56 78.', 'wa.hintOther': 'Type + and the country code, for example +33 6 12 34 56 78.', 'b.mini': 'Your card: {s}', 'cn.971': 'UAE', 'cn.966': 'Saudi', 'cn.974': 'Qatari', 'cn.965': 'Kuwaiti', 'cn.973': 'Bahraini', 'cn.968': 'Omani', 'cn.65': 'Singapore', 'cn.44': 'UK', 'b.miniNone': 'Your card: no offers yet', 'err.phoneEmpty': 'Please enter your WhatsApp number.', 'err.agree': 'Please tick the box so we can contact you.', 'err.phone2': 'Please check your WhatsApp number. For numbers outside the Gulf, start with + and the country code.', 'err.phoneGulf': 'That doesn’t look like a {c} number. Please check the digits.', 'b.every': 'One every {n} days', 'b.discL': '{n}% off, any time the family pays', 'b.sClass': 'Complimentary class every {n} days', 'b.sPeak': ' (off-peak)', 'b.sPeakT': ' (off-peak: {t})', 'b.sep': ', ', 'b.sDrink': 'a drink for the nanny', 'b.sPrice': '{n}% off', 'b.sum': 'Your card shows: {s}.', 'b.sumNone': 'Your card has no offers yet.', 't.text2': 'We’ll message you on WhatsApp at {num} within two working days.', 'mail.subj': 'Alurei partners: book a 10-minute call', 'mail.body': 'Hello Alurei team,\n\nI’d like to book a 10-minute call.\n\nVenue name:\nArea:\nBest days and times:\nPhone or WhatsApp:\n', 'err.send': 'Sorry, that didn’t send. Please try again, or email hello@alurei.app.', 'err.busy': 'Too many tries in a short time. Please wait a few minutes and try again, or email hello@alurei.app.', 'hero.play': 'Play motion', 't.preview': 'Preview only: nothing was sent. To join now, email hello@alurei.app.' };
 
 // Language switch (the English text is read from the page itself).
 const EN = {};
@@ -2012,7 +2015,7 @@ if (window.Lenis) initLenis(); else { const lj = document.getElementById('lenisJ
 // Tracked links: keep the campaign details from the email or QR code with the sign-up,
 // and pass them on to the partner account sign-up link too.
 const track = {};
-['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'ref'].forEach((k) => { if (qs.get(k)) track[k] = qs.get(k).slice(0, 80); });
+['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'ref'].forEach((k) => { if (qs.get(k)) track[k] = qs.get(k).slice(0, 80); });
 const bookBtn = document.getElementById('bookBtn');
 if (BOOKING_URL) { bookBtn.href = BOOKING_URL; bookBtn.target = '_blank'; bookBtn.rel = 'noopener'; }
 else { document.getElementById('bookNote').hidden = false; bookBtn.setAttribute('aria-describedby', 'bookNote'); const mail = () => { bookBtn.href = `mailto:hello@alurei.app?subject=${encodeURIComponent(tr('mail.subj'))}&body=${encodeURIComponent(tr('mail.body'))}`; }; mail(); langHooks.push(mail); }
@@ -2202,11 +2205,12 @@ form.addEventListener('submit', async (e) => {
   const o = offer();
   // Contact only: the venue ticked the box to be contacted (the English sentence and its version go with the request;
   // the Partner Terms come at account creation). The offer they built, if any, comes along.
-  const data = { phone: e164(r), channel: 'whatsapp', language: lang, contactRequested: true, contactConsent: true, consentText: EN['wa.agree'], consentVersion: '2026-11-17', offer: offerTouched ? { ...o, summary: offerText(o) } : null, submittedAt: new Date().toISOString(), ...track, ...(trap ? { hp: true } : {}) };
+  const data = { phone: e164(r), channel: 'whatsapp', language: lang, contactRequested: true, contactConsent: true, consentText: EN['wa.agree'], consentVersion: '2026-11-17', offer: offerTouched ? { ...o, summary: offerText(o) } : null, submittedAt: new Date().toISOString(), formFillMs: Math.round(performance.now()), ...track, ...(trap ? { hp: true } : {}) };
   const btn = document.getElementById('submit'); btn.disabled = true; form.setAttribute('aria-busy', 'true');
   try {
     if (FORM_ENDPOINT) {
       const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      if (res.status === 429) { say('err.busy'); btn.disabled = false; form.removeAttribute('aria-busy'); return; } // rate limited
       if (!res.ok) throw new Error('send failed');
     } else if (!PREVIEW_HOST) {
       // Public site with no address connected yet: never pretend it was sent.
